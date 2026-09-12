@@ -7,7 +7,7 @@ const out=path.resolve('_precision_site');
 const places=parsePlaceSeed(await fs.readFile('precision/places.json','utf8'));
 if(places.length!==32)throw Error('Place set changed; review before deployment');
 await fs.rm(out,{recursive:true,force:true});await fs.mkdir(out,{recursive:true});
-for(const name of ['index.html','app.mjs','bridge.mjs','session.mjs','connection.mjs','places.mjs','inspection.mjs','integrity.mjs','CONNECT.md','HANDOFF.md','RELEASE_3_4.md','RELEASE_3_5.md','flight.mjs','explore.html','explore.mjs','explore.css','preview.css','view.mjs','RELEASE_3_6.md'])await fs.copyFile('precision/'+name,path.join(out,name));
+for(const name of ['index.html','app.mjs','bridge.mjs','session.mjs','connection.mjs','places.mjs','inspection.mjs','integrity.mjs','CONNECT.md','HANDOFF.md','RELEASE_3_4.md','RELEASE_3_5.md','flight.mjs','explore.html','explore.mjs','explore.css','preview.css','view.mjs','RELEASE_3_6.md','aerial.mjs','atlas-ui.mjs','RELEASE_3_7.md'])await fs.copyFile('precision/'+name,path.join(out,name));
 const html=await fs.readFile(path.join(out,'index.html'),'utf8');
 await fs.writeFile(path.join(out,'connect.html'),html.replace(/PRECISION \d+\.\d+/, 'PRECISION '+VERSION.split('-')[0].split('.').slice(0,2).join('.')).replace('<main><aside>','<main><aside><p><a href="explore.html">↗ 전체화면 조감도 탐색 열기</a></p>'));
 // The public home is the aerial app, not the developer connection console.

@@ -1,3 +1,4 @@
+import {installAerial,satelliteTemplate} from './aerial.mjs';
 import {installFlight} from './flight.mjs';
 import {proxySDK} from './connection.mjs';
 // Official VWorld WebGL 3.0 adapter. No built-in key, invented heights or meshes.
@@ -50,9 +51,9 @@ export function transition(state,event) {
   // Engine initialization or one successful pick is never site-wide accuracy validation.
   next.productionReady=false;return next;
 }
-function childRuntime(channel,origin,places) {
-  let viewer=null,started=false,ended=false,timer=null,input=null,removeRenderListener=null,flight=null;
-  const cleanup=()=>{ended=true;clearInterval(timer);flight?.stop();input?.destroy();removeRenderListener?.();};
+function childRuntime(channel,origin,places,tileURL) {
+  let viewer=null,started=false,ended=false,timer=null,input=null,removeRenderListener=null,flight=null,aerial=null,map=null;
+  const cleanup=()=>{ended=true;clearInterval(timer);flight?.stop();aerial?.destroy();input?.destroy();removeRenderListener?.();};
   addEventListener('pagehide',cleanup,{once:true});
   const send=(type,payload={})=>parent.postMessage({channel,type,...payload},origin);
   const fail=(code='SDK_INIT_FAILED')=>{if(ended)return;ended=true;clearInterval(timer);send('error',{code,message:'브이월드 초기화 실패. 인증키·등록 도메인·네트워크·WebGL 지원을 확인하세요.'});};
@@ -65,6 +66,7 @@ function childRuntime(channel,origin,places) {
     try {
       viewer.scene.globe.depthTestAgainstTerrain=true;
       flight=installFlight(viewer,C,send);
+      aerial=installAerial(viewer,C,map,tileURL,send);
       viewer.scene.canvas.addEventListener?.('pointerdown',()=>{flight.stop();send('flight-interaction');});
       input=new C.ScreenSpaceEventHandler(viewer.scene.canvas);
       input.setInputAction(m=>{
@@ -101,6 +103,7 @@ function childRuntime(channel,origin,places) {
       addEventListener('message',e=>{
         if(e.source!==parent||e.origin!==origin||e.data?.channel!==channel)return;
         const d=e.data;
+        if(d.type==='aerial-control'&&['mode','quality','building','lighting'].includes(d.action)){if(!aerial[d.action](d.value))send('aerial-unavailable',{feature:d.action});}
         if(d.type==='orbit'&&typeof d.enabled==='boolean')flight.orbit(d.enabled);
         if(d.type==='markers'&&typeof d.visible==='boolean')for(const p of places){const entity=viewer.entities.getById?.('poi:'+p.id);if(entity)entity.show=d.visible;}
         if(d.type==='fly') {
@@ -116,20 +119,20 @@ function childRuntime(channel,origin,places) {
     if(window.__JEJU_SDK_LOADED__)send('sdk-phase',{phase:'script-loaded'});
     if(!window.vw?.Map){fail('SDK_UNAVAILABLE');return;}
     window.vw.ws3dInitCallBack=ready;
-    const map=new window.vw.Map();
+    map=new window.vw.Map();
     map.setOption({mapId:'vmap',initPosition:new window.vw.CameraPosition(new window.vw.CoordZ(126.525,33.508,1600),new window.vw.Direction(0,-50,0)),logo:true,navigation:true});
     send('sdk-phase',{phase:'map-start-requested'});
     map.start();
     let count=0;if(!started&&!ended)timer=setInterval(()=>{ready();if(++count>120&&!started)fail('SDK_INIT_TIMEOUT');},250);ready();
   } catch {fail();}
 }
-export function frameHTML({key,sdkSource,channel,origin,places=[]}) {
+export function frameHTML({key,sdkSource,channel,origin,places=[],imagery=false}) {
   const u=new URL(origin);
   if(u.origin!==origin||(u.protocol!=='https:'&&!['localhost','127.0.0.1'].includes(u.hostname)))throw Error('HTTPS 서비스에서 연결해야 합니다.');
   if(!/^[a-zA-Z0-9-]{10,80}$/.test(channel))throw Error('Invalid session channel');
   const clean=places.map(cleanPlace).filter(Boolean);
-  const js=JSON.stringify([channel,origin,clean]).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
+  const js=JSON.stringify([channel,origin,clean,imagery&&key?satelliteTemplate(key):null]).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   if(key&&sdkSource)throw Error('Choose one SDK transport');
   const src=(sdkSource?proxySDK(sdkSource,origin+'/'):sdkURL(key)).replace(/&/g,'&amp;');
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><style>html,body,#vmap{margin:0;width:100%;height:100%;overflow:hidden;background:#172327}</style><script src="${src}" onload="window.__JEJU_SDK_LOADED__=true" onerror="window.__JEJU_SDK_FAILED__=true"></script></head><body><div id="vmap"></div><script>const installFlight=${installFlight.toString()};(${childRuntime.toString()})(...${js});</script></body></html>`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><style>html,body,#vmap{margin:0;width:100%;height:100%;overflow:hidden;background:#172327}</style><script src="${src}" onload="window.__JEJU_SDK_LOADED__=true" onerror="window.__JEJU_SDK_FAILED__=true"></script></head><body><div id="vmap"></div><script>const installFlight=${installFlight.toString()};const installAerial=${installAerial.toString()};(${childRuntime.toString()})(...${js});</script></body></html>`;
 }

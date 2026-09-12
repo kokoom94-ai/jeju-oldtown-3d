@@ -1,3 +1,4 @@
+import {installAtlasUI} from './atlas-ui.mjs';
 import {validateKey,frameHTML,initialState,transition} from './bridge.mjs';
 import {hostPolicy,PLANNED_URL,SETTINGS_URL,cleanObject,cleanProperties,VERSION} from './session.mjs';
 import {parsePlaceSeed} from './places.mjs';
@@ -34,9 +35,10 @@ function go(p=scene,{manual=true}={}){
 }
 function syncControls(){
  $('#oblique').setAttribute('aria-pressed',String(pitch===-50));$('#overhead').setAttribute('aria-pressed',String(pitch===-90));$('#low-angle').setAttribute('aria-pressed',String(pitch===-25));
- $('#markers').setAttribute('aria-pressed',String(markersVisible));$('#quality').setAttribute('aria-pressed',String(lightQuality));$('#quality').disabled=source!=='preview';
+ $('#markers').setAttribute('aria-pressed',String(markersVisible));$('#quality').setAttribute('aria-pressed',String(lightQuality));$('#quality').disabled=source!=='preview'&&!state.sdkReady;
+ atlas?.render();
 }
-function applyExtras(){emit('markers',{visible:markersVisible});if(source==='preview')emit('quality',{light:lightQuality});syncControls();}
+function applyExtras(){emit('markers',{visible:markersVisible});if(source==='preview')emit('quality',{light:lightQuality});else if(state.sdkReady)emit('aerial-control',{action:'quality',value:lightQuality});syncControls();}
 function updateView(){syncControls();setOrbit(false);$('#view-distance').textContent='관찰 거리 '+Math.round(distance).toLocaleString()+' m';emit('fly',{position:{lon:scene.lon,lat:scene.lat,height:distance,pitch,heading:0}});}
 function showPlace(p){go({...p,height:600});$('#detail').hidden=false;$('#detail-name').textContent=p.name;$('#detail-address').textContent=p.address;$('#detail-note').textContent='좌표 초안 · 실제 건물·출입구·운영 정보 미검증';$('#naver').hidden=false;$('#naver').href='https://map.naver.com/p/search/'+encodeURIComponent('제주 '+p.name);$('#places-panel').hidden=true;$('#open-places').setAttribute('aria-expanded','false');}
 function renderPlaces(){
@@ -44,7 +46,7 @@ function renderPlaces(){
  for(const p of places.filter(p=>(category==='all'||p.category===category)&&p.name.includes(q))){const b=document.createElement('button');b.type='button';b.textContent=p.name;const s=document.createElement('small');s.textContent=p.address;b.append(s);b.onclick=()=>showPlace(p);$('#places-list').append(b);}
  if(!$('#places-list').children.length){const p=document.createElement('p');p.className='muted';p.textContent='일치하는 등록 장소가 없습니다.';$('#places-list').append(p);}
 }
-function teardown(){clearTimeout(timeout);timeout=null;channel=null;provider.removeAttribute('srcdoc');provider.src='about:blank';provider.hidden=true;state=initialState();setOrbit(false);stopTour();$('#api-key').value='';}
+function teardown(){clearTimeout(timeout);timeout=null;channel=null;provider.removeAttribute('srcdoc');provider.src='about:blank';provider.hidden=true;state=initialState();atlas.reset();setOrbit(false);stopTour();$('#api-key').value='';}
 function startPreview(){
  teardown();$('#api-key').disabled=!policy.canConnect;$('#connect').disabled=!policy.canConnect;$('#connect-status').textContent='';source='preview';document.body.dataset.source='preview';previewReady=false;preview.hidden=false;preview.src='legacy/preview-flight.html?embed=flight';$('#loading').hidden=false;
  $('#loading b').textContent='제주를 펼치는 중';$('#loading>span').textContent='OSM 윤곽 비교 화면을 불러옵니다.';
@@ -71,7 +73,7 @@ $('#tour').onclick=()=>{if(tourTimer){stopTour();setOrbit(false);return;}if(sour
  let index=SCENES.findIndex(s=>s.id===scene.id);const next=()=>{index=(index+1)%SCENES.length;go(SCENES[index],{manual:false});};next();tourTimer=setInterval(next,7500);$('#tour').textContent='Ⅱ 둘러보기 정지';$('#tour').setAttribute('aria-pressed','true');};
 $('#low-angle').onclick=()=>{stopTour();pitch=-25;updateView();};
 $('#markers').onclick=()=>{markersVisible=!markersVisible;applyExtras();};
-$('#quality').onclick=()=>{if(source!=='preview')return;lightQuality=!lightQuality;applyExtras();};
+$('#quality').onclick=()=>{if(source!=='preview'&&!state.sdkReady)return;lightQuality=!lightQuality;applyExtras();};
 $('#share-view').onclick=()=>{stopTour();setOrbit(false);try{
  const link=shareView(location.href,{scene:scene.id,range:distance,pitch},SCENES.map(s=>s.id));
  $('#share-link').value=link;$('#share-status').textContent='';$('#share-dialog').showModal();
@@ -87,7 +89,7 @@ $('#connect-form').onsubmit=e=>{
   let key=validateKey($('#api-key').value);if(!$('#confirmed').checked)throw Error('본인 서비스 키·등록 주소·3D API 권한 확인이 필요합니다.');
   clearTimeout(previewTimer);stopTour();setOrbit(false);preview.src='about:blank';preview.hidden=true;previewReady=false;source='provider';document.body.dataset.source='provider';
   channel=crypto.randomUUID();state=transition(initialState(),'loading');
-  const html=frameHTML({key,channel,origin:location.origin,places});key='';$('#api-key').value='';$('#api-key').disabled=true;$('#connect').disabled=true;
+  const html=frameHTML({key,channel,origin:location.origin,places,imagery:$('#use-imagery').checked});key='';$('#api-key').value='';$('#api-key').disabled=true;$('#connect').disabled=true;
   provider.hidden=false;provider.srcdoc=html;$('#source-label').textContent='브이월드 SDK 요청 중 · 제주 모델 확인 전';$('#footnote').textContent='공식 원본 모드 · 건물·지붕·지형·보행 정확도 검증 전';$('#credit').hidden=true;
   $('#loading').hidden=false;$('#loading b').textContent='공식 원본에 연결 중';$('#loading>span').textContent='브이월드가 인증키와 서비스 주소를 확인합니다.';$('#connect-dialog').close();
   timeout=setTimeout(()=>showConnectionError('연결 시간 초과. 등록 주소·WebGL 3D 권한·네트워크를 확인하세요.'),35000);
@@ -106,6 +108,8 @@ addEventListener('message',e=>{
  if(!channel||e.source!==provider.contentWindow||d?.channel!==channel)return;
  if(d.type==='sdk-ready'&&state.state==='loading'){clearTimeout(timeout);state=transition(state,'sdk-ready');$('#loading').hidden=true;$('#source-label').textContent='브이월드 뷰어 초기화 · 제주 원본 객체 확인 전';go(scene);applyExtras();}
  if(d.type==='error'){showConnectionError('공식 SDK 초기화 실패. 등록 URL·권한·WebGL 지원과 제공기관 응답을 확인하세요.');return;}
+ if(d.type==='aerial-status')atlas.update(d.status);
+ if(d.type==='aerial-unavailable')atlas.unavailable(d.feature);
  if(d.type==='flight-state'){orbit=d.orbit===true;$('#orbit').setAttribute('aria-pressed',String(orbit));}
  if(d.type==='flight-interaction'){stopTour();setOrbit(false);}
  if(d.type==='flight-unavailable'){setOrbit(false);toast('이 SDK 환경에서는 자동 회전을 사용할 수 없습니다. 드래그로 둘러보세요.');}
@@ -114,6 +118,7 @@ addEventListener('message',e=>{
 });
 addEventListener('pagehide',()=>{clearTimeout(previewTimer);clearTimeout(toastTimer);teardown();});document.addEventListener('visibilitychange',()=>{if(document.hidden){stopTour();setOrbit(false);}});
 addEventListener('keydown',e=>{if(e.key==='Escape'){stopTour();setOrbit(false);}});
-Object.defineProperty(window,'__JEJU_EXPLORER__',{value:{get status(){return {version:VERSION,source,state:state.state,sdkReady:state.sdkReady,modelSelections:state.modelSelections,previewReady,placeCount:places.length,scene:scene.id,distance,pitch,orbit,tourRunning:!!tourTimer,markersVisible,lightQuality,canConnect:policy.canConnect,productionReady:false,walkingEnabled:false};}}});
+Object.defineProperty(window,'__JEJU_EXPLORER__',{value:{get status(){return {version:VERSION,source,state:state.state,sdkReady:state.sdkReady,modelSelections:state.modelSelections,previewReady,placeCount:places.length,scene:scene.id,distance,pitch,orbit,tourRunning:!!tourTimer,markersVisible,lightQuality,canConnect:policy.canConnect,productionReady:false,walkingEnabled:false,aerial:atlas.status};}}});
+const atlas=installAtlasUI({getState:()=>({source,sdkReady:state.sdkReady}),emit,toast,openConnect:()=>$('#open-connect').click(),north:()=>{stopTour();updateView();toast('선택 지점을 북쪽 기준으로 정렬했습니다.');}});
 try{const r=await fetch('places.json');if(!r.ok)throw Error('PLACES_UNAVAILABLE');places=parsePlaceSeed(await r.text());renderPlaces();}catch{toast('장소 목록을 불러오지 못했습니다. 지도와 연결 진단은 별도로 확인하세요.');}
 startPreview();go(scene);syncControls();

@@ -4,7 +4,7 @@ import {execFileSync} from 'node:child_process';
 import {verifyBundle} from './integrity.mjs';
 import {VERSION,PLANNED_URL} from './session.mjs';
 const repo='kokoom94-ai/jeju-oldtown-3d';
-if(process.env.GITHUB_REPOSITORY!==repo||!['jeju-before-web','aerial-release-3-6'].includes(process.env.GITHUB_REF_NAME))throw Error('Wrong audit target');
+if(process.env.GITHUB_REPOSITORY!==repo||!['jeju-before-web','aerial-release-3-6','vworld-aerial-3-7'].includes(process.env.GITHUB_REF_NAME))throw Error('Wrong audit target');
 let metadata={ok:false,status:null,hasPages:null};
 try{
  const headers={Accept:'application/vnd.github+json'};

@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';import {execFileSync} from 'node:child_process';import {VERSION} from './session.mjs';
-const names=['browser-result.json','proxy-browser-result.json','inspection-browser-result.json','explore-browser-result.json'];
+const names=['browser-result.json','proxy-browser-result.json','inspection-browser-result.json','explore-browser-result.json','aerial-browser-result.json'];
 const browsers=[];
 for(const name of names){try{const r=JSON.parse(await fs.readFile('precision/'+name,'utf8'));const checks=r.checks||[];const ok=checks.length>0&&checks.every(c=>c.passed)&&!r.failure&&!(r.errors||[]).length;r.runId=process.env.GITHUB_RUN_ID;r.sourceCommit=process.env.SOURCE_COMMIT;r.currentRunOnly=true;await fs.writeFile('precision/'+name,JSON.stringify(r,null,2));browsers.push({file:name,passed:checks.filter(c=>c.passed).length,total:checks.length,ok});}catch{browsers.push({file:name,passed:0,total:0,ok:false});}}
 const read=async n=>{try{return JSON.parse(await fs.readFile('precision/'+n,'utf8'));}catch{return null;}};

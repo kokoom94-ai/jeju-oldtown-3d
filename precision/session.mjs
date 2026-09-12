@@ -1,5 +1,5 @@
 // Local diagnostics only. No credentials, generated buildings or accuracy shortcuts.
-export const VERSION='3.6.0-aerial-release';
+export const VERSION='3.7.0-vworld-aerial';
 export const PLANNED_URL='https://kokoom94-ai.github.io/jeju-oldtown-3d/';
 export const SETTINGS_URL='https://github.com/kokoom94-ai/jeju-oldtown-3d/settings/pages';
 export const SITE_BRANCH='jeju-precision-site';

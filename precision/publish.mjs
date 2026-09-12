@@ -2,7 +2,7 @@
 import fs from 'node:fs/promises';import path from 'node:path';import os from 'node:os';import {execFileSync,spawnSync} from 'node:child_process';import {createHash} from 'node:crypto';
 import {VERSION,PLANNED_URL,SITE_BRANCH} from './session.mjs';
 const repo='kokoom94-ai/jeju-oldtown-3d';
-if(process.env.GITHUB_REPOSITORY!==repo||!['jeju-before-web','aerial-release-3-6'].includes(process.env.GITHUB_REF_NAME))throw Error('Wrong repository or branch');
+if(process.env.GITHUB_REPOSITORY!==repo||!['jeju-before-web','aerial-release-3-6','vworld-aerial-3-7'].includes(process.env.GITHUB_REF_NAME))throw Error('Wrong repository or branch');
 const git=(args,cwd=process.cwd())=>execFileSync('git',args,{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
 if(git(['remote','get-url','origin']).replace(/\.git$/,'')!=='https://github.com/'+repo)throw Error('Wrong remote');
 const remote=git(['ls-remote','--heads','origin','refs/heads/'+SITE_BRANCH]);

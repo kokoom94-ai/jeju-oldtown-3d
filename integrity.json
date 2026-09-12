@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "version": "3.4.0-connection-inspection",
+  "version": "3.5.0-aerial-explorer",
   "files": [
     {
       "path": ".nojekyll",
@@ -15,8 +15,8 @@
     },
     {
       "path": "bridge.mjs",
-      "bytes": 8828,
-      "sha256": "486bea0c27d7eb1cd01a29fee7d3ee30beb50b1ee4df8a8abff02abc62f96765"
+      "bytes": 9175,
+      "sha256": "e2e574d6643e5a92670b2377626bf5c7a1e731a0193b8735571d9774ec3c9e67"
     },
     {
       "path": "CONNECT.md",
@@ -29,14 +29,34 @@
       "sha256": "fee1539616cc265abcadcafaadcfcce184b97430cd58b3d1e360a098c658bb3b"
     },
     {
+      "path": "explore.css",
+      "bytes": 8527,
+      "sha256": "a0ccd43b22193911aedb07c800b2201d50d418172594d1968805e42a5517517f"
+    },
+    {
+      "path": "explore.html",
+      "bytes": 6797,
+      "sha256": "de6dce7f354bb52239dacc3e79aa197854a9eb187f60787e6e5ad76fd0191888"
+    },
+    {
+      "path": "explore.mjs",
+      "bytes": 15566,
+      "sha256": "8aaf13f30a5756511f706429e2414290d7b24f0c653dc8f58ab0b1e3314533d9"
+    },
+    {
+      "path": "flight.mjs",
+      "bytes": 2642,
+      "sha256": "c91f1c798d2619f8317ef6928d1dc2fbfe670371c8ae5419b3ec08d9947c26b2"
+    },
+    {
       "path": "HANDOFF.md",
       "bytes": 11532,
       "sha256": "13889c7e8c652ca1ed08e43ef63fe8987349ff19ef3d2254ceea493da5446dce"
     },
     {
       "path": "index.html",
-      "bytes": 11847,
-      "sha256": "ef80fbc34db9d20c3a8ef3d3371df838d5425615c78fb9a0932d1230409f9ea3"
+      "bytes": 11921,
+      "sha256": "bd188abb14071bbe6dd0fbce2acaabf44d8faec62c0f9b335b467e649f813dbb"
     },
     {
       "path": "inspection.mjs",
@@ -52,6 +72,11 @@
       "path": "legacy/index.html",
       "bytes": 148383,
       "sha256": "92ce0be6e22edc469981ed3362bd118b6642f43de86c038e5efb024231427120"
+    },
+    {
+      "path": "legacy/preview-flight.html",
+      "bytes": 51328,
+      "sha256": "7c4698af1a584578a5927d5da486c845275598d02933c063185f2388fffe5b6e"
     },
     {
       "path": "legacy/real.html",
@@ -97,6 +122,11 @@
       "path": "legacy/realism/entry.js",
       "bytes": 104157,
       "sha256": "5d976f2533f85be0aac6a02794970c7d345d9b55ec38fec0be4415cb9e471b5a"
+    },
+    {
+      "path": "legacy/realism/flight-entry.js",
+      "bytes": 106714,
+      "sha256": "0c54d9a17e48882fefbfd746a613a161d94c692d76db7e22be1cc91fceaaedfa"
     },
     {
       "path": "legacy/realism/LICENSES.txt",
@@ -154,6 +184,11 @@
       "sha256": "662d34cbb77a994cece2c29eecb0b5b32ae1de1e5d6fb83a98b430d5a58a44fd"
     },
     {
+      "path": "preview.css",
+      "bytes": 628,
+      "sha256": "bdb0c0fb9014aaf7c1866a82f776e14e505bf0e4678bf218580f0d34a8cd5456"
+    },
+    {
       "path": "README.md",
       "bytes": 4867,
       "sha256": "ae195b823534b5bee8f3efbcf166e29743daa7276d91fe077dff17a4f5807c59"
@@ -164,14 +199,19 @@
       "sha256": "93c1040a442e3cd9c3789cf06d57d5dfd9fe1a7bb71caf6d702c8314de2cdd9b"
     },
     {
+      "path": "RELEASE_3_5.md",
+      "bytes": 1377,
+      "sha256": "6430ade287b13c54b623cba7e08160a2099c240c2a0d82e9e0383eedd438fc84"
+    },
+    {
       "path": "session.mjs",
-      "bytes": 4382,
-      "sha256": "e6f99e209ecf25630cd7fbb98042d90af356563b402f880cf1a065097247e86e"
+      "bytes": 4424,
+      "sha256": "52d0c0296a50d5110e831aa521834c68ec71b3eae423ce076ebc1818bac7d28d"
     },
     {
       "path": "site.json",
-      "bytes": 643,
-      "sha256": "3f68bb3fde8c72bb37fd18e37907f92ad59cebd046634e11b77b7f385024430b"
+      "bytes": 755,
+      "sha256": "0e7e09f375668627a46d8f38d610953e99a282804483233f3fff6d63bb3d3684"
     }
   ]
 }

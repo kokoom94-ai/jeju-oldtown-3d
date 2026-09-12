@@ -1,5 +1,5 @@
 // Local diagnostics only. No credentials, generated buildings or accuracy shortcuts.
-export const VERSION='3.4.0-connection-inspection';
+export const VERSION='3.5.0-aerial-explorer';
 export const PLANNED_URL='https://kokoom94-ai.github.io/jeju-oldtown-3d/';
 export const SETTINGS_URL='https://github.com/kokoom94-ai/jeju-oldtown-3d/settings/pages';
 export const SITE_BRANCH='jeju-precision-site';
@@ -15,7 +15,7 @@ export function hostPolicy(value){
  try{
   const u=new URL(value);
   const local=['localhost','127.0.0.1','[::1]'].includes(u.hostname)&&['http:','https:'].includes(u.protocol);
-  const owned=u.origin==='https://kokoom94-ai.github.io' && (u.pathname==='/jeju-oldtown-3d/' || u.pathname==='/jeju-oldtown-3d/index.html');
+  const owned=u.origin==='https://kokoom94-ai.github.io' && (u.pathname==='/jeju-oldtown-3d/' || u.pathname==='/jeju-oldtown-3d/index.html' || u.pathname==='/jeju-oldtown-3d/explore.html');
   return {canConnect:local||owned,origin:u.origin,mode:local?'local-test':owned?'dedicated-host':'read-only-preview'};
  }catch{return {canConnect:false,origin:'unavailable',mode:'read-only-preview'};}
 }

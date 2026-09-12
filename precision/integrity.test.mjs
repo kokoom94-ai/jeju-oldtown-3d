@@ -1,0 +1,17 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {validateManifest,sha256,verifyBundle,checkHostedBundle,readLimited} from './integrity.mjs';
+const base='https://kokoom94-ai.github.io/jeju-oldtown-3d/';
+const body='export const x=1;',bytes=new TextEncoder().encode(body);
+const file={path:'app.mjs',bytes:bytes.length,sha256:await sha256(bytes)};
+const manifest={schema:1,repository:'kokoom94-ai/jeju-oldtown-3d',files:[file]};
+const js=()=>new Response(body,{headers:{'content-type':'text/javascript; charset=utf-8'}});
+test('manifest paths cannot traverse, include credentials or target external URLs',()=>{for(const path of ['../app.mjs','/app.mjs','https://example.com/x.js','a/%2e%2e/x.js','.env','app.mjs?key=x','a/../app.mjs'])assert.throws(()=>validateManifest({...manifest,files:[{...file,path}]}));});
+test('manifest rejects duplicates, invalid sizes and wrong repository',()=>{assert.throws(()=>validateManifest({...manifest,files:[file,file]}));assert.throws(()=>validateManifest({...manifest,files:[{...file,bytes:-1}]}));assert.throws(()=>validateManifest({...manifest,repository:'kokoom94-ai/jeju-now-981'}));});
+test('static byte fixture passes with exact hash and MIME type, no provider claim',async()=>{let called;const r=await verifyBundle(base,manifest,{fetchImpl:async(u,o)=>{called={u,o};return js();}});assert.equal(r.ok,true);assert.equal(called.u,base+'app.mjs');assert.equal(called.o.credentials,'omit');assert.equal(called.o.redirect,'error');assert(!('productionReady' in r));});
+test('HTTP 200 with stale bytes is not a deployment success',async()=>{const r=await verifyBundle(base,manifest,{fetchImpl:async()=>new Response('export const x=2;',{headers:{'content-type':'text/javascript'}})});assert.equal(r.ok,false);});
+test('script served as HTML fails even when bytes match',async()=>{const r=await verifyBundle(base,manifest,{fetchImpl:async()=>new Response(body,{headers:{'content-type':'text/html'}})});assert.equal(r.ok,false);assert.equal(r.checks[0].mimeOK,false);});
+test('404 remains a deployment blocker and response bodies are not exported',async()=>{const r=await verifyBundle(base,manifest,{fetchImpl:async()=>new Response('PRIVATE_KEY',{status:404})});assert.equal(r.ok,false);assert.equal(r.checks[0].status,404);assert(!JSON.stringify(r).includes('PRIVATE_KEY'));});
+test('network errors never export credential-like exception text',async()=>{const r=await verifyBundle(base,manifest,{fetchImpl:async()=>{throw Error('PRIVATE_KEY');}});assert.equal(r.checks[0].error,'NETWORK_OR_TIMEOUT');assert(!JSON.stringify(r).includes('PRIVATE_KEY'));});
+test('body reads are bounded even without a content length',async()=>{await assert.rejects(readLimited(new Response('x'.repeat(100)),10),/BODY_LIMIT/);});
+test('base URL rejects queries, passwords and insecure public hosts before fetching',async()=>{for(const u of [base+'?apiKey=x','https://user:pass@example.com/','http://example.com/'])await assert.rejects(verifyBundle(u,manifest,{fetchImpl:()=>{throw Error('must not call');}}));});
+test('hosted consistency checker obtains manifest then checks same bundle',async()=>{const r=await checkHostedBundle(base,{fetchImpl:async u=>String(u).endsWith('integrity.json')?Response.json(manifest):js()});assert.equal(r.ok,true);});

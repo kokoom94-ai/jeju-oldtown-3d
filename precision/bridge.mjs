@@ -50,9 +50,11 @@ export function transition(state,event) {
   next.productionReady=false;return next;
 }
 function childRuntime(channel,origin,places) {
-  let viewer=null,started=false,ended=false,timer=null;
+  let viewer=null,started=false,ended=false,timer=null,input=null,removeRenderListener=null;
+  const cleanup=()=>{ended=true;clearInterval(timer);input?.destroy();removeRenderListener?.();};
+  addEventListener('pagehide',cleanup,{once:true});
   const send=(type,payload={})=>parent.postMessage({channel,type,...payload},origin);
-  const fail=(code='SDK_INIT_FAILED')=>{ended=true;clearInterval(timer);send('error',{code,message:'브이월드 초기화 실패. 인증키·등록 도메인·네트워크·WebGL 지원을 확인하세요.'});};
+  const fail=(code='SDK_INIT_FAILED')=>{if(ended)return;ended=true;clearInterval(timer);send('error',{code,message:'브이월드 초기화 실패. 인증키·등록 도메인·네트워크·WebGL 지원을 확인하세요.'});};
   const ready=()=>{
     if(started||ended)return;
     viewer=window.ws3d?.viewer;
@@ -61,7 +63,7 @@ function childRuntime(channel,origin,places) {
     const C=window.Cesium;
     try {
       viewer.scene.globe.depthTestAgainstTerrain=true;
-      const input=new C.ScreenSpaceEventHandler(viewer.scene.canvas);
+      input=new C.ScreenSpaceEventHandler(viewer.scene.canvas);
       input.setInputAction(m=>{
         try {
           const hit=viewer.scene.pick(m.position);
@@ -91,7 +93,7 @@ function childRuntime(channel,origin,places) {
           point:{pixelSize:9,color:C.Color.fromCssColorString(p.category==='hotel'?'#69b6ff':p.category==='parking'?'#f4ce73':'#69d8b5'),outlineColor:C.Color.BLACK,outlineWidth:1,heightReference:C.HeightReference.CLAMP_TO_GROUND},
           label:{text:p.name,font:'13px sans-serif',fillColor:C.Color.WHITE,showBackground:true,pixelOffset:new C.Cartesian2(0,-20),heightReference:C.HeightReference.CLAMP_TO_GROUND,distanceDisplayCondition:new C.DistanceDisplayCondition(0,2200)}});
       }
-      if(viewer.scene.renderError?.addEventListener)viewer.scene.renderError.addEventListener(()=>send('error',{code:'RENDER_FAILED',message:'3D 렌더링 오류. 연결을 종료한 뒤 브라우저·기기를 확인하세요.'}));
+      if(viewer.scene.renderError?.addEventListener)removeRenderListener=viewer.scene.renderError.addEventListener(()=>send('error',{code:'RENDER_FAILED',message:'3D 렌더링 오류. 연결을 종료한 뒤 브라우저·기기를 확인하세요.'}));
       send('sdk-ready');
       addEventListener('message',e=>{
         if(e.source!==parent||e.origin!==origin||e.data?.channel!==channel)return;
@@ -99,19 +101,21 @@ function childRuntime(channel,origin,places) {
         if(d.type==='fly') {
           const p=d.position;
           if(!p||![p.lon,p.lat,p.height].every(Number.isFinite)||p.lon<126.462||p.lon>126.575||p.lat<33.468||p.lat>33.536||p.height<100||p.height>10000)return;
-          viewer.camera.flyTo({destination:C.Cartesian3.fromDegrees(p.lon,p.lat,p.height),orientation:{heading:0,pitch:C.Math.toRadians(-50),roll:0},duration:1.4});
+          viewer.camera.flyTo({destination:C.Cartesian3.fromDegrees(p.lon,p.lat,p.height),orientation:{heading:0,pitch:C.Math.toRadians([-90,-50].includes(p.pitch)?p.pitch:-50),roll:0},duration:1.4});
         }
       });
     } catch {fail();}
   };
   try {
     if(window.__JEJU_SDK_FAILED__){fail('SDK_NETWORK_FAILED');return;}
+    if(window.__JEJU_SDK_LOADED__)send('sdk-phase',{phase:'script-loaded'});
     if(!window.vw?.Map){fail('SDK_UNAVAILABLE');return;}
     window.vw.ws3dInitCallBack=ready;
     const map=new window.vw.Map();
     map.setOption({mapId:'vmap',initPosition:new window.vw.CameraPosition(new window.vw.CoordZ(126.525,33.508,1600),new window.vw.Direction(0,-50,0)),logo:true,navigation:true});
+    send('sdk-phase',{phase:'map-start-requested'});
     map.start();
-    let count=0;timer=setInterval(()=>{ready();if(++count>120&&!started)fail('SDK_INIT_TIMEOUT');},250);ready();
+    let count=0;if(!started&&!ended)timer=setInterval(()=>{ready();if(++count>120&&!started)fail('SDK_INIT_TIMEOUT');},250);ready();
   } catch {fail();}
 }
 export function frameHTML({key,sdkSource,channel,origin,places=[]}) {
@@ -122,5 +126,5 @@ export function frameHTML({key,sdkSource,channel,origin,places=[]}) {
   const js=JSON.stringify([channel,origin,clean]).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   if(key&&sdkSource)throw Error('Choose one SDK transport');
   const src=(sdkSource?proxySDK(sdkSource,origin+'/'):sdkURL(key)).replace(/&/g,'&amp;');
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><style>html,body,#vmap{margin:0;width:100%;height:100%;overflow:hidden;background:#172327}</style><script src="${src}" onerror="window.__JEJU_SDK_FAILED__=true"></script></head><body><div id="vmap"></div><script>(${childRuntime.toString()})(...${js});</script></body></html>`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><style>html,body,#vmap{margin:0;width:100%;height:100%;overflow:hidden;background:#172327}</style><script src="${src}" onload="window.__JEJU_SDK_LOADED__=true" onerror="window.__JEJU_SDK_FAILED__=true"></script></head><body><div id="vmap"></div><script>(${childRuntime.toString()})(...${js});</script></body></html>`;
 }

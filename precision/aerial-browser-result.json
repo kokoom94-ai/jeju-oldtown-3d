@@ -1,0 +1,148 @@
+{
+  "version": "3.7.0-vworld-aerial",
+  "runId": "34700492201",
+  "sourceCommit": "e8017e0cfdbc8e6adf7352545b2b1f75b98d6414",
+  "checkedAt": "2026-09-12T14:55:44.006Z",
+  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/bad7318c44a0a8c1c3787b7121aaa8e9384f0215/index.html",
+  "checks": [
+    {
+      "name": "Aerial public HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "desktop current release",
+      "passed": true
+    },
+    {
+      "name": "desktop no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "desktop layer panel opens",
+      "passed": true
+    },
+    {
+      "name": "desktop satellite disabled before authorized connection",
+      "passed": true
+    },
+    {
+      "name": "desktop building and lighting disabled before SDK",
+      "passed": true
+    },
+    {
+      "name": "desktop no fabricated tile receipt",
+      "passed": true
+    },
+    {
+      "name": "desktop no fabricated terrain sample",
+      "passed": true
+    },
+    {
+      "name": "desktop estimated background explicitly separate",
+      "passed": true
+    },
+    {
+      "name": "desktop forged parent message rejected",
+      "passed": true
+    },
+    {
+      "name": "desktop exported report has no key or false accuracy",
+      "passed": true
+    },
+    {
+      "name": "desktop layer button opens own connection form",
+      "passed": true
+    },
+    {
+      "name": "desktop own-key input blocked on shared CDN",
+      "passed": true
+    },
+    {
+      "name": "desktop imagery permission is explicit",
+      "passed": true
+    },
+    {
+      "name": "desktop north control retains map",
+      "passed": true
+    },
+    {
+      "name": "Aerial public HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "mobile current release",
+      "passed": true
+    },
+    {
+      "name": "mobile no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "mobile layer panel opens",
+      "passed": true
+    },
+    {
+      "name": "mobile satellite disabled before authorized connection",
+      "passed": true
+    },
+    {
+      "name": "mobile building and lighting disabled before SDK",
+      "passed": true
+    },
+    {
+      "name": "mobile no fabricated tile receipt",
+      "passed": true
+    },
+    {
+      "name": "mobile no fabricated terrain sample",
+      "passed": true
+    },
+    {
+      "name": "mobile estimated background explicitly separate",
+      "passed": true
+    },
+    {
+      "name": "mobile forged parent message rejected",
+      "passed": true
+    },
+    {
+      "name": "mobile exported report has no key or false accuracy",
+      "passed": true
+    },
+    {
+      "name": "mobile layer button opens own connection form",
+      "passed": true
+    },
+    {
+      "name": "mobile own-key input blocked on shared CDN",
+      "passed": true
+    },
+    {
+      "name": "mobile imagery permission is explicit",
+      "passed": true
+    },
+    {
+      "name": "mobile north control retains map",
+      "passed": true
+    },
+    {
+      "name": "Zero provider requests during public no-key QA",
+      "passed": true
+    },
+    {
+      "name": "No browser runtime errors",
+      "passed": true
+    }
+  ],
+  "passed": 32,
+  "total": 32,
+  "errors": [],
+  "failure": null,
+  "providerRequests": 0,
+  "actualKeyUsed": false,
+  "sdkLiveTested": false,
+  "jejuPrecisionModelsReceived": false,
+  "productionReady": false,
+  "scope": "Actual public layer UI in desktop/mobile Chromium emulation; no successful SDK or imagery response simulated.",
+  "currentRunOnly": true
+}

@@ -1,0 +1,31 @@
+{
+  "version": "3.7.0-vworld-aerial",
+  "repository": "kokoom94-ai/jeju-oldtown-3d",
+  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/bad7318c44a0a8c1c3787b7121aaa8e9384f0215/connect.html",
+  "homeUrl": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/bad7318c44a0a8c1c3787b7121aaa8e9384f0215/index.html",
+  "explorerUrl": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/bad7318c44a0a8c1c3787b7121aaa8e9384f0215/explore.html",
+  "siteBranch": "jeju-precision-site",
+  "commit": "bad7318c44a0a8c1c3787b7121aaa8e9384f0215",
+  "staticChanged": true,
+  "sourceBranch": "vworld-aerial-3-7",
+  "sourceCommit": "e8017e0cfdbc8e6adf7352545b2b1f75b98d6414",
+  "runId": "34700492201",
+  "publishedAt": "2026-09-12T14:51:31.054Z",
+  "publicPreviewVerified": true,
+  "publicPreviewKeyEntryEnabled": false,
+  "htmlCheck": {
+    "ok": true,
+    "status": 200,
+    "htmlSha256": "f5ccfba1d68b893b6b987d806a05f0a8e71b2b62ff489610c3349f681e34b898"
+  },
+  "plannedDedicatedUrl": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
+  "pagesSettingChanged": false,
+  "providerConfigured": false,
+  "sdkLiveTested": false,
+  "jejuPrecisionModelsReceived": false,
+  "productionReady": false,
+  "proxyDeploymentVerified": false,
+  "newMainUnchanged": true,
+  "newMainSha": "3589d2b2ef64987b9d6be8fcd006305e8d3620a9",
+  "oldRepositoryWriteOperations": 0
+}

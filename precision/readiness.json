@@ -1,7 +1,7 @@
 {
   "version": "3.3.0-oldtown-isolated",
-  "checkedAt": "2026-09-12T01:40:20.870Z",
-  "runId": "34665491548",
+  "checkedAt": "2026-09-12T02:34:54.242Z",
+  "runId": "34668050272",
   "repository": "kokoom94-ai/jeju-oldtown-3d",
   "dedicatedUrl": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
   "pagesEnabled": false,
@@ -30,6 +30,11 @@
     },
     {
       "file": "connection.mjs",
+      "status": 404,
+      "matchesStaged": false
+    },
+    {
+      "file": "places.mjs",
       "status": 404,
       "matchesStaged": false
     },

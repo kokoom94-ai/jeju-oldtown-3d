@@ -1,19 +1,19 @@
 {
-  "version": "3.3.0-oldtown-isolated",
+  "version": "3.4.0-connection-inspection",
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/02b4098a0dcb5b5f9fbe9008d635d81384697ba7/index.html",
+  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/cc47308eb2d061eeea8a87e1636330553afeaf44/index.html",
   "siteBranch": "jeju-precision-site",
-  "commit": "02b4098a0dcb5b5f9fbe9008d635d81384697ba7",
+  "commit": "cc47308eb2d061eeea8a87e1636330553afeaf44",
   "sourceBranch": "jeju-before-web",
-  "sourceCommit": "95eaa1626d802ba435b5c9e540487938db0f91ad",
-  "runId": "34668050272",
-  "publishedAt": "2026-09-12T02:34:53.900Z",
+  "sourceCommit": "29f39ea7da829e0775b0e7cb8a0d6e080af0d3e6",
+  "runId": "34688795060",
+  "publishedAt": "2026-09-12T10:34:19.851Z",
   "publicPreviewVerified": true,
   "publicPreviewKeyEntryEnabled": false,
   "htmlCheck": {
     "ok": true,
     "status": 200,
-    "htmlSha256": "6298fc5cbb518cd2b3f64e67e10a153cbebb47c9d2b0dc2b248a1bde6849adb7"
+    "htmlSha256": "ef80fbc34db9d20c3a8ef3d3371df838d5425615c78fb9a0932d1230409f9ea3"
   },
   "plannedDedicatedUrl": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
   "pagesSettingChanged": false,

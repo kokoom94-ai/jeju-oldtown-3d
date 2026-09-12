@@ -1,57 +1,218 @@
 {
-  "version": "3.3.0-oldtown-isolated",
-  "checkedAt": "2026-09-12T02:34:54.242Z",
-  "runId": "34668050272",
+  "version": "3.4.0-connection-inspection",
+  "checkedAt": "2026-09-12T10:34:20.338Z",
+  "runId": "34688795060",
   "repository": "kokoom94-ai/jeju-oldtown-3d",
   "dedicatedUrl": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
   "pagesEnabled": false,
   "pagesSettingChanged": false,
   "dedicatedSiteMatchesStaged": false,
+  "staticBundleTotal": 34,
+  "staticBundlePassed": 0,
   "httpChecks": [
     {
-      "file": "index.html",
+      "file": ".nojekyll",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": true
     },
     {
       "file": "app.mjs",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": false
     },
     {
       "file": "bridge.mjs",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": false
     },
     {
-      "file": "session.mjs",
+      "file": "CONNECT.md",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": true
     },
     {
       "file": "connection.mjs",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": false
     },
     {
-      "file": "places.mjs",
+      "file": "HANDOFF.md",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": true
     },
     {
-      "file": "places.json",
+      "file": "index.html",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": true
     },
     {
-      "file": "site.json",
+      "file": "inspection.mjs",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "integrity.mjs",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/index.html",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": true
     },
     {
       "file": "legacy/real.html",
       "status": 404,
-      "matchesStaged": false
+      "matchesStaged": false,
+      "mimeOK": true
+    },
+    {
+      "file": "legacy/realism/acquisition.json",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/assets/paving-color.jpg",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/assets/paving-normal.jpg",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/assets/road-color.jpg",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/assets/road-normal.jpg",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/assets/wall-color.jpg",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/assets/wall-normal.jpg",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/entry.js",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/LICENSES.txt",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": true
+    },
+    {
+      "file": "legacy/realism/presentation.js",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/renderer.js",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/vendor/BufferGeometryUtils.js",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/vendor/Sky.js",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/vendor/THREE-LICENSE.txt",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": true
+    },
+    {
+      "file": "legacy/realism/vendor/three.core.js",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/vendor/three.module.js",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/world-v2.json",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "places.json",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "places.mjs",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "README.md",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": true
+    },
+    {
+      "file": "RELEASE_3_4.md",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": true
+    },
+    {
+      "file": "session.mjs",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "site.json",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
     }
   ],
   "oldMainSha": "c5578da4d1ba24a8341de512552db69d56c14aba",

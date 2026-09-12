@@ -125,8 +125,8 @@
     },
     {
       "path": "legacy/realism/flight-entry.js",
-      "bytes": 106714,
-      "sha256": "0c54d9a17e48882fefbfd746a613a161d94c692d76db7e22be1cc91fceaaedfa"
+      "bytes": 106756,
+      "sha256": "7c51824d0df598d9ad904723ff285e5ac9b2ac470b4e31b2512f7ed1f3287790"
     },
     {
       "path": "legacy/realism/LICENSES.txt",
@@ -185,8 +185,8 @@
     },
     {
       "path": "preview.css",
-      "bytes": 628,
-      "sha256": "bdb0c0fb9014aaf7c1866a82f776e14e505bf0e4678bf218580f0d34a8cd5456"
+      "bytes": 643,
+      "sha256": "359902a4950867c6ae94fd6d1cd2c2072fde363a867d2e57d068fa2c3ac2b78d"
     },
     {
       "path": "README.md",

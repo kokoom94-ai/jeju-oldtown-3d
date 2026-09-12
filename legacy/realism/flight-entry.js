@@ -281,7 +281,7 @@ $('.brand').addEventListener('click',e=>{e.preventDefault();state.category='all'
 refreshPins();renderList();renderTours();updateSavedCount();serverStatus();setTimeout(()=>{init();const b=document.querySelector('#load-osm');b.disabled=true;b.textContent='실제 OSM 데이터 적용됨';document.querySelector('#osm-load-message').textContent='수신 '+map.capturedAt+' · 건물 '+map.buildings.length.toLocaleString()+'개 / 도로 '+map.roads.length.toLocaleString()+'개';},60);
 // Build-time insertion in the isolated legacy comparison entry; never in provider code.
 if(new URLSearchParams(location.search).get('embed')==='flight'&&parent!==window){
-  const origin=location.origin;let orbit=false,last=0,announced=false,ended=false;
+  const origin=location.origin;let orbit=false,orbitStarted=0,orbitYaw=0,announced=false,ended=false;
   const send=(type,extra={})=>parent.postMessage({channel:'jeju-osm-preview-v1',type,...extra},origin);
   Object.defineProperty(window,'__JEJU_FLIGHT_PREVIEW__',{value:{get status(){const r=state.renderer;return {ready:!!r,mode:state.mode,distance:r?.distance,pitch:r?.pitch,yaw:r?.yaw,target:r?[...r.target]:null,avatarVisible:r?.avatar.visible,walkingEnabled:false};}}});
   const stop=()=>{orbit=false;send('orbit',{enabled:false});};
@@ -296,15 +296,15 @@ if(new URLSearchParams(location.search).get('embed')==='flight'&&parent!==window
       stop();stopRoute(false);setMode('overview');r.focus(geo(p.lon,p.lat),p.height);r.pitch=p.pitch===-90?1.5:p.pitch===-25?.44:.87;r.yaw=(p.heading||0)*Math.PI/180;r.avatar.visible=false;
       send('camera',{lon:p.lon,lat:p.lat,distance:p.height,pitch:p.pitch});
     }
-    if(d.type==='orbit'&&typeof d.enabled==='boolean'){orbit=d.enabled;last=performance.now();send('orbit',{enabled:orbit});}
+    if(d.type==='orbit'&&typeof d.enabled==='boolean'){orbit=d.enabled;orbitStarted=performance.now();orbitYaw=r.yaw;send('orbit',{enabled:orbit});}
     if(d.type==='markers'&&typeof d.visible==='boolean')document.querySelector('#map-labels').hidden=!d.visible;
   });
   function tick(now){
     if(ended)return;const r=state.renderer;
     if(r){r.avatar.visible=false;state.keys.clear();state.joystick=[0,0];if(state.selected){send('place',{id:state.selected});state.selected=null;}if(!announced){announced=true;send('ready',{source:'osm-estimated',productionReady:false});}
-      if(orbit&&!document.hidden)r.yaw+=(Math.min(100,now-last)||0)*0.00007;
+      if(orbit&&!document.hidden)r.yaw=orbitYaw+Math.max(0,now-orbitStarted)*0.00007;
     }else if(document.querySelector('#fatal')?.hidden===false){send('error');return;}
-    last=now;requestAnimationFrame(tick);
+    requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
 }

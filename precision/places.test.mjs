@@ -35,7 +35,7 @@ test('build succeeds when legacy root has no embedded JEJU_DATA',()=>{
   fs.writeFileSync(path.join(root,'index.html'),'<!doctype html><body>Legacy without a data seed</body>');
   fs.writeFileSync(path.join(root,'real.html'),'<!doctype html><body>Legacy fixture</body>');
   fs.writeFileSync(path.join(root,'README.md'),'[Connect](precision/CONNECT.md)');
-  fs.mkdirSync(path.join(root,'realism'));fs.writeFileSync(path.join(root,'realism','LICENSES.txt'),'Fixture only');
+  fs.mkdirSync(path.join(root,'realism'));fs.writeFileSync(path.join(root,'realism','entry.js'),'// Read-only diagnostics used by repeatable browser tests.');fs.writeFileSync(path.join(root,'realism','LICENSES.txt'),'Fixture only');
   execFileSync(process.execPath,['precision/prepare.mjs'],{cwd:root,stdio:'pipe'});
   const site=path.join(root,'_precision_site');
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(site,'places.json'),'utf8')),parsePlaceSeed(text));

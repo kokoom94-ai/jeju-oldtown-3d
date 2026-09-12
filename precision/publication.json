@@ -1,13 +1,13 @@
 {
   "version": "3.4.0-connection-inspection",
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/cc47308eb2d061eeea8a87e1636330553afeaf44/index.html",
+  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/1612897463a9c107e5631b87e3a28765dab2544d/index.html",
   "siteBranch": "jeju-precision-site",
-  "commit": "cc47308eb2d061eeea8a87e1636330553afeaf44",
+  "commit": "1612897463a9c107e5631b87e3a28765dab2544d",
   "sourceBranch": "jeju-before-web",
-  "sourceCommit": "29f39ea7da829e0775b0e7cb8a0d6e080af0d3e6",
-  "runId": "34688795060",
-  "publishedAt": "2026-09-12T10:34:19.851Z",
+  "sourceCommit": "dc5e8d5dca04d335d57219cc6bbfdfa1d463736f",
+  "runId": "34689051821",
+  "publishedAt": "2026-09-12T10:40:16.676Z",
   "publicPreviewVerified": true,
   "publicPreviewKeyEntryEnabled": false,
   "htmlCheck": {

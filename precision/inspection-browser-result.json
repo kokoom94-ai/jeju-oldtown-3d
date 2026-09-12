@@ -1,9 +1,9 @@
 {
-  "testedAt": "2026-09-12T10:35:21.614Z",
-  "runId": "34688795060",
-  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/cc47308eb2d061eeea8a87e1636330553afeaf44/index.html",
-  "ok": false,
-  "passed": 5,
+  "testedAt": "2026-09-12T10:41:26.678Z",
+  "runId": "34689051821",
+  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/1612897463a9c107e5631b87e3a28765dab2544d/index.html",
+  "ok": true,
+  "passed": 12,
   "checks": [
     {
       "name": "Public inspection page HTTP 200",
@@ -27,11 +27,35 @@
     },
     {
       "name": "Live static bundle hashes and MIME types match",
-      "passed": false
+      "passed": true
+    },
+    {
+      "name": "Legacy 3D data included in hash verification",
+      "passed": true
+    },
+    {
+      "name": "File verification does not enable walking or certify models",
+      "passed": true
+    },
+    {
+      "name": "Untrusted phase message cannot enter connection timeline",
+      "passed": true
+    },
+    {
+      "name": "Inspection controls do not overflow mobile viewport",
+      "passed": true
+    },
+    {
+      "name": "No VWorld network request in public no-key checks",
+      "passed": true
+    },
+    {
+      "name": "No browser runtime errors",
+      "passed": true
     }
   ],
   "errors": [],
-  "failure": "Error: Live static bundle hashes and MIME types match",
+  "failure": null,
   "providerRequestCount": 0,
   "sdkLiveTested": false,
   "jejuPrecisionModelsReceived": false,

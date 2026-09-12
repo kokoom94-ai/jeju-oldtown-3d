@@ -1,7 +1,7 @@
 {
-  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/cc47308eb2d061eeea8a87e1636330553afeaf44/index.html",
-  "testedAt": "2026-09-12T10:35:01.060Z",
-  "runId": "34688795060",
+  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/1612897463a9c107e5631b87e3a28765dab2544d/index.html",
+  "testedAt": "2026-09-12T10:41:05.667Z",
+  "runId": "34689051821",
   "ok": true,
   "passed": 28,
   "checks": [
@@ -86,7 +86,7 @@
       "passed": true
     },
     {
-      "name": "Page returns HTTP 200: 127.0.0.1:36319",
+      "name": "Page returns HTTP 200: 127.0.0.1:37497",
       "passed": true
     },
     {

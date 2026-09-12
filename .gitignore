@@ -1,0 +1,7 @@
+node_modules/
+_precision_site/
+precision-qa/
+.env
+.env.*
+!.env.example
+*.log

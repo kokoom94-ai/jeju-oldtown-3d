@@ -1,0 +1,152 @@
+{
+  "sourceRepository": "kokoom94-ai/jeju-now-981",
+  "sourceCommit": "8ea4d1bd79c0ccb0632258e6899ffe345a2fa3eb",
+  "targetRepository": "kokoom94-ai/jeju-oldtown-3d",
+  "version": "3.3.0-oldtown-isolated",
+  "importedFiles": [
+    {
+      "path": "index.html",
+      "sourceSha256": "b295bbb513b950f38a1ec38dcbcae4828d24fabd1962f524bcf7327d452f9629"
+    },
+    {
+      "path": "precision/.env.example",
+      "sourceSha256": "692e1b546fcbf0bc9371f1f62586b7da0c9586a71cc50fce5042592fa1ec7f20"
+    },
+    {
+      "path": "precision/.gitignore",
+      "sourceSha256": "bfc70df0a5a52d08512cb68fedf1fbe721908981af7e965f13f9000b8465c576"
+    },
+    {
+      "path": "precision/app.mjs",
+      "sourceSha256": "593c3396d314f84d0044db6be089d2359cd2939df37159bf58ba2266168f3ec0"
+    },
+    {
+      "path": "precision/bridge.mjs",
+      "sourceSha256": "3e501075a09ded6068de999a26020fd515de1fcb8dd9d6d83c4a9bbdb5ff3402"
+    },
+    {
+      "path": "precision/connection.mjs",
+      "sourceSha256": "a33a9f7e5c0440ae5e54069d70659757cb4d28c622e0ea3be0c1e190e645ce8f"
+    },
+    {
+      "path": "precision/contract.test.mjs",
+      "sourceSha256": "9a62912937fec04b6486979db882ea0a689fe396b194c5bfebaf753c3a7208b9"
+    },
+    {
+      "path": "precision/index.html",
+      "sourceSha256": "672c22a50c195ed5a4437a3af9bf4f2c8188d93814b093e54b61a042e91a7e72"
+    },
+    {
+      "path": "precision/proxy-server.mjs",
+      "sourceSha256": "a2b8d9bb766764fc2d5d8d475c8c7b855f77acfbe210030035eb7aef781490fb"
+    },
+    {
+      "path": "precision/proxy-verify.cjs",
+      "sourceSha256": "c3d4f2bb715aba7978966ccc99f4ebb46bb9945eb82c41fa419c9af65af4543d"
+    },
+    {
+      "path": "precision/proxy.test.mjs",
+      "sourceSha256": "d92c8a1f3266a1805fd27b4bb67b8c2af5c2607eed18f56ac9c66566f7e8c594"
+    },
+    {
+      "path": "precision/render.proxy.yaml",
+      "sourceSha256": "d98bf29a6134c28d16cb5f89412a3ff5208d703198e20d36ee45b180065f3b92"
+    },
+    {
+      "path": "precision/session.mjs",
+      "sourceSha256": "7ddd30feae48a851b88ce47aec1e50ebe398302ef16ef30b4b56cd30a825a749"
+    },
+    {
+      "path": "precision/session.test.mjs",
+      "sourceSha256": "3135f7b2671a476166033a94233b8096deb108bcd429e2940837268e7a1ab8b7"
+    },
+    {
+      "path": "precision/verify.cjs",
+      "sourceSha256": "dcc102e01ad59a7bf67b0abaf93e49b5cbf8ba9d6419f30246f198fcc09f336c"
+    },
+    {
+      "path": "real.html",
+      "sourceSha256": "9a214676411bf76e7c3b542e2ff310d0b3c0b9b2c7526baef134f4533e8f05c5"
+    },
+    {
+      "path": "realism/LICENSES.txt",
+      "sourceSha256": "085834c515ef4e035fca01f75cdef05cc994d36f3b66f041fc53804093f7370c"
+    },
+    {
+      "path": "realism/acquire.mjs",
+      "sourceSha256": "5e70aa2aec78f806d5007d029449410ec4ad3ac5e4c53d7c99bcf7f1d4cf3d83"
+    },
+    {
+      "path": "realism/acquisition.json",
+      "sourceSha256": "a93c60e5cb454effbbfde2a4521816995be796e3ebeb5fb5b80b1ac8a19bc6f6"
+    },
+    {
+      "path": "realism/assets/paving-color.jpg",
+      "sourceSha256": "791d39aadbd48b483468d2ed68d21efce5be197c1d91cf7f3fad7e561c8e7675"
+    },
+    {
+      "path": "realism/assets/paving-normal.jpg",
+      "sourceSha256": "a7c962384c155498d1878cda1dca7a4ad738cb15fdb06e3c3ec11238be355b37"
+    },
+    {
+      "path": "realism/assets/road-color.jpg",
+      "sourceSha256": "99b6f6bdfbd09279f3f550ac9593336df541aa2319537566eeb3e737d8512010"
+    },
+    {
+      "path": "realism/assets/road-normal.jpg",
+      "sourceSha256": "b745fd20cfb775ae907786ff0ffe200cedf73f3a6ef4e60c637b85b08e0a4f9a"
+    },
+    {
+      "path": "realism/assets/wall-color.jpg",
+      "sourceSha256": "fea247dd085cd05d8deb335234c834764d622029da351f8bcc8913935316bacd"
+    },
+    {
+      "path": "realism/assets/wall-normal.jpg",
+      "sourceSha256": "4ff16bb96fc2df3ef71d22007151aff1d8bf7cb10a493d3f8e973213a99dd428"
+    },
+    {
+      "path": "realism/build.mjs",
+      "sourceSha256": "a07f10a855985eda4c8fe4079f5a7f10a155e5e14cdf72e3e2daa3ff0e40a477"
+    },
+    {
+      "path": "realism/entry.js",
+      "sourceSha256": "5d976f2533f85be0aac6a02794970c7d345d9b55ec38fec0be4415cb9e471b5a"
+    },
+    {
+      "path": "realism/presentation.js",
+      "sourceSha256": "00a422d73e8ef8fe2c5cca23eaae344ee78f0b4fab7a430e7361b50c950662c5"
+    },
+    {
+      "path": "realism/renderer.js",
+      "sourceSha256": "002eeb1a9a262803905f664c2bb423e9ece2763cbe3a1abb0003b9da95d7264f"
+    },
+    {
+      "path": "realism/vendor/BufferGeometryUtils.js",
+      "sourceSha256": "fda7e946b8e0b5ab39b779206589e7a1079a22eb24efb89d7223e03fdfb1f751"
+    },
+    {
+      "path": "realism/vendor/Sky.js",
+      "sourceSha256": "a19982b69e496e52d4cd7072029f0a8e5277203cbebf2277a23267e90b705640"
+    },
+    {
+      "path": "realism/vendor/THREE-LICENSE.txt",
+      "sourceSha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+    },
+    {
+      "path": "realism/vendor/three.core.js",
+      "sourceSha256": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20"
+    },
+    {
+      "path": "realism/vendor/three.module.js",
+      "sourceSha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a"
+    },
+    {
+      "path": "realism/world-v2.json",
+      "sourceSha256": "c5d4cc015d801b01e29ac5a2763a3122fe42164770244e5afbfb03ca12051eaa"
+    }
+  ],
+  "oldRepositoryWriteOperations": 0,
+  "oldDeploymentWorkflowsImported": false,
+  "credentialsImported": false,
+  "providerLiveValidated": false
+}

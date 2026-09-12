@@ -1,13 +1,14 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {parsePlaces} from './bridge.mjs';
+import {parsePlaceSeed} from './places.mjs';
 import {VERSION,PLANNED_URL,SITE_BRANCH} from './session.mjs';
 const out=path.resolve('_precision_site');
-const places=parsePlaces(await fs.readFile('index.html','utf8'));
+const places=parsePlaceSeed(await fs.readFile('precision/places.json','utf8'));
 if(places.length!==32)throw Error('Place set changed; review before deployment');
 await fs.rm(out,{recursive:true,force:true});await fs.mkdir(out,{recursive:true});
-for(const name of ['index.html','app.mjs','bridge.mjs','session.mjs','connection.mjs','CONNECT.md'])await fs.copyFile('precision/'+name,path.join(out,name));
-await fs.copyFile('README.md',path.join(out,'README.md'));
+for(const name of ['index.html','app.mjs','bridge.mjs','session.mjs','connection.mjs','places.mjs','CONNECT.md','HANDOFF.md'])await fs.copyFile('precision/'+name,path.join(out,name));
+const readme=await fs.readFile('README.md','utf8');
+await fs.writeFile(path.join(out,'README.md'),readme.replaceAll('(precision/CONNECT.md)','(CONNECT.md)').replaceAll('(precision/HANDOFF.md)','(HANDOFF.md)').replaceAll('(precision/readiness.json)','(https://github.com/kokoom94-ai/jeju-oldtown-3d/blob/jeju-before-web/precision/readiness.json)').replaceAll('(precision/publication.json)','(https://github.com/kokoom94-ai/jeju-oldtown-3d/blob/jeju-before-web/precision/publication.json)'));
 await fs.writeFile(path.join(out,'places.json'),JSON.stringify(places,null,2));
 await fs.writeFile(path.join(out,'.nojekyll'),'');
 // The legacy demo is separate and visibly labelled; it is not provider geometry.
@@ -18,5 +19,5 @@ for(const name of ['index.html','real.html']){
  await fs.writeFile(path.join(out,'legacy',name),html.replace('</body>',banner+'</body>'));
 }
 await fs.cp('realism',path.join(out,'legacy','realism'),{recursive:true,filter:src=>!['acquire.mjs','build.mjs','verify.cjs','publication.json','browser-result.json'].includes(path.basename(src))});
-await fs.writeFile(path.join(out,'site.json'),JSON.stringify({app:'JEJU:BEFORE precision',repository:'kokoom94-ai/jeju-oldtown-3d',version:VERSION,sourceBranch:'jeju-before-web',siteBranch:SITE_BRANCH,places:places.length,generatedBuildingFallback:false,providerConfigured:false,sdkLiveTested:false,productionReady:false,plannedDedicatedUrl:PLANNED_URL,legacyPath:'legacy/real.html',legacyGeometry:'OSM-derived and estimated; not provider precision',proxyDeploymentVerified:false},null,2));
+await fs.writeFile(path.join(out,'site.json'),JSON.stringify({app:'JEJU:BEFORE precision',repository:'kokoom94-ai/jeju-oldtown-3d',version:VERSION,sourceBranch:'jeju-before-web',siteBranch:SITE_BRANCH,places:places.length,placeSeed:'precision/places.json',placeSeedRevision:'independent-v1',generatedBuildingFallback:false,providerConfigured:false,sdkLiveTested:false,productionReady:false,plannedDedicatedUrl:PLANNED_URL,legacyPath:'legacy/real.html',legacyGeometry:'OSM-derived and estimated; not provider precision',proxyDeploymentVerified:false},null,2));
 console.log(JSON.stringify({built:true,places:places.length,version:VERSION,providerConfigured:false,productionReady:false}));

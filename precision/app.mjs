@@ -1,5 +1,6 @@
+import {parsePlaceSeed} from './places.mjs';
 import {resolveProxy,PROXY_ORIGIN} from './connection.mjs';
-import {validateKey,parsePlaces,cleanPlace,initialState,transition,frameHTML} from './bridge.mjs';
+import {validateKey,initialState,transition,frameHTML} from './bridge.mjs';
 import {VERSION,TARGETS,PLANNED_URL,SETTINGS_URL,SITE_BRANCH,hostPolicy,createObservations,addObservation,cleanObject,cleanProperties,diagnostics} from './session.mjs';
 const $=s=>document.querySelector(s),frame=$('#frame'),policy=hostPolicy(location.href);
 let pending=null;
@@ -104,7 +105,7 @@ $('#copy-registration').addEventListener('click',async()=>{
  $('#registration-copy').textContent=value;$('#registration-copy').hidden=false;
  try{await navigator.clipboard.writeText(value);notice('신청용 문구를 복사했습니다. 브이월드 계정 로그인과 인증키 발급은 본인 명의로 진행하세요.');}catch{notice('아래 신청 문구를 선택해 복사하세요.');}
 });
-(async()=>{try{const r=await fetch('places.json',{cache:'no-cache'});if(r.ok){const data=await r.json();if(!Array.isArray(data)||data.length>200)throw Error();places=data.map(cleanPlace).filter(Boolean);}else{const fallback=await fetch('../index.html',{cache:'no-cache'});if(!fallback.ok)throw Error();places=parsePlaces(await fallback.text());}renderPlaces();}catch{$('#places').textContent='장소 목록 수신 실패. 원본 지도 연결과 별개입니다.';}})();
+(async()=>{try{const r=await fetch('places.json',{cache:'no-cache'});if(!r.ok)throw Error('Place seed unavailable');places=parsePlaceSeed(await r.text());renderPlaces();}catch{places=[];$('#place-count').textContent='0';$('#places').textContent='장소 목록 수신 실패. 원본 지도 연결과 별개입니다.';}})();
 window.__JEJU_PRECISION__={get version(){return VERSION;},get status(){return {...state};},get placeCount(){return places.length;},get hostMode(){return policy.mode;},get report(){return diagnostics(state,observations,location.href,places.length);}};
 addEventListener('pagehide',()=>{clearTimeout(timeout);pending?.abort();pending=null;channel=null;$('#api-key').value='';});
 refresh();

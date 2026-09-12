@@ -1,8 +1,8 @@
 {
   "app": "JEJU:BEFORE precision",
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "version": "3.6.0-aerial-release",
-  "sourceBranch": "aerial-release-3-6",
+  "version": "3.7.0-vworld-aerial",
+  "sourceBranch": "vworld-aerial-3-7",
   "siteBranch": "jeju-precision-site",
   "places": 32,
   "placeSeed": "precision/places.json",

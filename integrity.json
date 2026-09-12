@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "version": "3.6.0-aerial-release",
+  "version": "3.7.0-vworld-aerial",
   "files": [
     {
       "path": ".nojekyll",
@@ -9,19 +9,29 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "aerial.mjs",
+      "bytes": 6490,
+      "sha256": "da40d02cc48160f75e6e29b9e65aaba6d9fa6f409e19e081686e94e733a70c5d"
+    },
+    {
       "path": "app.mjs",
       "bytes": 12378,
       "sha256": "cc9d43038e3ad349e3cbd538d6039502f4a77d13cf55baaca9e9ae3351058db6"
     },
     {
+      "path": "atlas-ui.mjs",
+      "bytes": 4070,
+      "sha256": "10d89cb047293fe0074c5e4203331c5a7dc8cb29c0aebb9bbaaceb40740830f9"
+    },
+    {
       "path": "bridge.mjs",
-      "bytes": 9175,
-      "sha256": "e2e574d6643e5a92670b2377626bf5c7a1e731a0193b8735571d9774ec3c9e67"
+      "bytes": 9613,
+      "sha256": "02796487c4b4ddf22b9c42b3b4898a68116f585ce5c4a01b419d9ce2f1252965"
     },
     {
       "path": "connect.html",
       "bytes": 11921,
-      "sha256": "8ac6bcdc4cdfc0947fc817cd2c072ed5faadd02d05bf14f17cdf99090901192f"
+      "sha256": "f5ccfba1d68b893b6b987d806a05f0a8e71b2b62ff489610c3349f681e34b898"
     },
     {
       "path": "CONNECT.md",
@@ -35,18 +45,18 @@
     },
     {
       "path": "explore.css",
-      "bytes": 9292,
-      "sha256": "a3fd28f615e30058fd068b3dcac75d07b8ef9e1269d7f23e8847ccb0ebd49541"
+      "bytes": 10134,
+      "sha256": "0e267e23980d53f450d18ffa146e02903a73d8e173b01327591a23e8d090266c"
     },
     {
       "path": "explore.html",
-      "bytes": 7635,
-      "sha256": "7eef837e4b4b0d98008fdac67e921fb7103fae7bda684111c30e6b7fc7a94c31"
+      "bytes": 9932,
+      "sha256": "cdc9c7c4009212ec0477e89fd54e85b0ad31a339d0a1dc347fbe78bfd461ce5d"
     },
     {
       "path": "explore.mjs",
-      "bytes": 17517,
-      "sha256": "358125216fb68c800bff38212e57e9a385be6935b8abb6935b853314d525b4b3"
+      "bytes": 18121,
+      "sha256": "ac61aaa1b623d4e71085b0b1d10d8e500a532e92ca37ed1d116ff20a15f75da8"
     },
     {
       "path": "flight.mjs",
@@ -60,8 +70,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 7635,
-      "sha256": "7eef837e4b4b0d98008fdac67e921fb7103fae7bda684111c30e6b7fc7a94c31"
+      "bytes": 9932,
+      "sha256": "cdc9c7c4009212ec0477e89fd54e85b0ad31a339d0a1dc347fbe78bfd461ce5d"
     },
     {
       "path": "inspection.mjs",
@@ -214,14 +224,19 @@
       "sha256": "a3ef17f6a7091d095d63250b6afefdce39bbd577722bbcf94ab8772c934892d5"
     },
     {
+      "path": "RELEASE_3_7.md",
+      "bytes": 2661,
+      "sha256": "464f55b221fc37a528a1363ceb255d4de8abfdafad618eed63c92d1f2d588be1"
+    },
+    {
       "path": "session.mjs",
-      "bytes": 4471,
-      "sha256": "6d2a2226c9128f1a448a0c775cb9cd3d53db95a539b14c5815468c352941023e"
+      "bytes": 4470,
+      "sha256": "869d982ea41bdd17b5c8c1ffd4fb31fbfd52e718a47d799686ff443efb3ab9a2"
     },
     {
       "path": "site.json",
-      "bytes": 821,
-      "sha256": "0a056cb030666ac52e4b7ba9005493d85cb22603279796be5ebab21e7872513d"
+      "bytes": 819,
+      "sha256": "8ebb44e38210f19bed6c9a3c29b99082d1a17881e2240e572fc519275cd1f78d"
     },
     {
       "path": "view.mjs",

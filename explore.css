@@ -8,3 +8,7 @@
 .quick-controls{position:fixed;left:34px;bottom:237px;display:flex;gap:6px;z-index:4;flex-wrap:wrap;max-width:calc(100vw - 120px)}.quick-controls button{font-size:11px;min-height:36px;padding:8px 12px}.quick-controls #low-angle[aria-pressed=true]{border-color:var(--accent)}#copy-share{margin-top:14px}
 @media(max-width:760px){.quick-controls{left:17px;right:65px;bottom:224px;gap:5px;max-width:none}.quick-controls button{font-size:10px;min-height:34px;padding:7px 9px}.scene-info p{max-width:195px}}
 @media(max-height:600px){.quick-controls{left:18px;bottom:117px;right:18px;max-width:none}.view-controls{right:18px;gap:3px}.view-controls button{width:38px;height:38px}.scene-info{max-width:200px}}
+
+/* 3.7: layer controls do not cover or modify original map geometry. */
+.atlas-tabs{display:flex;gap:6px;flex-wrap:wrap}.atlas-tabs button{font-size:12px;flex:1;white-space:nowrap}.atlas-status{display:grid;grid-template-columns:84px 1fr;gap:12px;margin:20px 0;font-size:12px}.atlas-status dt{color:var(--muted)}.atlas-status dd{margin:0;overflow-wrap:anywhere}#atlas-dialog h3{font-size:14px;margin:23px 0 12px}#atlas-dialog{width:min(580px,calc(100% - 32px))}.quick-controls{max-width:calc(100vw - 100px)}
+@media(max-width:760px){.top-actions button{font-size:9px;padding:8px 7px}.brand{font-size:20px}.quick-controls{right:16px;max-width:none}.quick-controls button{padding:7px 8px;font-size:9px}.scene-info p{max-width:190px}.atlas-status{grid-template-columns:73px 1fr;font-size:11px}.view-controls button{height:37px;min-height:37px}}

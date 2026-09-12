@@ -15,3 +15,10 @@ test('network errors never export credential-like exception text',async()=>{cons
 test('body reads are bounded even without a content length',async()=>{await assert.rejects(readLimited(new Response('x'.repeat(100)),10),/BODY_LIMIT/);});
 test('base URL rejects queries, passwords and insecure public hosts before fetching',async()=>{for(const u of [base+'?apiKey=x','https://user:pass@example.com/','http://example.com/'])await assert.rejects(verifyBundle(u,manifest,{fetchImpl:()=>{throw Error('must not call');}}));});
 test('hosted consistency checker obtains manifest then checks same bundle',async()=>{const r=await checkHostedBundle(base,{fetchImpl:async u=>String(u).endsWith('integrity.json')?Response.json(manifest):js()});assert.equal(r.ok,true);});
+
+test('CSS is verified as executable styling with strict MIME and redirect policy',async()=>{
+ const content='body{margin:0}',cssBytes=new TextEncoder().encode(content);const cssManifest={...manifest,files:[{path:'explore.css',bytes:cssBytes.length,sha256:await sha256(cssBytes)}]};
+ let opts;const good=await verifyBundle(base,cssManifest,{fetchImpl:async(u,o)=>{opts=o;return new Response(content,{headers:{'content-type':'text/css; charset=utf-8'}});}});
+ assert.equal(good.ok,true);assert.equal(opts.redirect,'error');assert.equal(opts.credentials,'omit');
+ for(const mime of ['text/html','text/plain','application/javascript']){const bad=await verifyBundle(base,cssManifest,{fetchImpl:async()=>new Response(content,{headers:{'content-type':mime}})});assert.equal(bad.ok,false);assert.equal(bad.checks[0].mimeOK,false);}
+});

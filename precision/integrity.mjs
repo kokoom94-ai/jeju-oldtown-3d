@@ -3,7 +3,7 @@ export function validateManifest(m) {
   if (m?.schema!==1 || m.repository!=='kokoom94-ai/jeju-oldtown-3d' || !Array.isArray(m.files) || !m.files.length || m.files.length>100) throw Error('INVALID_MANIFEST');
   const seen=new Set();let total=0;
   const files=m.files.map(f=>{
-    if(typeof f?.path!=='string'||! /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_.-]+$/.test(f.path)||f.path.split('/').some(p=>p==='.'||p==='..'||(p.startsWith('.')&&p!=='.nojekyll'))||! /(?:\.(?:html|mjs|js|json|jpg|txt|md)|^\.nojekyll)$/.test(f.path)||seen.has(f.path)) throw Error('INVALID_PATH');
+    if(typeof f?.path!=='string'||! /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_.-]+$/.test(f.path)||f.path.split('/').some(p=>p==='.'||p==='..'||(p.startsWith('.')&&p!=='.nojekyll'))||! /(?:\.(?:html|mjs|js|json|css|jpg|txt|md)|^\.nojekyll)$/.test(f.path)||seen.has(f.path)) throw Error('INVALID_PATH');
     if(!/^[a-f0-9]{64}$/.test(f.sha256)||!Number.isSafeInteger(f.bytes)||f.bytes<0||f.bytes>20*1024*1024) throw Error('INVALID_ENTRY');
     seen.add(f.path);total+=f.bytes;return {path:f.path,sha256:f.sha256,bytes:f.bytes};
   });
@@ -24,6 +24,7 @@ function mimeOK(path,type){
  const t=type.split(';')[0].trim().toLowerCase();
  if(/\.m?js$/.test(path))return ['application/javascript','text/javascript','application/x-javascript'].includes(t);
  if(path.endsWith('.html'))return t==='text/html';
+ if(path.endsWith('.css'))return t==='text/css';
  if(path.endsWith('.json'))return t==='application/json';
  if(path.endsWith('.jpg'))return t==='image/jpeg';
  return true;

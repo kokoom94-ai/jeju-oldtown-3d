@@ -1,0 +1,131 @@
+name: VWorld aerial 3.7 isolated release
+on:
+  push:
+    branches: [vworld-aerial-3-7]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: oldtown-static-release
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.repository == 'kokoom94-ai/jeju-oldtown-3d' && github.ref_name == 'vworld-aerial-3-7'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply hash-guarded integration on this work branch only
+        run: python scripts/upgrade-vworld-3-7.py
+      - name: Run all unit tests and build before publication
+        run: |
+          set -o pipefail
+          mkdir -p precision-qa
+          rm -f precision/*browser-result.json precision/readiness.json precision/publication.json precision/release-result.json
+          npm test | tee precision-qa/unit-tests.txt
+          npm run build
+      - name: Record reviewed source on work branch only
+        run: |
+          git config user.name 'JEJU Oldtown release'
+          git config user.email 'oldtown-release@users.noreply.github.com'
+          git add package.json precision scripts
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integrate tested VWorld aerial source 3.7 [skip ci]'
+            git push origin HEAD:refs/heads/vworld-aerial-3-7
+          fi
+          echo "SOURCE_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Publish only isolated static branch
+        id: publish
+        run: node precision/publish.mjs
+      - name: Refresh Pages only when user has already enabled correct branch
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'JS'
+          import {execFileSync} from 'node:child_process';
+          const repo='kokoom94-ai/jeju-oldtown-3d';
+          if(process.env.GITHUB_REPOSITORY!==repo)throw Error('Wrong repository');
+          try {
+            const p=JSON.parse(execFileSync('gh',['api','repos/'+repo+'/pages'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}));
+            if(p.build_type==='legacy'&&p.source?.branch==='jeju-precision-site'){
+              execFileSync('gh',['api','--method','POST','repos/'+repo+'/pages/builds'],{stdio:'ignore'});
+              console.log('Requested rebuild of existing isolated branch Pages; HTTP verification still required.');
+            }else console.log('Pages source differs; no settings changed.');
+          }catch{console.log('Pages unavailable or permissions insufficient. No account settings changed.');}
+          JS
+      - name: Probe dedicated site separately from browser tests
+        if: always()
+        continue-on-error: true
+        run: node precision/readiness.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Install browser test dependencies
+        id: browser
+        if: ${{ !cancelled() && steps.publish.outcome == 'success' }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y fonts-noto-cjk
+          npm install --prefix "$RUNNER_TEMP/browser" --no-audit --no-fund playwright@1.55.0
+      - name: Verify existing connection and failure gates
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: |
+          node precision/verify.cjs
+          node precision/proxy-verify.cjs
+        env:
+          PLAYWRIGHT_ROOT: ${{ runner.temp }}/browser
+      - name: Verify public static integrity and inspection UI
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: node precision/inspection-verify.cjs
+        env:
+          PLAYWRIGHT_ROOT: ${{ runner.temp }}/browser
+      - name: Verify existing public explorer desktop and mobile
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: node precision/explore-verify.cjs
+        env:
+          PLAYWRIGHT_ROOT: ${{ runner.temp }}/browser
+      - name: Verify aerial controls and inspect public references
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: node precision/aerial-verify.cjs
+        env:
+          PLAYWRIGHT_ROOT: ${{ runner.temp }}/browser
+      - name: Summarize this run without asserting live provider success
+        if: always()
+        run: node precision/release-summary.mjs
+      - name: Save fresh reports to this work branch only
+        if: always()
+        run: |
+          git add precision
+          if ! git diff --cached --quiet; then
+            git -c user.name='JEJU Oldtown release' -c user.email='oldtown-release@users.noreply.github.com' commit -m 'Record aerial 3.7 current-run results and remaining connection gates [skip ci]'
+            git push origin HEAD:refs/heads/vworld-aerial-3-7
+          fi
+      - name: Package reviewed source without credentials
+        if: always()
+        run: |
+          python - <<'PY'
+          import subprocess,zipfile
+          from pathlib import Path
+          Path('precision-qa').mkdir(exist_ok=True)
+          with zipfile.ZipFile('precision-qa/jeju-before-3.7-source.zip','w',zipfile.ZIP_DEFLATED) as z:
+            for name in subprocess.check_output(['git','ls-files','-z']).decode().split('\0'):
+              if not name or not Path(name).is_file(): continue
+              if Path(name).name.startswith('.env') and Path(name).name!='.env.example': continue
+              z.write(name)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jeju-before-3.7-current-run
+          path: |
+            precision-qa/
+            _precision_site/
+            precision/*result.json
+            precision/readiness.json
+            precision/publication.json
+          include-hidden-files: true
+          retention-days: 14

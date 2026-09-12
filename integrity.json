@@ -45,8 +45,8 @@
     },
     {
       "path": "integrity.mjs",
-      "bytes": 4431,
-      "sha256": "82a9b0fb883cf53d172a426556fb7ecd7facceb6687bad3ff4fe7dab6a3441b9"
+      "bytes": 5263,
+      "sha256": "f36ddabf8a40931b1757d865eea71715db8d8947d0920ef231cafbda91bb9cb6"
     },
     {
       "path": "legacy/index.html",

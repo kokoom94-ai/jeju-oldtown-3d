@@ -1,0 +1,16 @@
+{
+  "app": "JEJU:BEFORE precision",
+  "repository": "kokoom94-ai/jeju-oldtown-3d",
+  "version": "3.3.0-oldtown-isolated",
+  "sourceBranch": "jeju-before-web",
+  "siteBranch": "jeju-precision-site",
+  "places": 32,
+  "generatedBuildingFallback": false,
+  "providerConfigured": false,
+  "sdkLiveTested": false,
+  "productionReady": false,
+  "plannedDedicatedUrl": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
+  "legacyPath": "legacy/real.html",
+  "legacyGeometry": "OSM-derived and estimated; not provider precision",
+  "proxyDeploymentVerified": false
+}

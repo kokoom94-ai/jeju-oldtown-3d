@@ -11,6 +11,12 @@
 | 기본 서버·DB | 없음. Render 프록시는 선택 기능이며 생성·배포하지 않음 |
 | 기존 지도 | 소스의 `index.html`, `real.html`, `realism/` 보존. 게시본에서는 `legacy/` 아래 별도 추정형 베타 |
 
+## 다음 단계의 기준 문서
+
+[확정 인계·완료 판정 기준](HANDOFF.md)을 먼저 확인합니다. 새 저장소는 더 이상 빈 저장소가 아니며, 재이관·재초기화를 하지 않습니다.
+
+장소 32곳의 현행 원본은 `precision/places.json`입니다. 빌드와 화면은 이 파일을 읽으며 옛 `index.html`의 장소 추출에 의존하지 않습니다. 기존 루트 HTML은 `legacy/` 비교본 복사에만 사용합니다. 장소 이름·좌표·주소는 기존 초안 그대로이며 정확도 확인을 대신하지 않습니다.
+
 ## 지금 필요한 설정
 
 이 저장소의 Settings → Pages에서 **Deploy from a branch → jeju-precision-site → /(root)**를 선택합니다.
@@ -19,7 +25,7 @@
 
 전용 사이트에서 발급받은 **WebGL 3D JavaScript 공개 키**를 입력하고 등록 주소·권한 확인 후 연결합니다. 채팅, 저장소, 쿼리스트링에 키를 붙이지 마세요. 앱은 키를 저장·진단에 포함하지 않으나 브라우저 SDK 요청에서는 노출될 수 있습니다.
 
-[연결·검증 절차](precision/CONNECT.md) · [실제 게시 상태 점검](precision/readiness.json) · [게시 기록](precision/publication.json)
+[연결·검증 절차](CONNECT.md) · [실제 게시 상태 점검](https://github.com/kokoom94-ai/jeju-oldtown-3d/blob/jeju-before-web/precision/readiness.json) · [게시 기록](https://github.com/kokoom94-ai/jeju-oldtown-3d/blob/jeju-before-web/precision/publication.json)
 
 ## 개발 및 검증
 

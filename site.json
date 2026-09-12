@@ -5,6 +5,8 @@
   "sourceBranch": "jeju-before-web",
   "siteBranch": "jeju-precision-site",
   "places": 32,
+  "placeSeed": "precision/places.json",
+  "placeSeedRevision": "independent-v1",
   "generatedBuildingFallback": false,
   "providerConfigured": false,
   "sdkLiveTested": false,

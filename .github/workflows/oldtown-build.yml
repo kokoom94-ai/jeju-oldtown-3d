@@ -67,12 +67,16 @@ jobs:
         run: node precision/inspection-verify.cjs
         env:
           PLAYWRIGHT_ROOT: ${{ runner.temp }}/browser
+      - name: Verify immersive explorer against current public preview and local failure fixture
+        run: node precision/explore-verify.cjs
+        env:
+          PLAYWRIGHT_ROOT: ${{ runner.temp }}/browser
       - name: Record this run only
         if: always()
         run: |
           git config user.name 'JEJU Oldtown build'
           git config user.email 'oldtown-build@users.noreply.github.com'
-          for f in precision/publication.json precision/readiness.json precision/browser-result.json precision/proxy-browser-result.json precision/inspection-browser-result.json; do
+          for f in precision/publication.json precision/readiness.json precision/browser-result.json precision/proxy-browser-result.json precision/inspection-browser-result.json precision/explore-browser-result.json; do
             if test -f "$f"; then git add "$f"; fi
           done
           if ! git diff --cached --quiet; then
@@ -94,7 +98,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: jeju-oldtown-3d-3.4-qa
+          name: jeju-oldtown-3d-3.5-qa
           path: |
             precision-qa/
             _precision_site/

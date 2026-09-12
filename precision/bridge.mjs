@@ -1,3 +1,4 @@
+import {installFlight} from './flight.mjs';
 import {proxySDK} from './connection.mjs';
 // Official VWorld WebGL 3.0 adapter. No built-in key, invented heights or meshes.
 // Primary reference: https://github.com/V-world/V-world_API_sample
@@ -50,8 +51,8 @@ export function transition(state,event) {
   next.productionReady=false;return next;
 }
 function childRuntime(channel,origin,places) {
-  let viewer=null,started=false,ended=false,timer=null,input=null,removeRenderListener=null;
-  const cleanup=()=>{ended=true;clearInterval(timer);input?.destroy();removeRenderListener?.();};
+  let viewer=null,started=false,ended=false,timer=null,input=null,removeRenderListener=null,flight=null;
+  const cleanup=()=>{ended=true;clearInterval(timer);flight?.stop();input?.destroy();removeRenderListener?.();};
   addEventListener('pagehide',cleanup,{once:true});
   const send=(type,payload={})=>parent.postMessage({channel,type,...payload},origin);
   const fail=(code='SDK_INIT_FAILED')=>{if(ended)return;ended=true;clearInterval(timer);send('error',{code,message:'브이월드 초기화 실패. 인증키·등록 도메인·네트워크·WebGL 지원을 확인하세요.'});};
@@ -63,6 +64,8 @@ function childRuntime(channel,origin,places) {
     const C=window.Cesium;
     try {
       viewer.scene.globe.depthTestAgainstTerrain=true;
+      flight=installFlight(viewer,C,send);
+      viewer.scene.canvas.addEventListener?.('pointerdown',()=>{flight.stop();send('flight-interaction');});
       input=new C.ScreenSpaceEventHandler(viewer.scene.canvas);
       input.setInputAction(m=>{
         try {
@@ -98,10 +101,12 @@ function childRuntime(channel,origin,places) {
       addEventListener('message',e=>{
         if(e.source!==parent||e.origin!==origin||e.data?.channel!==channel)return;
         const d=e.data;
+        if(d.type==='orbit'&&typeof d.enabled==='boolean')flight.orbit(d.enabled);
+        if(d.type==='markers'&&typeof d.visible==='boolean')for(const p of places){const entity=viewer.entities.getById?.('poi:'+p.id);if(entity)entity.show=d.visible;}
         if(d.type==='fly') {
           const p=d.position;
           if(!p||![p.lon,p.lat,p.height].every(Number.isFinite)||p.lon<126.462||p.lon>126.575||p.lat<33.468||p.lat>33.536||p.height<100||p.height>10000)return;
-          viewer.camera.flyTo({destination:C.Cartesian3.fromDegrees(p.lon,p.lat,p.height),orientation:{heading:0,pitch:C.Math.toRadians([-90,-50].includes(p.pitch)?p.pitch:-50),roll:0},duration:1.4});
+          flight.fly(p);
         }
       });
     } catch {fail();}
@@ -126,5 +131,5 @@ export function frameHTML({key,sdkSource,channel,origin,places=[]}) {
   const js=JSON.stringify([channel,origin,clean]).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   if(key&&sdkSource)throw Error('Choose one SDK transport');
   const src=(sdkSource?proxySDK(sdkSource,origin+'/'):sdkURL(key)).replace(/&/g,'&amp;');
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><style>html,body,#vmap{margin:0;width:100%;height:100%;overflow:hidden;background:#172327}</style><script src="${src}" onload="window.__JEJU_SDK_LOADED__=true" onerror="window.__JEJU_SDK_FAILED__=true"></script></head><body><div id="vmap"></div><script>(${childRuntime.toString()})(...${js});</script></body></html>`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><style>html,body,#vmap{margin:0;width:100%;height:100%;overflow:hidden;background:#172327}</style><script src="${src}" onload="window.__JEJU_SDK_LOADED__=true" onerror="window.__JEJU_SDK_FAILED__=true"></script></head><body><div id="vmap"></div><script>const installFlight=${installFlight.toString()};(${childRuntime.toString()})(...${js});</script></body></html>`;
 }

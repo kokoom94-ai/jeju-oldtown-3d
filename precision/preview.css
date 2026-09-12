@@ -1,0 +1,5 @@
+/* Embedded comparison is aerial-only. Keep the unembedded legacy demo unchanged. */
+html,body{margin:0!important;overflow:hidden!important;width:100%!important;height:100%!important}
+.topbar,#sidebar,#intro,.real-controls,#districts,.viewtools,.minimap-card,.walk-hud,#joystick,#mobile-places,.map-disclaimer,#nearby-prompt,#detail,#toast,body>aside,.skip{display:none!important}
+#stage{position:fixed!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;border-radius:0!important}
+#world{width:100%!important;height:100%!important}#loading strong{font-size:16px}#loading p{font-size:12px}

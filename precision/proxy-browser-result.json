@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-09-12T14:13:24.509Z",
+  "runId": "34698594641",
+  "ok": false,
+  "passed": 2,
+  "checks": [
+    {
+      "name": "Local direct mode starts with no provider connection",
+      "passed": true
+    },
+    {
+      "name": "Proxy mode clears and disables browser key input",
+      "passed": true
+    },
+    {
+      "name": "Real unconfigured proxy reports missing environment key",
+      "passed": false
+    }
+  ],
+  "errors": [],
+  "failure": "Error: Real unconfigured proxy reports missing environment key",
+  "providerRequestsAllowed": 0,
+  "providerRequestsIntentionallyBlocked": 0,
+  "sdkLiveTested": false,
+  "jejuPrecisionModelsReceived": false,
+  "productionReady": false,
+  "scope": "Local HTTP proxy preflight and browser failure/cancellation checks. No successful SDK or model response is simulated.",
+  "sourceCommit": "909b0f465d7d28bd30838628448ef47596112a99",
+  "currentRunOnly": true
+}

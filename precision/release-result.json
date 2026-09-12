@@ -1,0 +1,48 @@
+{
+  "version": "3.6.0-aerial-release",
+  "checkedAt": "2026-09-12T14:16:45.634Z",
+  "runId": "34698594641",
+  "sourceBranch": "aerial-release-3-6",
+  "sourceCommit": "909b0f465d7d28bd30838628448ef47596112a99",
+  "unit": {
+    "passed": 117,
+    "failed": 0
+  },
+  "browsers": [
+    {
+      "file": "browser-result.json",
+      "passed": 28,
+      "total": 28,
+      "ok": true
+    },
+    {
+      "file": "proxy-browser-result.json",
+      "passed": 2,
+      "total": 3,
+      "ok": false
+    },
+    {
+      "file": "inspection-browser-result.json",
+      "passed": 12,
+      "total": 12,
+      "ok": true
+    },
+    {
+      "file": "explore-browser-result.json",
+      "passed": 49,
+      "total": 49,
+      "ok": true
+    }
+  ],
+  "publicHome": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/51ba043aa0e172d3ddddbe6da688e127fd917956/index.html",
+  "siteCommit": "51ba043aa0e172d3ddddbe6da688e127fd917956",
+  "pagesEnabled": false,
+  "dedicatedSiteMatchesStaged": false,
+  "oldRefsUnchanged": true,
+  "oldRepositoryWriteOperations": 0,
+  "actualKeyUsed": false,
+  "sdkLiveTested": false,
+  "jejuPrecisionModelsReceived": false,
+  "geometryVerified": false,
+  "productionReady": false
+}

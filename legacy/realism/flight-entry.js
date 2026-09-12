@@ -283,7 +283,7 @@ refreshPins();renderList();renderTours();updateSavedCount();serverStatus();setTi
 if(new URLSearchParams(location.search).get('embed')==='flight'&&parent!==window){
   const origin=location.origin;let orbit=false,orbitStarted=0,orbitYaw=0,announced=false,ended=false;
   const send=(type,extra={})=>parent.postMessage({channel:'jeju-osm-preview-v1',type,...extra},origin);
-  Object.defineProperty(window,'__JEJU_FLIGHT_PREVIEW__',{value:{get status(){const r=state.renderer;return {ready:!!r,mode:state.mode,distance:r?.distance,pitch:r?.pitch,yaw:r?.yaw,target:r?[...r.target]:null,avatarVisible:r?.avatar.visible,walkingEnabled:false};}}});
+  Object.defineProperty(window,'__JEJU_FLIGHT_PREVIEW__',{value:{get status(){const r=state.renderer;return {ready:!!r,mode:state.mode,distance:r?.distance,pitch:r?.pitch,yaw:r?.yaw,target:r?[...r.target]:null,avatarVisible:r?.avatar.visible,walkingEnabled:false,highQuality:r?.highQuality,markersVisible:!document.querySelector('#map-labels')?.hidden};}}});
   const stop=()=>{orbit=false;send('orbit',{enabled:false});};
   addEventListener('pagehide',()=>{ended=true;orbit=false;},{once:true});
   addEventListener('keydown',e=>{if(['KeyW','KeyA','KeyS','KeyD','KeyE','Slash','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ShiftLeft','ShiftRight','Space'].includes(e.code)){e.preventDefault();e.stopImmediatePropagation();}},true);
@@ -297,6 +297,7 @@ if(new URLSearchParams(location.search).get('embed')==='flight'&&parent!==window
       send('camera',{lon:p.lon,lat:p.lat,distance:p.height,pitch:p.pitch});
     }
     if(d.type==='orbit'&&typeof d.enabled==='boolean'){orbit=d.enabled;orbitStarted=performance.now();orbitYaw=r.yaw;send('orbit',{enabled:orbit});}
+    if(d.type==='quality'&&typeof d.light==='boolean'){r.highQuality=!d.light;r.renderer.shadowMap.enabled=!d.light;r.renderer.shadowMap.needsUpdate=true;r.resize();}
     if(d.type==='markers'&&typeof d.visible==='boolean')document.querySelector('#map-labels').hidden=!d.visible;
   });
   function tick(now){

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "version": "3.5.0-aerial-explorer",
+  "version": "3.6.0-aerial-release",
   "files": [
     {
       "path": ".nojekyll",
@@ -19,6 +19,11 @@
       "sha256": "e2e574d6643e5a92670b2377626bf5c7a1e731a0193b8735571d9774ec3c9e67"
     },
     {
+      "path": "connect.html",
+      "bytes": 11921,
+      "sha256": "8ac6bcdc4cdfc0947fc817cd2c072ed5faadd02d05bf14f17cdf99090901192f"
+    },
+    {
       "path": "CONNECT.md",
       "bytes": 3334,
       "sha256": "b89612d5770ab3a6d6b6ef4f4d29d5fae625c71fdbdd61e78bbee4138996e72a"
@@ -30,18 +35,18 @@
     },
     {
       "path": "explore.css",
-      "bytes": 8527,
-      "sha256": "a0ccd43b22193911aedb07c800b2201d50d418172594d1968805e42a5517517f"
+      "bytes": 9292,
+      "sha256": "a3fd28f615e30058fd068b3dcac75d07b8ef9e1269d7f23e8847ccb0ebd49541"
     },
     {
       "path": "explore.html",
-      "bytes": 6797,
-      "sha256": "de6dce7f354bb52239dacc3e79aa197854a9eb187f60787e6e5ad76fd0191888"
+      "bytes": 7635,
+      "sha256": "7eef837e4b4b0d98008fdac67e921fb7103fae7bda684111c30e6b7fc7a94c31"
     },
     {
       "path": "explore.mjs",
-      "bytes": 15566,
-      "sha256": "8aaf13f30a5756511f706429e2414290d7b24f0c653dc8f58ab0b1e3314533d9"
+      "bytes": 17517,
+      "sha256": "358125216fb68c800bff38212e57e9a385be6935b8abb6935b853314d525b4b3"
     },
     {
       "path": "flight.mjs",
@@ -55,8 +60,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 11921,
-      "sha256": "bd188abb14071bbe6dd0fbce2acaabf44d8faec62c0f9b335b467e649f813dbb"
+      "bytes": 7635,
+      "sha256": "7eef837e4b4b0d98008fdac67e921fb7103fae7bda684111c30e6b7fc7a94c31"
     },
     {
       "path": "inspection.mjs",
@@ -70,18 +75,18 @@
     },
     {
       "path": "legacy/index.html",
-      "bytes": 148383,
-      "sha256": "92ce0be6e22edc469981ed3362bd118b6642f43de86c038e5efb024231427120"
+      "bytes": 148385,
+      "sha256": "463a65009706e9ffcdea8929ea3e2f97ebfd2b9e0ad05ec457c6e9b7bd35de33"
     },
     {
       "path": "legacy/preview-flight.html",
-      "bytes": 51328,
-      "sha256": "7c4698af1a584578a5927d5da486c845275598d02933c063185f2388fffe5b6e"
+      "bytes": 51330,
+      "sha256": "350f8ed165432e4d6e188e081c76d663974278c78793e5439621cba4b3a44b1c"
     },
     {
       "path": "legacy/real.html",
-      "bytes": 51276,
-      "sha256": "c5678923d1b5ad532c07695be58b027403f04addaa395a4218429981628c4744"
+      "bytes": 51278,
+      "sha256": "bb43d190120847b2f8686d7a97c63e02611bb2566492fc7bf1095db94513b6b9"
     },
     {
       "path": "legacy/realism/acquisition.json",
@@ -125,8 +130,8 @@
     },
     {
       "path": "legacy/realism/flight-entry.js",
-      "bytes": 106756,
-      "sha256": "7c51824d0df598d9ad904723ff285e5ac9b2ac470b4e31b2512f7ed1f3287790"
+      "bytes": 107012,
+      "sha256": "b6d8f725a39a20f08083f4f2979df5c3cc1fd25b929e5ff1dfa3bfd8bbace5fe"
     },
     {
       "path": "legacy/realism/LICENSES.txt",
@@ -204,14 +209,24 @@
       "sha256": "6430ade287b13c54b623cba7e08160a2099c240c2a0d82e9e0383eedd438fc84"
     },
     {
+      "path": "RELEASE_3_6.md",
+      "bytes": 2694,
+      "sha256": "a3ef17f6a7091d095d63250b6afefdce39bbd577722bbcf94ab8772c934892d5"
+    },
+    {
       "path": "session.mjs",
-      "bytes": 4424,
-      "sha256": "52d0c0296a50d5110e831aa521834c68ec71b3eae423ce076ebc1818bac7d28d"
+      "bytes": 4471,
+      "sha256": "6d2a2226c9128f1a448a0c775cb9cd3d53db95a539b14c5815468c352941023e"
     },
     {
       "path": "site.json",
-      "bytes": 755,
-      "sha256": "0e7e09f375668627a46d8f38d610953e99a282804483233f3fff6d63bb3d3684"
+      "bytes": 821,
+      "sha256": "0a056cb030666ac52e4b7ba9005493d85cb22603279796be5ebab21e7872513d"
+    },
+    {
+      "path": "view.mjs",
+      "bytes": 1165,
+      "sha256": "e107513bb03189475b81139363e91b32b2a709bfa55a8caa325833af4be381ec"
     }
   ]
 }

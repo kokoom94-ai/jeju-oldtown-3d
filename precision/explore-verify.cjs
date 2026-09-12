@@ -9,7 +9,19 @@ const record=(name,ok)=>{checks.push({name,passed:!!ok});if(!ok)throw Error(name
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.mjs':'text/javascript','.js':'text/javascript','.json':'application/json','.png':'image/png','.jpg':'image/jpeg'};
 function serve(){return new Promise(resolve=>{const root=path.resolve('_precision_site');const s=http.createServer((req,res)=>{try{const pathname=new URL(req.url,'http://local').pathname;const file=path.resolve(root,'.'+decodeURIComponent(pathname.endsWith('/')?pathname+'index.html':pathname));if(!file.startsWith(root+path.sep))throw Error();const data=fs.readFileSync(file);res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end();}});s.listen(0,'127.0.0.1',()=>resolve(s));});}
 function watch(page){page.on('pageerror',e=>errors.push(String(e)));page.on('request',r=>{const h=new URL(r.url()).hostname;if(h==='vworld.kr'||h.endsWith('.vworld.kr'))providerRequests.push(h);});}
-async function ready(page,url){const r=await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});record('Explorer HTTP 200: '+new URL(url).hostname,r.status()===200);await page.waitForFunction('window.__JEJU_EXPLORER__?.status.previewReady',null,{timeout:60000});await page.waitForTimeout(1200);}
+async function ready(page,url){
+ const r=await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});record('Explorer HTTP 200: '+new URL(url).hostname,r.status()===200);
+ try{await page.waitForFunction('Boolean(window.__JEJU_EXPLORER__)',null,{timeout:6000});}catch(error){
+  if(new URL(url).hostname!=='rawcdn.githack.com')throw error;
+  // The shared host presents its ordinary first-visit warning. Acknowledge the
+  // explicit open-page link, as a visitor would; never enter any credential.
+  const button=page.getByRole('button',{name:'Open the page',exact:true}),link=page.getByRole('link',{name:'Open the page',exact:true});
+  if(await button.count())await button.click();else if(await link.count())await link.click();else throw error;
+  record('Shared-host first-visit warning acknowledged without credentials',true);
+  await page.waitForFunction('Boolean(window.__JEJU_EXPLORER__)',null,{timeout:30000});
+ }
+ await page.waitForFunction('window.__JEJU_EXPLORER__?.status.previewReady',null,{timeout:60000});await page.waitForTimeout(1200);
+}
 const status=page=>page.evaluate('window.__JEJU_EXPLORER__.status');
 function previewFrame(page){return page.frames().find(f=>f.url().includes('preview-flight.html'));}
 (async()=>{let browser,server,lastPage,failed=null;try{

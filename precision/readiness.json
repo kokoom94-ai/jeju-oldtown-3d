@@ -1,13 +1,13 @@
 {
-  "version": "3.4.0-connection-inspection",
-  "checkedAt": "2026-09-12T10:40:17.106Z",
-  "runId": "34689051821",
+  "version": "3.5.0-aerial-explorer",
+  "checkedAt": "2026-09-12T13:31:37.348Z",
+  "runId": "34696664773",
   "repository": "kokoom94-ai/jeju-oldtown-3d",
   "dedicatedUrl": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
   "pagesEnabled": false,
   "pagesSettingChanged": false,
   "dedicatedSiteMatchesStaged": false,
-  "staticBundleTotal": 34,
+  "staticBundleTotal": 42,
   "staticBundlePassed": 0,
   "httpChecks": [
     {
@@ -41,6 +41,30 @@
       "mimeOK": false
     },
     {
+      "file": "explore.css",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "explore.html",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": true
+    },
+    {
+      "file": "explore.mjs",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "flight.mjs",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
       "file": "HANDOFF.md",
       "status": 404,
       "matchesStaged": false,
@@ -66,6 +90,12 @@
     },
     {
       "file": "legacy/index.html",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": true
+    },
+    {
+      "file": "legacy/preview-flight.html",
       "status": 404,
       "matchesStaged": false,
       "mimeOK": true
@@ -120,6 +150,12 @@
     },
     {
       "file": "legacy/realism/entry.js",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
+      "file": "legacy/realism/flight-entry.js",
       "status": 404,
       "matchesStaged": false,
       "mimeOK": false
@@ -191,6 +227,12 @@
       "mimeOK": false
     },
     {
+      "file": "preview.css",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": false
+    },
+    {
       "file": "README.md",
       "status": 404,
       "matchesStaged": false,
@@ -198,6 +240,12 @@
     },
     {
       "file": "RELEASE_3_4.md",
+      "status": 404,
+      "matchesStaged": false,
+      "mimeOK": true
+    },
+    {
+      "file": "RELEASE_3_5.md",
       "status": 404,
       "matchesStaged": false,
       "mimeOK": true

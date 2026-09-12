@@ -1,0 +1,20 @@
+{
+  "version": "3.5.0-aerial-explorer",
+  "checkedAt": "2026-09-12T13:33:53.816Z",
+  "publicURL": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/0ec7f21e8ca4bf3fe1a268818d6ef02d8eae7594/explore.html",
+  "checks": [
+    {
+      "name": "Explorer HTTP 200: rawcdn.githack.com",
+      "passed": true
+    }
+  ],
+  "passed": 1,
+  "total": 1,
+  "errors": [],
+  "failure": "TimeoutError: page.waitForFunction: Timeout 60000ms exceeded.",
+  "realKeyUsed": false,
+  "sdkLiveTested": false,
+  "jejuPrecisionModelsReceived": false,
+  "productionReady": false,
+  "scope": "Current static app in Chromium desktop/mobile emulation. OSM estimated comparison; not real phone performance or building accuracy. Fake SDK request aborted before network."
+}

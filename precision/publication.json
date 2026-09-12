@@ -1,13 +1,13 @@
 {
   "version": "3.5.0-aerial-explorer",
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/60ca1b32292760890abe9ef7b20e8a0a267b3725/index.html",
+  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/55d761a1230250b49796828dd22b8bde1bc7dbf9/index.html",
   "siteBranch": "jeju-precision-site",
-  "commit": "60ca1b32292760890abe9ef7b20e8a0a267b3725",
+  "commit": "55d761a1230250b49796828dd22b8bde1bc7dbf9",
   "sourceBranch": "jeju-before-web",
-  "sourceCommit": "897c9050baf4bbe5c751263087645ffd18ca139b",
-  "runId": "34696935453",
-  "publishedAt": "2026-09-12T13:37:32.707Z",
+  "sourceCommit": "645e1631c4869886417c225b995482c529c96f5e",
+  "runId": "34697254600",
+  "publishedAt": "2026-09-12T13:44:37.724Z",
   "publicPreviewVerified": true,
   "publicPreviewKeyEntryEnabled": false,
   "htmlCheck": {

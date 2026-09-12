@@ -1,7 +1,7 @@
 {
   "app": "JEJU:BEFORE precision",
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "version": "3.3.0-oldtown-isolated",
+  "version": "3.4.0-connection-inspection",
   "sourceBranch": "jeju-before-web",
   "siteBranch": "jeju-precision-site",
   "places": 32,

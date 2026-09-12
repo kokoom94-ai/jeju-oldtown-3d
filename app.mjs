@@ -1,3 +1,4 @@
+import {mountInspection} from './inspection.mjs';
 import {parsePlaceSeed} from './places.mjs';
 import {resolveProxy,PROXY_ORIGIN} from './connection.mjs';
 import {validateKey,initialState,transition,frameHTML} from './bridge.mjs';
@@ -6,8 +7,11 @@ const $=s=>document.querySelector(s),frame=$('#frame'),policy=hostPolicy(locatio
 let pending=null;
 let state=initialState(),channel=null,timeout=null,places=[],observations=createObservations(),target=TARGETS[0].id,picked=null;
 const labels={'not-configured':'원본 지도 미연결',loading:'공식 SDK 요청 중 · 모델 확인 전','viewer-ready-unverified':'뷰어 초기화됨 · 원본 객체 확인 필요',error:'연결 오류 · 원본 미검증'};
+const inspection=mountInspection({getState:()=>state,fly:position=>emit('fly',{position}),notice:t=>notice(t)});
+function diagnosticReport(){return {...diagnostics(state,observations,location.href,places.length),inspection:inspection.report()};}
 function notice(t){$('#notice').textContent=t;}
 function refresh(){
+ inspection.update();
  $('#connection-state').textContent=labels[state.state];$('#model-state').textContent='원본 객체 선택 '+state.modelSelections+'회 · 정확도 미검증';
  $('#connect').disabled=!policy.canConnect||state.state==='loading'||state.sdkReady;
  $('#api-key').disabled=!policy.canConnect||state.state==='loading'||state.sdkReady||$('#connection-mode').value==='proxy';
@@ -25,7 +29,7 @@ function emit(type,extra={}){if(channel&&state.sdkReady)frame.contentWindow.post
 function hideFeature(){$('#feature').hidden=true;$('#properties').replaceChildren();$('#naver-link').hidden=true;$('#save-observation').hidden=true;}
 function terminate(event='disconnect'){
  clearTimeout(timeout);pending?.abort();pending=null;channel=null;picked=null;frame.removeAttribute('srcdoc');frame.src='about:blank';frame.hidden=true;$('#empty').hidden=false;
- $('#api-key').value='';state=transition(state,event);hideFeature();refresh();
+ $('#api-key').value='';state=transition(state,event);inspection.phase(event==='error'?'error':'disconnect');hideFeature();refresh();
 }
 function showPlace(p){
  hideFeature();$('#feature').hidden=false;$('#feature-title').textContent=p.name;
@@ -55,7 +59,7 @@ $('#connect-form').addEventListener('submit',async e=>{
   if(!$('#confirmed').checked)throw Error('본인 서비스용 키와 등록 도메인을 먼저 확인하세요.');
   clearTimeout(timeout);channel=crypto.randomUUID();const attempt=channel;
   pending=new AbortController();const controller=pending;
-  observations=createObservations();picked=null;state=transition(state,'loading');state.transport=useProxy?'sdk-bootstrap-proxy':'direct-sdk';refresh();
+  observations=createObservations();picked=null;state=transition(state,'loading');state.transport=useProxy?'sdk-bootstrap-proxy':'direct-sdk';inspection.phase('sdk-requested');refresh();
   let sdkSource;
   if(useProxy){
     $('#api-key').value='';notice('프록시 설정 확인 중입니다. 서버 기동·키 설정·등록 주소를 검사합니다.');
@@ -75,7 +79,8 @@ $('#disconnect').addEventListener('click',()=>{terminate();notice('연결을 종
 addEventListener('message',e=>{
  if(!channel||e.source!==frame.contentWindow||e.origin!==location.origin||e.data?.channel!==channel)return;
  const d=e.data;
- if(d.type==='sdk-ready'&&state.state==='loading'){clearTimeout(timeout);state=transition(state,'sdk-ready');emit('fly',{position:TARGETS.find(t=>t.id===target)});notice('뷰어 초기화 확인. 각 확인 지점에서 3D 객체를 선택하고 표본 기록을 남기세요. 전체 범위·높이·지붕은 아직 미검증입니다.');}
+ if(d.type==='sdk-phase'&&state.state==='loading'&&['script-loaded','map-start-requested'].includes(d.phase))inspection.phase(d.phase);
+ if(d.type==='sdk-ready'&&state.state==='loading'){clearTimeout(timeout);state=transition(state,'sdk-ready');inspection.phase('viewer-ready');emit('fly',{position:TARGETS.find(t=>t.id===target)});notice('뷰어 초기화 확인. 각 확인 지점에서 3D 객체를 선택하고 표본 기록을 남기세요. 전체 범위·높이·지붕은 아직 미검증입니다.');}
  if(d.type==='error'){
   const messages={SDK_NETWORK_FAILED:'공식 SDK 요청 실패. 네트워크·프록시 응답을 확인하세요.',SDK_UNAVAILABLE:'SDK에서 지도 객체를 받지 못했습니다. 키·등록 도메인·WebGL 3D 권한을 확인하세요.',SDK_INIT_TIMEOUT:'SDK 초기화 시간 초과. 제공기관 응답·기기 지원을 확인하세요.',SDK_INIT_FAILED:'공식 지도 초기화 실패. 키·도메인·브라우저 지원을 확인하세요.',RENDER_FAILED:'3D 렌더링 오류. 브라우저·기기 지원을 확인하세요.'};
   const code=Object.hasOwn(messages,d.code)?d.code:'SDK_INIT_FAILED';const transport=state.transport;
@@ -83,21 +88,21 @@ addEventListener('message',e=>{
  }
  if(d.type==='model-picked'&&state.sdkReady){
   const object=cleanObject(d);if(!object)return;
-  state=transition(state,'model-picked');picked=object;hideFeature();$('#feature').hidden=false;$('#save-observation').hidden=false;
+  state=transition(state,'model-picked');inspection.phase('model-picked');picked=object;hideFeature();$('#feature').hidden=false;$('#save-observation').hidden=false;
   $('#feature-title').textContent='선택한 제공기관 3D 객체';$('#feature-note').textContent='원본 객체 선택 결과입니다. 건물 분류·높이 단위·지붕 일치·갱신일은 별도 대조가 필요합니다.';
   const props=cleanProperties(object.properties);
   if(object.lon!==null&&object.lat!==null)props.unshift(['선택 경도',object.lon.toFixed(7)],['선택 위도',object.lat.toFixed(7)]);
   for(const pair of props){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=pair[0];dd.textContent=pair[1];$('#properties').append(dt,dd);}
   if(!props.length)$('#feature-note').textContent+=' 공개 속성·선택 좌표가 없어 표본 기록을 완료할 수 없습니다.';
  }
- if(d.type==='selection-empty'){picked=null;notice('이 위치에서 지원되는 3D 원본 객체를 확인하지 못했습니다. 미로딩·미지원·다른 객체 선택 여부를 확인하세요.');}
+ if(d.type==='selection-empty'){picked=null;hideFeature();notice('이 위치에서 지원되는 3D 원본 객체를 확인하지 못했습니다. 미로딩·미지원·다른 객체 선택 여부를 확인하세요.');}
  if(d.type==='place'){const p=places.find(p=>p.id===d.id);if(p)showPlace(p);}
  refresh();
 });
 $('#save-observation').addEventListener('click',()=>{try{observations=addObservation(observations,target,picked);notice('표본 객체를 기록했습니다. 행정구역 전체 포함이나 실제 높이·지붕의 정확도 검증은 아닙니다.');refresh();}catch(e){notice(e.message);}});
 $('#search').addEventListener('input',renderPlaces);$('#close-feature').addEventListener('click',hideFeature);
 $('#report').addEventListener('click',()=>{
- const result=diagnostics(state,observations,location.href,places.length),blob=new Blob([JSON.stringify(result,null,2)],{type:'application/json'});
+ const result=diagnosticReport(),blob=new Blob([JSON.stringify(result,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='jeju-precision-diagnostic.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
 });
 $('#copy-registration').addEventListener('click',async()=>{
@@ -106,6 +111,6 @@ $('#copy-registration').addEventListener('click',async()=>{
  try{await navigator.clipboard.writeText(value);notice('신청용 문구를 복사했습니다. 브이월드 계정 로그인과 인증키 발급은 본인 명의로 진행하세요.');}catch{notice('아래 신청 문구를 선택해 복사하세요.');}
 });
 (async()=>{try{const r=await fetch('places.json',{cache:'no-cache'});if(!r.ok)throw Error('Place seed unavailable');places=parsePlaceSeed(await r.text());renderPlaces();}catch{places=[];$('#place-count').textContent='0';$('#places').textContent='장소 목록 수신 실패. 원본 지도 연결과 별개입니다.';}})();
-window.__JEJU_PRECISION__={get version(){return VERSION;},get status(){return {...state};},get placeCount(){return places.length;},get hostMode(){return policy.mode;},get report(){return diagnostics(state,observations,location.href,places.length);}};
+window.__JEJU_PRECISION__={get version(){return VERSION;},get status(){return {...state};},get placeCount(){return places.length;},get hostMode(){return policy.mode;},get report(){return diagnosticReport();}};
 addEventListener('pagehide',()=>{clearTimeout(timeout);pending?.abort();pending=null;channel=null;$('#api-key').value='';});
 refresh();

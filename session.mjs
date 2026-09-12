@@ -1,5 +1,5 @@
 // Local diagnostics only. No credentials, generated buildings or accuracy shortcuts.
-export const VERSION='3.3.0-oldtown-isolated';
+export const VERSION='3.4.0-connection-inspection';
 export const PLANNED_URL='https://kokoom94-ai.github.io/jeju-oldtown-3d/';
 export const SETTINGS_URL='https://github.com/kokoom94-ai/jeju-oldtown-3d/settings/pages';
 export const SITE_BRANCH='jeju-precision-site';

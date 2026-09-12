@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "repository": "kokoom94-ai/jeju-oldtown-3d",
+  "version": "3.4.0-connection-inspection",
+  "files": [
+    {
+      "path": ".nojekyll",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "app.mjs",
+      "bytes": 12378,
+      "sha256": "cc9d43038e3ad349e3cbd538d6039502f4a77d13cf55baaca9e9ae3351058db6"
+    },
+    {
+      "path": "bridge.mjs",
+      "bytes": 8828,
+      "sha256": "486bea0c27d7eb1cd01a29fee7d3ee30beb50b1ee4df8a8abff02abc62f96765"
+    },
+    {
+      "path": "CONNECT.md",
+      "bytes": 3334,
+      "sha256": "b89612d5770ab3a6d6b6ef4f4d29d5fae625c71fdbdd61e78bbee4138996e72a"
+    },
+    {
+      "path": "connection.mjs",
+      "bytes": 2804,
+      "sha256": "fee1539616cc265abcadcafaadcfcce184b97430cd58b3d1e360a098c658bb3b"
+    },
+    {
+      "path": "HANDOFF.md",
+      "bytes": 11532,
+      "sha256": "13889c7e8c652ca1ed08e43ef63fe8987349ff19ef3d2254ceea493da5446dce"
+    },
+    {
+      "path": "index.html",
+      "bytes": 11847,
+      "sha256": "ef80fbc34db9d20c3a8ef3d3371df838d5425615c78fb9a0932d1230409f9ea3"
+    },
+    {
+      "path": "inspection.mjs",
+      "bytes": 5683,
+      "sha256": "38b18e132bfc98b52b1fb29f8d2f87e7d9ce1e3f3efa0c0d214d122a845e3f9b"
+    },
+    {
+      "path": "integrity.mjs",
+      "bytes": 4431,
+      "sha256": "82a9b0fb883cf53d172a426556fb7ecd7facceb6687bad3ff4fe7dab6a3441b9"
+    },
+    {
+      "path": "legacy/index.html",
+      "bytes": 148383,
+      "sha256": "92ce0be6e22edc469981ed3362bd118b6642f43de86c038e5efb024231427120"
+    },
+    {
+      "path": "legacy/real.html",
+      "bytes": 51276,
+      "sha256": "c5678923d1b5ad532c07695be58b027403f04addaa395a4218429981628c4744"
+    },
+    {
+      "path": "legacy/realism/acquisition.json",
+      "bytes": 2575,
+      "sha256": "a93c60e5cb454effbbfde2a4521816995be796e3ebeb5fb5b80b1ac8a19bc6f6"
+    },
+    {
+      "path": "legacy/realism/assets/paving-color.jpg",
+      "bytes": 1178347,
+      "sha256": "791d39aadbd48b483468d2ed68d21efce5be197c1d91cf7f3fad7e561c8e7675"
+    },
+    {
+      "path": "legacy/realism/assets/paving-normal.jpg",
+      "bytes": 738746,
+      "sha256": "a7c962384c155498d1878cda1dca7a4ad738cb15fdb06e3c3ec11238be355b37"
+    },
+    {
+      "path": "legacy/realism/assets/road-color.jpg",
+      "bytes": 739513,
+      "sha256": "99b6f6bdfbd09279f3f550ac9593336df541aa2319537566eeb3e737d8512010"
+    },
+    {
+      "path": "legacy/realism/assets/road-normal.jpg",
+      "bytes": 1237059,
+      "sha256": "b745fd20cfb775ae907786ff0ffe200cedf73f3a6ef4e60c637b85b08e0a4f9a"
+    },
+    {
+      "path": "legacy/realism/assets/wall-color.jpg",
+      "bytes": 769415,
+      "sha256": "fea247dd085cd05d8deb335234c834764d622029da351f8bcc8913935316bacd"
+    },
+    {
+      "path": "legacy/realism/assets/wall-normal.jpg",
+      "bytes": 1195078,
+      "sha256": "4ff16bb96fc2df3ef71d22007151aff1d8bf7cb10a493d3f8e973213a99dd428"
+    },
+    {
+      "path": "legacy/realism/entry.js",
+      "bytes": 104157,
+      "sha256": "5d976f2533f85be0aac6a02794970c7d345d9b55ec38fec0be4415cb9e471b5a"
+    },
+    {
+      "path": "legacy/realism/LICENSES.txt",
+      "bytes": 443,
+      "sha256": "085834c515ef4e035fca01f75cdef05cc994d36f3b66f041fc53804093f7370c"
+    },
+    {
+      "path": "legacy/realism/presentation.js",
+      "bytes": 1161,
+      "sha256": "00a422d73e8ef8fe2c5cca23eaae344ee78f0b4fab7a430e7361b50c950662c5"
+    },
+    {
+      "path": "legacy/realism/renderer.js",
+      "bytes": 24211,
+      "sha256": "002eeb1a9a262803905f664c2bb423e9ece2763cbe3a1abb0003b9da95d7264f"
+    },
+    {
+      "path": "legacy/realism/vendor/BufferGeometryUtils.js",
+      "bytes": 35539,
+      "sha256": "fda7e946b8e0b5ab39b779206589e7a1079a22eb24efb89d7223e03fdfb1f751"
+    },
+    {
+      "path": "legacy/realism/vendor/Sky.js",
+      "bytes": 7257,
+      "sha256": "a19982b69e496e52d4cd7072029f0a8e5277203cbebf2277a23267e90b705640"
+    },
+    {
+      "path": "legacy/realism/vendor/THREE-LICENSE.txt",
+      "bytes": 1081,
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+    },
+    {
+      "path": "legacy/realism/vendor/three.core.js",
+      "bytes": 1403455,
+      "sha256": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20"
+    },
+    {
+      "path": "legacy/realism/vendor/three.module.js",
+      "bytes": 603113,
+      "sha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a"
+    },
+    {
+      "path": "legacy/realism/world-v2.json",
+      "bytes": 7520485,
+      "sha256": "c5d4cc015d801b01e29ac5a2763a3122fe42164770244e5afbfb03ca12051eaa"
+    },
+    {
+      "path": "places.json",
+      "bytes": 7778,
+      "sha256": "1e1585d0116f8351d23aa5f39399c204eee029c3afd620bca38f7e008ecfb14d"
+    },
+    {
+      "path": "places.mjs",
+      "bytes": 926,
+      "sha256": "662d34cbb77a994cece2c29eecb0b5b32ae1de1e5d6fb83a98b430d5a58a44fd"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4867,
+      "sha256": "ae195b823534b5bee8f3efbcf166e29743daa7276d91fe077dff17a4f5807c59"
+    },
+    {
+      "path": "RELEASE_3_4.md",
+      "bytes": 4298,
+      "sha256": "93c1040a442e3cd9c3789cf06d57d5dfd9fe1a7bb71caf6d702c8314de2cdd9b"
+    },
+    {
+      "path": "session.mjs",
+      "bytes": 4382,
+      "sha256": "e6f99e209ecf25630cd7fbb98042d90af356563b402f880cf1a065097247e86e"
+    },
+    {
+      "path": "site.json",
+      "bytes": 643,
+      "sha256": "3f68bb3fde8c72bb37fd18e37907f92ad59cebd046634e11b77b7f385024430b"
+    }
+  ]
+}

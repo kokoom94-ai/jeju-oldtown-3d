@@ -1,0 +1,70 @@
+{
+  "version": "3.3.0-oldtown-isolated",
+  "checkedAt": "2026-09-12T01:40:20.870Z",
+  "runId": "34665491548",
+  "repository": "kokoom94-ai/jeju-oldtown-3d",
+  "dedicatedUrl": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
+  "pagesEnabled": false,
+  "pagesSettingChanged": false,
+  "dedicatedSiteMatchesStaged": false,
+  "httpChecks": [
+    {
+      "file": "index.html",
+      "status": 404,
+      "matchesStaged": false
+    },
+    {
+      "file": "app.mjs",
+      "status": 404,
+      "matchesStaged": false
+    },
+    {
+      "file": "bridge.mjs",
+      "status": 404,
+      "matchesStaged": false
+    },
+    {
+      "file": "session.mjs",
+      "status": 404,
+      "matchesStaged": false
+    },
+    {
+      "file": "connection.mjs",
+      "status": 404,
+      "matchesStaged": false
+    },
+    {
+      "file": "places.json",
+      "status": 404,
+      "matchesStaged": false
+    },
+    {
+      "file": "site.json",
+      "status": 404,
+      "matchesStaged": false
+    },
+    {
+      "file": "legacy/real.html",
+      "status": 404,
+      "matchesStaged": false
+    }
+  ],
+  "oldMainSha": "c5578da4d1ba24a8341de512552db69d56c14aba",
+  "oldMainUnchanged": true,
+  "newMainSha": "3589d2b2ef64987b9d6be8fcd006305e8d3620a9",
+  "newMainUnchanged": true,
+  "oldRepositoryWriteOperations": 0,
+  "keyUsedByAudit": false,
+  "providerConfigured": false,
+  "sdkLiveTested": false,
+  "jejuPrecisionModelsReceived": false,
+  "productionReady": false,
+  "proxyDeploymentVerified": false,
+  "blockers": [
+    "ENABLE_NEW_REPOSITORY_PAGES",
+    "VERIFY_PUBLIC_SITE_BYTES",
+    "ALIGN_VWORLD_REGISTERED_SERVICE_URL",
+    "ENTER_USER_KEY_ON_DEDICATED_SITE",
+    "VERIFY_REAL_JEJU_MODELS_AND_GEOMETRY"
+  ]
+}

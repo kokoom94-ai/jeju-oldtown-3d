@@ -1,0 +1,28 @@
+{
+  "version": "3.3.0-oldtown-isolated",
+  "repository": "kokoom94-ai/jeju-oldtown-3d",
+  "url": "https://rawcdn.githack.com/kokoom94-ai/jeju-oldtown-3d/f24294d47df858542d61fc5ad092be07605d9539/index.html",
+  "siteBranch": "jeju-precision-site",
+  "commit": "f24294d47df858542d61fc5ad092be07605d9539",
+  "sourceBranch": "jeju-before-web",
+  "sourceCommit": "d464747b38a65d8b1abcd85067128ebbe6c92df2",
+  "runId": "34665491548",
+  "publishedAt": "2026-09-12T01:40:20.215Z",
+  "publicPreviewVerified": true,
+  "publicPreviewKeyEntryEnabled": false,
+  "htmlCheck": {
+    "ok": true,
+    "status": 200,
+    "htmlSha256": "6298fc5cbb518cd2b3f64e67e10a153cbebb47c9d2b0dc2b248a1bde6849adb7"
+  },
+  "plannedDedicatedUrl": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
+  "pagesSettingChanged": false,
+  "providerConfigured": false,
+  "sdkLiveTested": false,
+  "jejuPrecisionModelsReceived": false,
+  "productionReady": false,
+  "proxyDeploymentVerified": false,
+  "newMainUnchanged": true,
+  "newMainSha": "3589d2b2ef64987b9d6be8fcd006305e8d3620a9",
+  "oldRepositoryWriteOperations": 0
+}

@@ -34,12 +34,19 @@ export async function verifyBundle(base,manifest,{fetchImpl=globalThis.fetch,sig
   const abort=()=>controller.abort();if(signal?.aborted)abort();signal?.addEventListener('abort',abort,{once:true});
   const timer=setTimeout(abort,timeoutMs);
   try{
-   const r=await fetchImpl(new URL(f.path,u).href,{cache:'no-store',credentials:'omit',redirect:'error',signal:controller.signal});
+   const requested=new URL(f.path,u).href;
+   // Official mapping: github.com/neoascetic/rawgithack/blob/master/rawgithack.conf
+   // Preview binary redirects may resolve only to the identical immutable object.
+   // Pages and executable files remain redirect-strict. No credentials are sent.
+   const cdnAsset=u.origin==='https://rawcdn.githack.com'&&/^\/kokoom94-ai\/jeju-oldtown-3d\/[a-f0-9]{40}\/$/.test(u.pathname)&&(f.path==='.nojekyll'||f.path.endsWith('.jpg'));
+   const expectedOriginal=cdnAsset?'https://raw.githubusercontent.com'+u.pathname+f.path:null;
+   const r=await fetchImpl(requested,{cache:'no-store',credentials:'omit',redirect:cdnAsset?'follow':'error',signal:controller.signal});
+   if(cdnAsset&&r.url!==requested&&r.url!==expectedOriginal){await r.body?.cancel();throw Error('UNEXPECTED_REDIRECT');}
    const validMime=mimeOK(f.path,r.headers.get('content-type')||'');
-   if(!r.ok){checks[index]={file:f.path,status:r.status,matchesStaged:false,mimeOK:validMime};continue;}
+   if(!r.ok){await r.body?.cancel();checks[index]={file:f.path,status:r.status,matchesStaged:false,mimeOK:validMime};continue;}
    const bytes=await readLimited(r,Math.max(f.bytes,1024));
-   checks[index]={file:f.path,status:r.status,mimeOK:validMime,matchesStaged:validMime&&bytes.byteLength===f.bytes&&await sha256(bytes)===f.sha256};
-  }catch(e){checks[index]={file:f.path,status:null,matchesStaged:false,error:e.message==='BODY_LIMIT'?'BODY_LIMIT':'NETWORK_OR_TIMEOUT'};}
+   checks[index]={file:f.path,status:r.status,mimeOK:validMime,delivery:cdnAsset&&r.url===expectedOriginal?'cdn-to-identical-github-object':'same-site',matchesStaged:validMime&&bytes.byteLength===f.bytes&&await sha256(bytes)===f.sha256};
+  }catch(e){checks[index]={file:f.path,status:null,matchesStaged:false,error:['BODY_LIMIT','UNEXPECTED_REDIRECT'].includes(e.message)?e.message:'NETWORK_OR_TIMEOUT'};}
   finally{clearTimeout(timer);signal?.removeEventListener('abort',abort);}
  }}
  await Promise.all([worker(),worker(),worker()]);

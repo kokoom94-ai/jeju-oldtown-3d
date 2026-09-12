@@ -51,7 +51,7 @@ function watch(page){page.on('pageerror',e=>errors.push(String(e)));page.on('req
   record('Mobile place popup accessible',await p.locator('#feature').isVisible());await p.screenshot({path:dir+'/mobile-preview.png',fullPage:true});await ctx.close();
   const root=path.resolve('_precision_site');
   server=http.createServer((req,res)=>{try{const name=decodeURIComponent(new URL(req.url,'http://localhost').pathname),full=path.resolve(root,'.'+(name==='/'?'/index.html':name));if(!full.startsWith(root+path.sep)){res.writeHead(403);return res.end();}const body=fs.readFileSync(full);res.writeHead(200,{'Content-Type':{'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.md':'text/plain; charset=utf-8'}[path.extname(full)]||'text/plain'});res.end(body);}catch{res.writeHead(404);res.end('not found');}});
-  await new Promise(r=>server.listen(0,'127.0.0.1',r));const local='http://127.0.0.1:'+server.address().port+'/';
+  await new Promise(r=>server.listen(0,'127.0.0.1',r));const local='http://127.0.0.1:'+server.address().port+'/connect.html';
   ctx=await browser.newContext({viewport:{width:1440,height:1000}});p=await ctx.newPage();watch(p);await ready(p,local);
   record('Local dedicated-host form enabled',await p.locator('#api-key').isEnabled()&&await p.locator('#connect').isEnabled());
   await p.locator('#connect').click();record('Blank key rejected without SDK',await p.evaluate("window.__JEJU_PRECISION__.status.state==='not-configured'"));

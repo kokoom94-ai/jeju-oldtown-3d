@@ -7,7 +7,7 @@ const listen=s=>new Promise(r=>s.listen(0,'127.0.0.1',r));
 (async()=>{try{
  const root=path.resolve('_precision_site');
  staticServer=http.createServer((req,res)=>{try{const u=new URL(req.url,'http://localhost');const f=path.resolve(root,'.'+(u.pathname==='/'?'/index.html':decodeURIComponent(u.pathname)));if(!f.startsWith(root+path.sep))throw Error();res.writeHead(200,{'Content-Type':{'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.json':'application/json'}[path.extname(f)]||'text/plain'});res.end(fs.readFileSync(f));}catch{res.writeHead(404);res.end();}});
- await listen(staticServer);const pageURL='http://127.0.0.1:'+staticServer.address().port+'/';
+ await listen(staticServer);const pageURL='http://127.0.0.1:'+staticServer.address().port+'/connect.html';
  const {createProxyServer}=await import(pathToFileURL(path.resolve('precision/proxy-server.mjs')));
  let upstreamCalls=0;proxy=createProxyServer({registeredUrl:pageURL,fetchImpl:async()=>{upstreamCalls++;throw Error('Unexpected upstream');}});await listen(proxy.server);
  const proxyURL='http://127.0.0.1:'+proxy.server.address().port;

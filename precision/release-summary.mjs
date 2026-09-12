@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';import {execFileSync} from 'node:child_process';import {VERSION} from './session.mjs';
+const names=['browser-result.json','proxy-browser-result.json','inspection-browser-result.json','explore-browser-result.json'];
+const browsers=[];
+for(const name of names){try{const r=JSON.parse(await fs.readFile('precision/'+name,'utf8'));const checks=r.checks||[];const ok=checks.length>0&&checks.every(c=>c.passed)&&!r.failure&&!(r.errors||[]).length;r.runId=process.env.GITHUB_RUN_ID;r.sourceCommit=process.env.SOURCE_COMMIT;r.currentRunOnly=true;await fs.writeFile('precision/'+name,JSON.stringify(r,null,2));browsers.push({file:name,passed:checks.filter(c=>c.passed).length,total:checks.length,ok});}catch{browsers.push({file:name,passed:0,total:0,ok:false});}}
+const read=async n=>{try{return JSON.parse(await fs.readFile('precision/'+n,'utf8'));}catch{return null;}};
+const pub=await read('publication.json'),readiness=await read('readiness.json');
+const unit=await fs.readFile('precision-qa/unit-tests.txt','utf8').catch(()=>'');
+const result={version:VERSION,checkedAt:new Date().toISOString(),runId:process.env.GITHUB_RUN_ID,sourceBranch:process.env.GITHUB_REF_NAME,sourceCommit:process.env.SOURCE_COMMIT||execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),unit:{passed:Number(unit.match(/# pass (\d+)/)?.[1]||0),failed:Number(unit.match(/# fail (\d+)/)?.[1]||0)},browsers,publicHome:pub?.homeUrl||null,siteCommit:pub?.commit||null,pagesEnabled:readiness?.pagesEnabled??null,dedicatedSiteMatchesStaged:readiness?.dedicatedSiteMatchesStaged??false,oldRefsUnchanged:readiness?.oldRefsUnchanged??null,oldRepositoryWriteOperations:0,actualKeyUsed:false,sdkLiveTested:false,jejuPrecisionModelsReceived:false,geometryVerified:false,productionReady:false};
+await fs.writeFile('precision/release-result.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
+if(!browsers.every(r=>r.ok)||!result.unit.passed||result.unit.failed)process.exitCode=1;

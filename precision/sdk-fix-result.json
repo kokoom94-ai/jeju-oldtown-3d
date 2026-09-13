@@ -1,8 +1,8 @@
 {
   "version": "3.7.1-sdk-diagnostics",
-  "checkedAt": "2026-09-13T00:55:58.670237+00:00",
-  "runId": "34729164381",
-  "sourceCommit": "fa4ac73b11850e9eda4f7054215ead912feb6f8f",
+  "checkedAt": "2026-09-13T01:00:31.890627+00:00",
+  "runId": "34729303042",
+  "sourceCommit": "f1543d3b071a47728d1e6099795099c1d9e1646d",
   "unit": {
     "passed": 149,
     "failed": 0
@@ -223,7 +223,7 @@
     "scope": "Local browser with explicit SDK and preview fixtures. Not actual provider/model reception."
   },
   "publicBrowser": {
-    "checkedAt": "2026-09-13T00:55:58.606722+00:00",
+    "checkedAt": "2026-09-13T01:00:31.828982+00:00",
     "url": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
     "checks": [
       {
@@ -251,18 +251,141 @@
         "passed": true
       },
       {
-        "name": "1280: place popup",
-        "passed": false
+        "name": "1280: search includes attraction and parking",
+        "passed": true
+      },
+      {
+        "name": "1280: attraction filter selects one result",
+        "passed": true
+      },
+      {
+        "name": "1280: place detail name",
+        "passed": true
+      },
+      {
+        "name": "1280: no user key or provider called",
+        "passed": true
+      },
+      {
+        "name": "390: public HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "390: updated JS module version",
+        "passed": true
+      },
+      {
+        "name": "390: dedicated key input enabled",
+        "passed": true
+      },
+      {
+        "name": "390: new diagnostic control visible",
+        "passed": true
+      },
+      {
+        "name": "390: current version visible in connection dialog",
+        "passed": true
+      },
+      {
+        "name": "390: no horizontal overflow",
+        "passed": true
+      },
+      {
+        "name": "390: search includes attraction and parking",
+        "passed": true
+      },
+      {
+        "name": "390: attraction filter selects one result",
+        "passed": true
+      },
+      {
+        "name": "390: place detail name",
+        "passed": true
+      },
+      {
+        "name": "390: no user key or provider called",
+        "passed": true
+      },
+      {
+        "name": "no public browser JavaScript errors",
+        "passed": true
       }
     ],
-    "passed": 6,
-    "total": 7,
-    "failure": "1280: place popup",
+    "passed": 21,
+    "total": 21,
+    "failure": null,
     "actualKeyUsed": false,
     "providerRequests": 0,
     "sdkLiveTested": false,
     "geometryVerified": false,
     "scope": "Actual dedicated HTTPS page, JS version, key form and place popup in desktop/mobile Chromium. No live provider connection."
+  },
+  "currentPublicBytes": {
+    "checkedAt": "2026-09-13T00:58:49.956915+00:00",
+    "checks": [
+      {
+        "path": "/",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "connect.html",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "explore.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "bridge.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-frame.html",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-frame.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-frame-host.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-guard.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-diagnostics.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "session.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "site.json",
+        "status": 200,
+        "matches": true
+      }
+    ],
+    "allMatched": true,
+    "actualKeyUsed": false
   },
   "deployment": {
     "checkedAt": "2026-09-13T00:55:13.575651+00:00",
@@ -344,10 +467,11 @@
     "oldRefsUnchanged": true,
     "mainUnchanged": true
   },
+  "previousPublicTestFailure": "The earlier test incorrectly expected one unfiltered search result; the unchanged seed contains the attraction and its parking lot. This run checks both before filtering.",
   "actualKeyUsed": false,
   "sdkLiveTested": false,
   "jejuPrecisionModelsReceived": false,
   "geometryVerified": false,
   "productionReady": false,
-  "scope": "Source fixes, explicit mocked bootstrap regression and dedicated public page. No user key or real provider geometry."
+  "oldRepositoryWriteOperations": 0
 }

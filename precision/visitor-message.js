@@ -1,0 +1,5 @@
+ if(d.type==='walk-state'&&d.walk&&typeof d.walk.active==='boolean'){
+  const w=d.walk,codes={IDLE:'대기',LOADING:'보행 데이터를 확인 중입니다.',READY:'WASD / 방향키 이동 · 드래그 시선 회전',WALKING:'이동 중 · 현장 길찾기 아님',STOPPED:'조감도로 돌아왔습니다.',OUTSIDE_EXPERIMENT_AREA:'이 지역은 보행 범위 밖입니다. 공항·용담은 조감만 제공합니다.',NO_PEDESTRIAN_CENTERLINE:'75m 안에 사용 가능한 보행 중심선이 없습니다.',GROUND_NOT_READY:'수신된 지형·표면 고도가 부족합니다. 가까이 확대한 뒤 다시 시도하세요.',SURFACE_BLOCKED:'표면과 충돌해 진입하지 않습니다.',OUTSIDE_CORRIDOR_OR_FOOTPRINT:'보행선 밖이거나 건물 윤곽에 닿아 멈췄습니다.',STEP_TOO_STEEP:'단차가 커 멈췄습니다.',WALK_UNAVAILABLE:'이 SDK 환경에서는 거리 시점을 시작하지 못했습니다.'};
+  if(!Object.hasOwn(codes,w.code))return;
+  walkStatus={active:w.active,code:w.code,cameraMode:w.cameraMode==='eye-level'?'eye-level':'third-person',distance:Number.isFinite(w.distance)?Math.max(0,w.distance):0};document.body.classList.toggle('walking',w.active);$('#walk-hud').hidden=!w.active;$('#walk-status').textContent=codes[w.code]+(w.active?' · '+walkStatus.distance.toFixed(1)+' m':'');$('#walk-start-status').textContent=codes[w.code];if(!w.active&&!['STOPPED','IDLE','LOADING'].includes(w.code))toast(codes[w.code]);
+ }

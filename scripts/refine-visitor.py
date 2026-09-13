@@ -21,4 +21,6 @@ if 'Flush each actual-input checkpoint' not in s:
  s=s.replace("    check(tag+' mouse orbit exceeds 360 degrees',total>360)","    measurements.append({'test':tag,'rotationDegrees':total,'initial':before,'final':nav()})\n    check(tag+' mouse orbit exceeds 360 degrees',total>360)")
  s=s.replace("v.scene.globe.getHeight=()=>25;", "v.resolutionScale=.6;v.scene.globe.getHeight=()=>25;")
  p.write_text(s)
+import runpy
+runpy.run_path('scripts/surface-input.py')
 print('Camera inputs remain isolated; software-rendered tests still require >360 degrees from mouse events')

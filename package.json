@@ -1,13 +1,13 @@
 {
   "name": "jeju-oldtown-3d",
-  "version": "3.7.1",
+  "version": "3.8.0",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "build": "node precision/prepare.mjs",
+    "build": "node scripts/build-walk-network.mjs && node precision/prepare.mjs",
     "test": "node --test precision/*.test.mjs",
     "serve": "node scripts/serve.mjs",
     "proxy": "node precision/proxy-server.mjs"

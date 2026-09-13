@@ -5,3 +5,6 @@ precision-qa/
 .env.*
 !.env.example
 *.log
+
+precision/walk-network.json
+_publish/

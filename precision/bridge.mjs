@@ -1,3 +1,6 @@
+import {installNavigation} from './navigation.mjs';
+import {createWalkGuard} from './walk-guard.mjs';
+import {installWalk} from './walk.mjs';
 import {installBootstrapGuard} from './sdk-guard.mjs';
 import {installAerial,satelliteTemplate} from './aerial.mjs';
 import {installFlight} from './flight.mjs';
@@ -53,7 +56,7 @@ export function transition(state,event) {
   next.productionReady=false;return next;
 }
 function childRuntime(channel,origin,places,tileURL) {
-  let viewer=null,started=false,ended=false,timer=null,input=null,removeRenderListener=null,flight=null,aerial=null,map=null,launched=false;
+  let viewer=null,started=false,ended=false,timer=null,input=null,removeRenderListener=null,flight=null,aerial=null,map=null,launched=false,navigation=null,walker=null;
   let stage='waiting-for-api',polls=0;
   const guard=window.__JEJU_BOOT_GUARD__;
   const send=(type,payload={})=>parent.postMessage({channel,type,...payload},origin);
@@ -67,7 +70,7 @@ function childRuntime(channel,origin,places,tileURL) {
   };
   const detail=()=>{const {V,C,W}=globals();return {...(guard?.snapshot()||{}),stage,mapClass:typeof V?.Map==='function',coordinateClasses:['CameraPosition','CoordZ','Direction'].every(n=>typeof V?.[n]==='function'),cesium:!!C,viewer:!!W?.viewer?.scene};};
   const phase=value=>{stage=value;guard?.update(value,detail());send('sdk-phase',{phase:value});};
-  const cleanup=()=>{ended=true;clearInterval(timer);flight?.stop();aerial?.destroy();input?.destroy();removeRenderListener?.();};
+  const cleanup=()=>{ended=true;clearInterval(timer);flight?.stop();walker?.destroy();navigation?.destroy();aerial?.destroy();input?.destroy();removeRenderListener?.();};
   addEventListener('pagehide',cleanup,{once:true});
   const fail=(code='SDK_INIT_FAILED',error)=>{if(ended)return;ended=true;clearInterval(timer);const d=detail();d.exceptionName=['Error','TypeError','ReferenceError','SyntaxError','SecurityError','RangeError'].includes(error?.name)?error.name:null;send('error',{code,diagnostic:d});};
   const warn=feature=>send('adapter-warning',{feature});
@@ -81,11 +84,14 @@ function childRuntime(channel,origin,places,tileURL) {
     phase('adapter-setup');
     try{viewer.scene.globe.depthTestAgainstTerrain=true;flight=installFlight(viewer,C,send);}catch{warn('flight');}
     try{aerial=installAerial(viewer,C,map,tileURL,send);}catch{warn('aerial');}
-    viewer.scene.canvas?.addEventListener?.('pointerdown',()=>{flight?.stop();send('flight-interaction');});
+    try{navigation=installNavigation(viewer,C,send,()=>{flight?.stop();send('flight-interaction');});}catch{warn('navigation');}
+    try{walker=installWalk(viewer,C,send,navigation,()=>flight?.stop());}catch{warn('walking');}
+    if(!navigation)viewer.scene.canvas?.addEventListener?.('pointerdown',()=>{flight?.stop();send('flight-interaction');});
     try {
       input=new C.ScreenSpaceEventHandler(viewer.scene.canvas);
       input.setInputAction(m=>{
         try {
+          if(walker?.active||navigation?.suppressClick())return;
           const hit=viewer.scene.pick(m.position);
           if(hit?.id?.id?.startsWith?.('poi:')){send('place',{id:hit.id.id.slice(4)});return;}
           if(!C.Cesium3DTileFeature||!(hit instanceof C.Cesium3DTileFeature)) {
@@ -120,13 +126,21 @@ function childRuntime(channel,origin,places,tileURL) {
       addEventListener('message',e=>{
         if(e.source!==parent||e.origin!==origin||e.data?.channel!==channel)return;
         const d=e.data;
+        if(d.type==='navigation-mode')navigation?.setMode(d.mode);
+        if(d.type==='navigation-zoom'&&[1,-1].includes(d.direction))navigation?.zoom(d.direction);
+        if(d.type==='navigation-north')navigation?.north();
+        if(d.type==='navigation-angle')navigation?.angle(d.pitch);
+        if(d.type==='walk-start'){const p=navigation?.state;if(p)walker?.start(p);}
+        if(d.type==='walk-stop'){walker?.stop();navigation?.north();}
+        if(d.type==='walk-camera')walker?.setCamera(d.mode);
+        if(d.type==='walk-key'&&typeof d.pressed==='boolean')walker?.key(d.code,d.pressed);
         if(d.type==='aerial-control'&&['mode','quality','building','lighting'].includes(d.action)){if(!aerial?.[d.action]?.(d.value))send('aerial-unavailable',{feature:d.action});}
-        if(d.type==='orbit'&&typeof d.enabled==='boolean')flight?.orbit(d.enabled);
+        if(d.type==='orbit'&&typeof d.enabled==='boolean'){if(navigation)navigation.orbit(d.enabled);else flight?.orbit(d.enabled);}
         if(d.type==='markers'&&typeof d.visible==='boolean')for(const p of places){const entity=viewer.entities.getById?.('poi:'+p.id);if(entity)entity.show=d.visible;}
         if(d.type==='fly') {
           const p=d.position;
           if(!p||![p.lon,p.lat,p.height].every(Number.isFinite)||p.lon<126.462||p.lon>126.575||p.lat<33.468||p.lat>33.536||p.height<100||p.height>10000)return;
-          flight?.fly(p);
+          walker?.stop();navigation?.setTarget(p);flight?.fly(p);
         }
       });
 
@@ -165,5 +179,5 @@ export function frameHTML({key,sdkSource,channel,origin,places=[],imagery=false}
   const js=JSON.stringify([channel,origin,clean,imagery&&key?satelliteTemplate(key):null]).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   if(key&&sdkSource)throw Error('Choose one SDK transport');
   const src=(sdkSource?proxySDK(sdkSource,origin+'/'):sdkURL(key)).replace(/&/g,'&amp;');
-  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><style>html,body,#vmap{margin:0;width:100%;height:100%;overflow:hidden;background:#172327}</style><script data-role="sdk-guard">window.__JEJU_BOOT_GUARD__=(${installBootstrapGuard.toString()})(${JSON.stringify(channel)},${JSON.stringify(origin)});</script><script src="${src}" onload="window.__JEJU_SDK_LOADED__=true;window.__JEJU_BOOT_GUARD__.loaded()" onerror="window.__JEJU_SDK_FAILED__=true;window.__JEJU_BOOT_GUARD__.fail('SDK_NETWORK_FAILED')"></script></head><body><div id="vmap"></div><script>const installFlight=${installFlight.toString()};const installAerial=${installAerial.toString()};(${childRuntime.toString()})(...${js});</script></body></html>`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><style>html,body,#vmap{margin:0;width:100%;height:100%;overflow:hidden;background:#172327}</style><script data-role="sdk-guard">window.__JEJU_BOOT_GUARD__=(${installBootstrapGuard.toString()})(${JSON.stringify(channel)},${JSON.stringify(origin)});</script><script src="${src}" onload="window.__JEJU_SDK_LOADED__=true;window.__JEJU_BOOT_GUARD__.loaded()" onerror="window.__JEJU_SDK_FAILED__=true;window.__JEJU_BOOT_GUARD__.fail('SDK_NETWORK_FAILED')"></script></head><body><div id="vmap"></div><script>const installNavigation=${installNavigation.toString()};const createWalkGuard=${createWalkGuard.toString()};const installWalk=${installWalk.toString()};const installFlight=${installFlight.toString()};const installAerial=${installAerial.toString()};(${childRuntime.toString()})(...${js});</script></body></html>`;
 }

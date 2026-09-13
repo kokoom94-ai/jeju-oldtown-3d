@@ -7,7 +7,7 @@ const out=path.resolve('_precision_site');
 const places=parsePlaceSeed(await fs.readFile('precision/places.json','utf8'));
 if(places.length!==32)throw Error('Place set changed; review before deployment');
 await fs.rm(out,{recursive:true,force:true});await fs.mkdir(out,{recursive:true});
-for(const name of ['index.html','app.mjs','bridge.mjs','session.mjs','connection.mjs','places.mjs','inspection.mjs','integrity.mjs','CONNECT.md','HANDOFF.md','RELEASE_3_4.md','RELEASE_3_5.md','flight.mjs','explore.html','explore.mjs','explore.css','preview.css','view.mjs','RELEASE_3_6.md','aerial.mjs','atlas-ui.mjs','RELEASE_3_7.md','sdk-diagnostics.mjs','sdk-guard.mjs','sdk-frame-host.mjs','sdk-frame.html','sdk-frame.mjs','SDK_FIX_3_7_1.md'])await fs.copyFile('precision/'+name,path.join(out,name));
+for(const name of ['index.html','app.mjs','bridge.mjs','session.mjs','connection.mjs','places.mjs','inspection.mjs','integrity.mjs','CONNECT.md','HANDOFF.md','RELEASE_3_4.md','RELEASE_3_5.md','flight.mjs','explore.html','explore.mjs','explore.css','preview.css','view.mjs','RELEASE_3_6.md','aerial.mjs','atlas-ui.mjs','RELEASE_3_7.md','sdk-diagnostics.mjs','sdk-guard.mjs','sdk-frame-host.mjs','sdk-frame.html','sdk-frame.mjs','SDK_FIX_3_7_1.md','navigation.mjs','walk.mjs','walk-guard.mjs','walk-network.json','public-connection.mjs','VISITOR_3_8.md'])await fs.copyFile('precision/'+name,path.join(out,name));
 const html=await fs.readFile(path.join(out,'index.html'),'utf8');
 await fs.writeFile(path.join(out,'connect.html'),html.replace(/PRECISION \d+\.\d+/, 'PRECISION '+VERSION.split('-')[0].split('.').slice(0,2).join('.')).replace('<main><aside>','<main><aside><p><a href="explore.html">↗ 전체화면 조감도 탐색 열기</a></p>'));
 // The public home is the aerial app, not the developer connection console.
@@ -16,6 +16,7 @@ const readme=await fs.readFile('README.md','utf8');
 await fs.writeFile(path.join(out,'README.md'),readme.replaceAll('(precision/CONNECT.md)','(CONNECT.md)').replaceAll('(precision/HANDOFF.md)','(HANDOFF.md)').replaceAll('(precision/readiness.json)','(https://github.com/kokoom94-ai/jeju-oldtown-3d/blob/jeju-before-web/precision/readiness.json)').replaceAll('(precision/publication.json)','(https://github.com/kokoom94-ai/jeju-oldtown-3d/blob/jeju-before-web/precision/publication.json)'));
 await fs.writeFile(path.join(out,'places.json'),JSON.stringify(places,null,2));
 await fs.writeFile(path.join(out,'.nojekyll'),'');
+await fs.writeFile(path.join(out,'public-connection.json'),JSON.stringify({schema:1,enabled:false,browserVisibleKey:true,serviceUrl:PLANNED_URL}));
 // The legacy demo is separate and visibly labelled; it is not provider geometry.
 await fs.mkdir(path.join(out,'legacy'),{recursive:true});
 for(const name of ['index.html','real.html']){
@@ -25,21 +26,21 @@ for(const name of ['index.html','real.html']){
 }
 await fs.cp('realism',path.join(out,'legacy','realism'),{recursive:true,filter:src=>!['acquire.mjs','build.mjs','verify.cjs','publication.json','browser-result.json'].includes(path.basename(src))});
 // A dedicated derivative leaves the standalone legacy demo and its data intact.
-const previewHTML=(await fs.readFile(path.join(out,'legacy','real.html'),'utf8')).replace('</head>','<link rel="stylesheet" href="../preview.css"></head>').replace('./realism/entry.js','./realism/flight-entry.js');
+const previewHTML=(await fs.readFile(path.join(out,'legacy','real.html'),'utf8')).replace('</head>','<link rel="stylesheet" href="../preview.css?v=3.8.0"></head>').replace('./realism/entry.js','./realism/flight-entry.js?v=3.8.0');
 await fs.writeFile(path.join(out,'legacy','preview-flight.html'),previewHTML);
 const entry=await fs.readFile('realism/entry.js','utf8'),hook=await fs.readFile('precision/preview-hook.js','utf8');
 const marker='// Read-only diagnostics used by repeatable browser tests.';
 if(entry.split(marker).length!==2)throw Error('Legacy preview hook location changed; review before building');
-await fs.writeFile(path.join(out,'legacy','realism','flight-entry.js'),entry.replace(marker,hook+'\n'+marker));
-await fs.writeFile(path.join(out,'site.json'),JSON.stringify({app:'JEJU:BEFORE precision',repository:'kokoom94-ai/jeju-oldtown-3d',version:VERSION,sourceBranch:process.env.GITHUB_REF_NAME||'fix/sdk-bootstrap-3-7-1',siteBranch:SITE_BRANCH,places:places.length,placeSeed:'precision/places.json',placeSeedRevision:'independent-v1',generatedBuildingFallback:false,providerConfigured:false,sdkLiveTested:false,productionReady:false,plannedDedicatedUrl:PLANNED_URL,homePath:'index.html',diagnosticPath:'connect.html',explorerPath:'explore.html',explorerDefault:'osm-estimated-comparison',explorerWalkingEnabled:false,legacyPath:'legacy/real.html',legacyGeometry:'OSM-derived and estimated; not provider precision',proxyDeploymentVerified:false},null,2));
+await fs.writeFile(path.join(out,'legacy','realism','flight-entry.js'),entry.replace('this.highQuality=!this.mobile;','this.highQuality=false;').replace(marker,hook+'\n'+marker));
+await fs.writeFile(path.join(out,'site.json'),JSON.stringify({app:'JEJU:BEFORE precision',repository:'kokoom94-ai/jeju-oldtown-3d',version:VERSION,sourceBranch:process.env.GITHUB_REF_NAME||'release/visitor-3-8',siteBranch:SITE_BRANCH,places:places.length,placeSeed:'precision/places.json',placeSeedRevision:'independent-v1',generatedBuildingFallback:false,providerConfigured:false,sdkLiveTested:false,productionReady:false,plannedDedicatedUrl:PLANNED_URL,homePath:'index.html',diagnosticPath:'connect.html',explorerPath:'explore.html',explorerDefault:'osm-estimated-comparison',explorerWalkingEnabled:false,legacyPath:'legacy/real.html',legacyGeometry:'OSM-derived and estimated; not provider precision',proxyDeploymentVerified:false},null,2));
 console.log(JSON.stringify({built:true,places:places.length,version:VERSION,providerConfigured:false,productionReady:false}));
 
 // Version every active module URL so a reload cannot combine old and new adapters.
 for(const name of await fs.readdir(out)){
  if(!/\.(mjs|html)$/.test(name))continue;
  const f=path.join(out,name);let text=await fs.readFile(f,'utf8');
- if(name.endsWith('.mjs'))text=text.replace(/(from\s+['"])(\.\/[^'"?]+\.mjs)(['"])/g,'$1$2?v=3.7.1$3');
- else text=text.replace(/((?:src|href)=['"])([^'"?:]+\.(?:mjs|css))(['"])/g,'$1$2?v=3.7.1$3');
+ if(name.endsWith('.mjs'))text=text.replace(/(from\s+['"])(\.\/[^'"?]+\.mjs)(['"])/g,'$1$2?v=3.8.0$3');
+ else text=text.replace(/((?:src|href)=['"])([^'"?:]+\.(?:mjs|css))(['"])/g,'$1$2?v=3.8.0$3');
  await fs.writeFile(f,text);
 }
 const files=[];

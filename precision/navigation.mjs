@@ -2,7 +2,7 @@
 export function installNavigation(viewer,C,send,beforeInput=()=>{}){
  const canvas=viewer.scene.canvas,camera=viewer.camera;if(!canvas?.addEventListener||!camera?.lookAt||!C.HeadingPitchRange)return null;
  const ctrl=viewer.scene.screenSpaceCameraController,prev=ctrl?.enableInputs,touch=canvas.style.touchAction;
- if(ctrl)ctrl.enableInputs=false;canvas.style.touchAction='none';canvas.tabIndex=0;
+ const nativeFlags={};if(ctrl){for(const name of ['enableRotate','enableTranslate','enableZoom','enableTilt','enableLook']){nativeFlags[name]=ctrl[name];ctrl[name]=false;}ctrl.enableInputs=false;}canvas.style.touchAction='none';canvas.tabIndex=0;
  let enabled=true,destroyed=false,mode='orbit',moved=0,suppressUntil=0,spinFrame=0,lastSpin=0;
  let p={lon:126.52155,lat:33.51325,height:700,pitch:-50,heading:0};
  const pointers=new Map(),listeners=[],clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -27,5 +27,5 @@ export function installNavigation(viewer,C,send,beforeInput=()=>{}){
  angle(value){if(!enabled||![-90,-50,-25].includes(value))return;stopMotion();p.pitch=value===-90?-89.5:value;apply();},
  zoom(direction){if(!enabled)return;stopMotion();p.height=clamp(p.height*(direction>0?1/1.4:1.4),10,10000);apply();},north(){if(!enabled)return;stopMotion();p.heading=0;apply();},
  setMode(value){if(!['orbit','pan'].includes(value))return false;mode=value;notify();return true;},setEnabled(value){if(!value)stopSpin();enabled=!!value;pointers.clear();notify();},get state(){return state();},suppressClick(){return performance.now()<suppressUntil;},
- destroy(){if(destroyed)return;stopSpin();destroyed=true;for(const off of listeners)off();pointers.clear();if(ctrl)ctrl.enableInputs=prev;canvas.style.touchAction=touch;}};
+ destroy(){if(destroyed)return;stopSpin();destroyed=true;for(const off of listeners)off();pointers.clear();if(ctrl){ctrl.enableInputs=prev;for(const [name,value] of Object.entries(nativeFlags))ctrl[name]=value;}canvas.style.touchAction=touch;}};
 }

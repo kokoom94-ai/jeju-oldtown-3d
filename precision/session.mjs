@@ -1,6 +1,6 @@
 import {connectionReport} from './sdk-diagnostics.mjs';
 // Local diagnostics only. No credentials, generated buildings or accuracy shortcuts.
-export const VERSION='3.7.1-sdk-diagnostics';
+export const VERSION='3.8.0-visitor-navigation';
 export const PLANNED_URL='https://kokoom94-ai.github.io/jeju-oldtown-3d/';
 export const SETTINGS_URL='https://github.com/kokoom94-ai/jeju-oldtown-3d/settings/pages';
 export const SITE_BRANCH='jeju-precision-site';

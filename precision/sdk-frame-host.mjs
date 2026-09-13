@@ -1,7 +1,7 @@
 import {hostPolicy} from './session.mjs';
 export function mountSDKFrame(frame,html,onFailure){
  if(!hostPolicy(location.href).canConnect)throw Error('Unapproved SDK host');
- const target=new URL('sdk-frame.html?v=3.7.1',location.href);target.hash='';
+ const target=new URL('sdk-frame.html?v=3.8.0',location.href);target.hash='';
  let pending=html,done=false,timer;
  const cleanup=()=>{clearTimeout(timer);removeEventListener('message',receive);pending='';done=true;};
  const receive=e=>{

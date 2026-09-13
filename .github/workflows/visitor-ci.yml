@@ -9,7 +9,7 @@ permissions:
   pages: write
 concurrency:
   group: oldtown-visitor-release
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   release:
     if: github.repository == 'kokoom94-ai/jeju-oldtown-3d' && github.ref_name == 'release/visitor-3-8'
@@ -20,8 +20,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Integrate reviewed existing source without any provider credential
-        run: python scripts/upgrade-visitor-ui.py
+      - name: Integrate reviewed source and consistent pointer ownership
+        run: |
+          python scripts/upgrade-visitor-ui.py
+          python scripts/refine-visitor.py
       - name: Build and test
         run: |
           set -o pipefail
@@ -35,7 +37,8 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install --no-install-recommends -y fonts-noto-cjk
       - name: Actual mouse revolutions on Three.js and real Cesium with explicit SDK fixtures
-        run: python scripts/verify-visitor-browser.py
+        timeout-minutes: 7
+        run: python -u scripts/verify-visitor-browser.py
         env:
           TEST_CESIUM_ROOT: ${{ runner.temp }}/cesium
       - name: Commit integrated readable source on this branch only
@@ -52,7 +55,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Repeat pointer tests on actual public HTTPS URL
-        run: python scripts/verify-visitor-browser.py
+        timeout-minutes: 7
+        run: python -u scripts/verify-visitor-browser.py
         env:
           TEST_CESIUM_ROOT: ${{ runner.temp }}/cesium
           VERIFY_BASE_URL: https://kokoom94-ai.github.io/jeju-oldtown-3d/
@@ -67,7 +71,7 @@ jobs:
           text=(root/'visitor-unit.txt').read_text() if (root/'visitor-unit.txt').is_file() else ''
           def num(n):
             m=re.search(r'^# '+n+r' (\d+)$',text,re.M);return int(m.group(1)) if m else None
-          result={'version':'3.8.0-visitor-navigation','runId':os.environ['GITHUB_RUN_ID'],'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'unit':{'passed':num('pass'),'failed':num('fail')},'candidateBrowser':read('visitor-candidate.json'),'publicBrowser':read('visitor-public.json'),'deployment':read('visitor-deployment.json'),'actualKeyUsed':False,'publisherKeyConfigured':False,'geometryVerified':False,'walkingProductionReady':False,'productionReady':False,'oldRepositoryWriteOperations':0}
+          result={'version':'3.8.0-visitor-navigation','runId':os.environ['GITHUB_RUN_ID'],'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'unit':{'passed':num('pass'),'failed':num('fail')},'candidateBrowser':read('visitor-candidate.json'),'candidateProgress':read('visitor-candidate-progress.json'),'publicBrowser':read('visitor-public.json'),'publicProgress':read('visitor-public-progress.json'),'deployment':read('visitor-deployment.json'),'actualKeyUsed':False,'publisherKeyConfigured':False,'geometryVerified':False,'walkingProductionReady':False,'productionReady':False,'oldRepositoryWriteOperations':0}
           Path('precision/visitor-result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2));(root/'visitor-result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2))
           PY
           git config user.name 'JEJU Oldtown build'

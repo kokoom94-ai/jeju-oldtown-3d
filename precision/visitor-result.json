@@ -1,8 +1,8 @@
 {
   "version": "3.8.0-visitor-navigation",
-  "runId": "34748508739",
-  "sourceCommit": "11248a27d8022de39212eb40d07352b2409db01b",
-  "checkedAt": "2026-09-13T08:49:33.580315+00:00",
+  "runId": "34748652962",
+  "sourceCommit": "668b60c87fc6dd9d8db9e7d7fea463d111290e70",
+  "checkedAt": "2026-09-13T09:02:27.317997+00:00",
   "unit": {
     "passed": 162,
     "failed": 0
@@ -24,12 +24,304 @@
       },
       {
         "name": "candidate-1280-Cesium-fixture rendered canvas",
-        "passed": false
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture mouse orbit exceeds 360 degrees",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture right drag pans",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture wheel zoom",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture zoom button keeps heading",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture north reset",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture selectable left pan",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture map-only",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture auto connection fixture has no key form",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture original authored traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture keyboard moves traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture eye-height camera",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture traveler hidden at eye level",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture exit removes traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture airport rejected",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture no key in storage or diagnostic",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture no page overflow",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture fixture SDK initialized",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture rendered canvas",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture mouse orbit exceeds 360 degrees",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture right drag pans",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture wheel zoom",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture zoom button keeps heading",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture north reset",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture selectable left pan",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture map-only",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture auto connection fixture has no key form",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture original authored traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture keyboard moves traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture eye-height camera",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture traveler hidden at eye level",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture exit removes traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture airport rejected",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture no key in storage or diagnostic",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture no page overflow",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual rendered canvas",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual mouse orbit exceeds 360 degrees",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual right drag pans",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual wheel zoom",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual zoom button keeps heading",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual north reset",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual selectable left pan",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual map-only",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual real dedicated key field",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual place popup",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual no key in storage or diagnostic",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual no page overflow",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual rendered canvas",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual mouse orbit exceeds 360 degrees",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual right drag pans",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual wheel zoom",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual zoom button keeps heading",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual north reset",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual selectable left pan",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual map-only",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual real dedicated key field",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual place popup",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual no key in storage or diagnostic",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual no page overflow",
+        "passed": true
+      },
+      {
+        "name": "no unexpected runtime errors",
+        "passed": true
       }
     ],
-    "passed": 3,
-    "total": 4,
-    "failure": "candidate-1280-Cesium-fixture rendered canvas",
+    "passed": 77,
+    "total": 77,
+    "failure": null,
     "errors": [],
     "measurements": [
       {
@@ -80,18 +372,9 @@
           "walkingEnabled": false,
           "experimentalWalk": {
             "active": false,
-            "code": "STOPPED",
-            "cameraMode": "third-person",
-            "distance": 0
+            "code": "IDLE"
           },
-          "navigation": {
-            "lon": 126.52155,
-            "lat": 33.51325,
-            "height": 700,
-            "heading": 0,
-            "pitch": -50,
-            "mode": "orbit"
-          },
+          "navigation": null,
           "publisherConfigured": true,
           "aerial": {
             "mode": "original",
@@ -109,12 +392,76 @@
             "productionReady": false,
             "satelliteAvailable": false,
             "buildingsVisible": true,
-            "lightQuality": true
+            "lightQuality": false
           }
         }
       },
       {
-        "fixtureFailureState": {
+        "test": "candidate-1280-Cesium-fixture",
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 900
+        }
+      },
+      {
+        "test": "candidate-1280-Cesium-fixture",
+        "rotationDegrees": 408.0,
+        "initial": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -50,
+          "mode": "orbit"
+        },
+        "final": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 78.60000000000002,
+          "pitch": -44.25,
+          "mode": "orbit"
+        }
+      },
+      {
+        "test": "candidate-1280-Cesium-fixture",
+        "rotationDegrees": 408.0,
+        "before": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -50,
+          "mode": "orbit"
+        },
+        "after": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 78.60000000000002,
+          "pitch": -44.25,
+          "mode": "orbit"
+        },
+        "cameraBefore": {
+          "heading": 6.750155989720952e-14,
+          "pitch": -0.8727351632642684,
+          "x": -3168430.904235669,
+          "y": 4278522.160503707,
+          "z": 3501494.3979745065
+        },
+        "cameraAfter": {
+          "heading": 1.3717776595690738,
+          "pitch": -0.7723866889662312,
+          "x": -3167896.913911416,
+          "y": 4278626.990253503,
+          "z": 3501760.5372208795
+        }
+      },
+      {
+        "test": "candidate-390-Cesium-fixture",
+        "fixtureBootstrapState": {
           "version": "3.8.0-visitor-navigation",
           "source": "provider",
           "state": "viewer-ready-unverified",
@@ -160,18 +507,9 @@
           "walkingEnabled": false,
           "experimentalWalk": {
             "active": false,
-            "code": "STOPPED",
-            "cameraMode": "third-person",
-            "distance": 0
+            "code": "IDLE"
           },
-          "navigation": {
-            "lon": 126.52155,
-            "lat": 33.51325,
-            "height": 700,
-            "heading": 0,
-            "pitch": -50,
-            "mode": "orbit"
-          },
+          "navigation": null,
           "publisherConfigured": true,
           "aerial": {
             "mode": "original",
@@ -189,8 +527,221 @@
             "productionReady": false,
             "satelliteAvailable": false,
             "buildingsVisible": true,
-            "lightQuality": true
+            "lightQuality": false
           }
+        }
+      },
+      {
+        "test": "candidate-390-Cesium-fixture",
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      },
+      {
+        "test": "candidate-390-Cesium-fixture",
+        "rotationDegrees": 367.2000155639648,
+        "initial": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -50,
+          "mode": "orbit"
+        },
+        "final": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 37.80001556396485,
+          "pitch": -44.25,
+          "mode": "orbit"
+        }
+      },
+      {
+        "test": "candidate-390-Cesium-fixture",
+        "rotationDegrees": 367.2000155639648,
+        "before": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -50,
+          "mode": "orbit"
+        },
+        "after": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 37.80001556396485,
+          "pitch": -44.25,
+          "mode": "orbit"
+        },
+        "cameraBefore": {
+          "heading": 6.750155989720952e-14,
+          "pitch": -0.8727351632642684,
+          "x": -3168430.904235669,
+          "y": 4278522.160503707,
+          "z": 3501494.3979745065
+        },
+        "cameraAfter": {
+          "heading": 0.6597028909521621,
+          "pitch": -0.7723867636809061,
+          "x": -3168142.5615325677,
+          "y": 4278649.187466412,
+          "z": 3501512.8401960754
+        }
+      },
+      {
+        "test": "candidate-1280-OSM-actual",
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 900
+        }
+      },
+      {
+        "test": "candidate-1280-OSM-actual",
+        "rotationDegrees": 408.0,
+        "initial": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -49.847328176381616,
+          "mode": "orbit"
+        },
+        "final": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 78.60000000000002,
+          "pitch": -44.09732817638162,
+          "mode": "orbit"
+        }
+      },
+      {
+        "test": "candidate-1280-OSM-actual",
+        "rotationDegrees": 408.0,
+        "before": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -49.847328176381616,
+          "mode": "orbit"
+        },
+        "after": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 78.60000000000002,
+          "pitch": -44.09732817638162,
+          "mode": "orbit"
+        },
+        "cameraBefore": {
+          "position": [
+            -413.0280822080307,
+            535.0302559178535,
+            312.2285830681274
+          ],
+          "quaternion": [
+            -0.42141040136664804,
+            0,
+            0,
+            0.9068700422993367
+          ]
+        },
+        "cameraAfter": {
+          "position": [
+            -905.8213064323695,
+            487.1155156592043,
+            -39.78545620960563
+          ],
+          "quaternion": [
+            -0.2904949411076188,
+            -0.5870587833045132,
+            -0.23776735426769852,
+            0.7172456757488639
+          ]
+        }
+      },
+      {
+        "test": "candidate-390-OSM-actual",
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      },
+      {
+        "test": "candidate-390-OSM-actual",
+        "rotationDegrees": 367.20001556396466,
+        "initial": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -49.847328176381616,
+          "mode": "orbit"
+        },
+        "final": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 37.80001556396468,
+          "pitch": -44.09732817638162,
+          "mode": "orbit"
+        }
+      },
+      {
+        "test": "candidate-390-OSM-actual",
+        "rotationDegrees": 367.20001556396466,
+        "before": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -49.847328176381616,
+          "mode": "orbit"
+        },
+        "after": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 37.80001556396468,
+          "pitch": -44.09732817638162,
+          "mode": "orbit"
+        },
+        "cameraBefore": {
+          "position": [
+            -413.0280822080307,
+            535.0302559178535,
+            312.2285830681274
+          ],
+          "quaternion": [
+            -0.42141040136664804,
+            0,
+            0,
+            0.9068700422993367
+          ]
+        },
+        "cameraAfter": {
+          "position": [
+            -721.1433840876213,
+            487.1155156592043,
+            258.06963087417614
+          ],
+          "quaternion": [
+            -0.35515471328665493,
+            -0.30022794983661266,
+            -0.12159669072328472,
+            0.8768936951377427
+          ]
         }
       }
     ],
@@ -215,7 +766,299 @@
       },
       {
         "name": "candidate-1280-Cesium-fixture rendered canvas",
-        "passed": false
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture mouse orbit exceeds 360 degrees",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture right drag pans",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture wheel zoom",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture zoom button keeps heading",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture north reset",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture selectable left pan",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture map-only",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture auto connection fixture has no key form",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture original authored traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture keyboard moves traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture eye-height camera",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture traveler hidden at eye level",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture exit removes traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture airport rejected",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture no key in storage or diagnostic",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture no page overflow",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture fixture SDK initialized",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture rendered canvas",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture mouse orbit exceeds 360 degrees",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture right drag pans",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture wheel zoom",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture zoom button keeps heading",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture north reset",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture selectable left pan",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture map-only",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture auto connection fixture has no key form",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture original authored traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture keyboard moves traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture eye-height camera",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture traveler hidden at eye level",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture exit removes traveler",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture airport rejected",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture no key in storage or diagnostic",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-Cesium-fixture no page overflow",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual rendered canvas",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual mouse orbit exceeds 360 degrees",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual right drag pans",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual wheel zoom",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual zoom button keeps heading",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual north reset",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual selectable left pan",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual map-only",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual real dedicated key field",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual place popup",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual no key in storage or diagnostic",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual no page overflow",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual rendered canvas",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual mouse orbit exceeds 360 degrees",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual right drag pans",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual wheel zoom",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual zoom button keeps heading",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual north reset",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual selectable left pan",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual map-only",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual real dedicated key field",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual place popup",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual no key in storage or diagnostic",
+        "passed": true
+      },
+      {
+        "name": "candidate-390-OSM-actual no page overflow",
+        "passed": true
+      },
+      {
+        "name": "no unexpected runtime errors",
+        "passed": true
       }
     ],
     "measurements": [
@@ -267,18 +1110,9 @@
           "walkingEnabled": false,
           "experimentalWalk": {
             "active": false,
-            "code": "STOPPED",
-            "cameraMode": "third-person",
-            "distance": 0
+            "code": "IDLE"
           },
-          "navigation": {
-            "lon": 126.52155,
-            "lat": 33.51325,
-            "height": 700,
-            "heading": 0,
-            "pitch": -50,
-            "mode": "orbit"
-          },
+          "navigation": null,
           "publisherConfigured": true,
           "aerial": {
             "mode": "original",
@@ -296,8 +1130,356 @@
             "productionReady": false,
             "satelliteAvailable": false,
             "buildingsVisible": true,
-            "lightQuality": true
+            "lightQuality": false
           }
+        }
+      },
+      {
+        "test": "candidate-1280-Cesium-fixture",
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 900
+        }
+      },
+      {
+        "test": "candidate-1280-Cesium-fixture",
+        "rotationDegrees": 408.0,
+        "initial": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -50,
+          "mode": "orbit"
+        },
+        "final": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 78.60000000000002,
+          "pitch": -44.25,
+          "mode": "orbit"
+        }
+      },
+      {
+        "test": "candidate-1280-Cesium-fixture",
+        "rotationDegrees": 408.0,
+        "before": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -50,
+          "mode": "orbit"
+        },
+        "after": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 78.60000000000002,
+          "pitch": -44.25,
+          "mode": "orbit"
+        },
+        "cameraBefore": {
+          "heading": 6.750155989720952e-14,
+          "pitch": -0.8727351632642684,
+          "x": -3168430.904235669,
+          "y": 4278522.160503707,
+          "z": 3501494.3979745065
+        },
+        "cameraAfter": {
+          "heading": 1.3717776595690738,
+          "pitch": -0.7723866889662312,
+          "x": -3167896.913911416,
+          "y": 4278626.990253503,
+          "z": 3501760.5372208795
+        }
+      },
+      {
+        "test": "candidate-390-Cesium-fixture",
+        "fixtureBootstrapState": {
+          "version": "3.8.0-visitor-navigation",
+          "source": "provider",
+          "state": "viewer-ready-unverified",
+          "sdkReady": true,
+          "modelSelections": 0,
+          "previewReady": false,
+          "placeCount": 32,
+          "scene": "gwandeok",
+          "distance": 700,
+          "pitch": -50,
+          "orbit": false,
+          "tourRunning": false,
+          "markersVisible": true,
+          "lightQuality": true,
+          "canConnect": true,
+          "connection": {
+            "failureCode": null,
+            "diagnostic": {
+              "stage": "adapter-setup",
+              "exceptionName": null,
+              "mapClass": true,
+              "coordinateClasses": true,
+              "cesium": true,
+              "viewer": true,
+              "frameDocument": "http-page",
+              "webgl": 2
+            },
+            "timeline": [
+              "frame-loading",
+              "script-loaded",
+              "waiting-for-api",
+              "map-construct",
+              "map-configure",
+              "map-start-requested",
+              "viewer-ready",
+              "adapter-setup"
+            ],
+            "actualKeyIncluded": false,
+            "geometryVerified": false,
+            "productionReady": false
+          },
+          "productionReady": false,
+          "walkingEnabled": false,
+          "experimentalWalk": {
+            "active": false,
+            "code": "IDLE"
+          },
+          "navigation": null,
+          "publisherConfigured": true,
+          "aerial": {
+            "mode": "original",
+            "lighting": "day",
+            "imageryRequested": 0,
+            "imageryDecoded": 0,
+            "imageryFailed": 0,
+            "terrainProvider": true,
+            "groundSample": 25,
+            "modelTilesObserved": 0,
+            "frames": 1,
+            "fps": 0,
+            "sourceDate": null,
+            "geometryVerified": false,
+            "productionReady": false,
+            "satelliteAvailable": false,
+            "buildingsVisible": true,
+            "lightQuality": false
+          }
+        }
+      },
+      {
+        "test": "candidate-390-Cesium-fixture",
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      },
+      {
+        "test": "candidate-390-Cesium-fixture",
+        "rotationDegrees": 367.2000155639648,
+        "initial": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -50,
+          "mode": "orbit"
+        },
+        "final": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 37.80001556396485,
+          "pitch": -44.25,
+          "mode": "orbit"
+        }
+      },
+      {
+        "test": "candidate-390-Cesium-fixture",
+        "rotationDegrees": 367.2000155639648,
+        "before": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -50,
+          "mode": "orbit"
+        },
+        "after": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 37.80001556396485,
+          "pitch": -44.25,
+          "mode": "orbit"
+        },
+        "cameraBefore": {
+          "heading": 6.750155989720952e-14,
+          "pitch": -0.8727351632642684,
+          "x": -3168430.904235669,
+          "y": 4278522.160503707,
+          "z": 3501494.3979745065
+        },
+        "cameraAfter": {
+          "heading": 0.6597028909521621,
+          "pitch": -0.7723867636809061,
+          "x": -3168142.5615325677,
+          "y": 4278649.187466412,
+          "z": 3501512.8401960754
+        }
+      },
+      {
+        "test": "candidate-1280-OSM-actual",
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 900
+        }
+      },
+      {
+        "test": "candidate-1280-OSM-actual",
+        "rotationDegrees": 408.0,
+        "initial": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -49.847328176381616,
+          "mode": "orbit"
+        },
+        "final": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 78.60000000000002,
+          "pitch": -44.09732817638162,
+          "mode": "orbit"
+        }
+      },
+      {
+        "test": "candidate-1280-OSM-actual",
+        "rotationDegrees": 408.0,
+        "before": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -49.847328176381616,
+          "mode": "orbit"
+        },
+        "after": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 78.60000000000002,
+          "pitch": -44.09732817638162,
+          "mode": "orbit"
+        },
+        "cameraBefore": {
+          "position": [
+            -413.0280822080307,
+            535.0302559178535,
+            312.2285830681274
+          ],
+          "quaternion": [
+            -0.42141040136664804,
+            0,
+            0,
+            0.9068700422993367
+          ]
+        },
+        "cameraAfter": {
+          "position": [
+            -905.8213064323695,
+            487.1155156592043,
+            -39.78545620960563
+          ],
+          "quaternion": [
+            -0.2904949411076188,
+            -0.5870587833045132,
+            -0.23776735426769852,
+            0.7172456757488639
+          ]
+        }
+      },
+      {
+        "test": "candidate-390-OSM-actual",
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        }
+      },
+      {
+        "test": "candidate-390-OSM-actual",
+        "rotationDegrees": 367.20001556396466,
+        "initial": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -49.847328176381616,
+          "mode": "orbit"
+        },
+        "final": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 37.80001556396468,
+          "pitch": -44.09732817638162,
+          "mode": "orbit"
+        }
+      },
+      {
+        "test": "candidate-390-OSM-actual",
+        "rotationDegrees": 367.20001556396466,
+        "before": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 0,
+          "pitch": -49.847328176381616,
+          "mode": "orbit"
+        },
+        "after": {
+          "lon": 126.52155,
+          "lat": 33.51325,
+          "height": 700,
+          "heading": 37.80001556396468,
+          "pitch": -44.09732817638162,
+          "mode": "orbit"
+        },
+        "cameraBefore": {
+          "position": [
+            -413.0280822080307,
+            535.0302559178535,
+            312.2285830681274
+          ],
+          "quaternion": [
+            -0.42141040136664804,
+            0,
+            0,
+            0.9068700422993367
+          ]
+        },
+        "cameraAfter": {
+          "position": [
+            -721.1433840876213,
+            487.1155156592043,
+            258.06963087417614
+          ],
+          "quaternion": [
+            -0.35515471328665493,
+            -0.30022794983661266,
+            -0.12159669072328472,
+            0.8768936951377427
+          ]
         }
       }
     ],

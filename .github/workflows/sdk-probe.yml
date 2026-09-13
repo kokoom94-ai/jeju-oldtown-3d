@@ -1,0 +1,48 @@
+name: SDK bootstrap diagnosis (no user key)
+on:
+  push:
+    branches: ['fix/sdk-bootstrap-3-7-1']
+    paths: ['.github/workflows/sdk-probe.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    if: github.repository == 'kokoom94-ai/jeju-oldtown-3d'
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Read only public site and unauthenticated official bootstrap
+        run: |
+          python - <<'PY'
+          import urllib.request, urllib.error, json, pathlib, re, datetime, hashlib
+          root=pathlib.Path('sdk-probe');root.mkdir()
+          base='https://kokoom94-ai.github.io/jeju-oldtown-3d/'
+          urls=[base,base+'index.html',base+'connect.html',base+'bridge.mjs',base+'site.json','https://map.vworld.kr/js/webglMapInit.js.do?version=3.0']
+          results=[]
+          for i,url in enumerate(urls):
+            row={'url':url}
+            try:
+              req=urllib.request.Request(url,headers={'User-Agent':'JEJU-BEFORE no-key diagnosis','Cache-Control':'no-cache'})
+              with urllib.request.urlopen(req,timeout=20) as r:
+                body=r.read(2500000);row.update(status=r.status,finalUrl=r.url,mime=r.headers.get('Content-Type'),bytes=len(body),sha256=hashlib.sha256(body).hexdigest())
+                text=body.decode('utf-8','replace')
+                if i==5:
+                  # No user key was supplied. Redact any key-shaped constant nonetheless.
+                  text=re.sub(r'(?i)[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}','[REDACTED]',text)
+                  (root/'official-no-key-bootstrap.txt').write_text(text)
+                  row['bootstrapExcerpt']=text[:12000]
+            except urllib.error.HTTPError as e: row.update(status=e.code)
+            except Exception as e: row.update(status=0,errorType=type(e).__name__)
+            results.append(row)
+          report={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'checks':results,'actualKeyUsed':False,'geometryReceived':False,'oldRepositoryWriteOperations':0}
+          (root/'public-probe.json').write_text(json.dumps(report,ensure_ascii=False,indent=2));print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sdk-bootstrap-probe
+          path: sdk-probe/
+          retention-days: 7

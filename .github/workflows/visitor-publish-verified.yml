@@ -1,0 +1,91 @@
+name: Publish mouse-verified oldtown 3.8
+on:
+  push:
+    branches: [release/visitor-3-8]
+    paths: ['.github/workflows/visitor-publish-verified.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: oldtown-visitor-release
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'kokoom94-ai/jeju-oldtown-3d' && github.ref_name == 'release/visitor-3-8'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 30
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Bind the successful 77 mouse checks to identical source bytes
+        run: |
+          python - <<'PY'
+          import json,subprocess,pathlib
+          r=json.loads(pathlib.Path('precision/visitor-result.json').read_text())
+          assert r['runId']=='34748652962' and r['unit']=={'passed':162,'failed':0}
+          c=r['candidateBrowser'];assert c['passed']==77 and c['total']==77 and c['failure'] is None
+          tested=r['sourceCommit'];subprocess.run(['git','merge-base','--is-ancestor',tested,'HEAD'],check=True)
+          changed=set(subprocess.check_output(['git','diff','--name-only',tested,'HEAD'],text=True).splitlines())
+          assert changed<= {'precision/visitor-result.json','.github/workflows/visitor-publish-verified.yml'},changed
+          q=pathlib.Path('precision-qa');q.mkdir(exist_ok=True)
+          c['candidateRunId']=r['runId'];c['validatedSourceCommit']=tested;c['reuseReason']='Identical application/source files; earlier Git ref write failed after all browser checks passed.'
+          (q/'visitor-candidate.json').write_text(json.dumps(c,ensure_ascii=False,indent=2))
+          print('Application and test source match the 77/77 successful real-mouse candidate exactly.')
+          PY
+      - name: Rebuild the tested source and repeat all unit tests
+        run: |
+          set -o pipefail
+          npm run build
+          npm test | tee precision-qa/visitor-unit.txt
+      - name: Publish only the existing isolated static branch
+        run: python scripts/publish-visitor.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Install public browser test dependencies
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          npm install --prefix "$RUNNER_TEMP/cesium" --no-audit --no-fund cesium@1.121.0
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y fonts-noto-cjk
+      - name: Repeat all 360-degree mouse and street-view tests on public HTTPS
+        timeout-minutes: 12
+        run: python -u scripts/verify-visitor-browser.py
+        env:
+          TEST_CESIUM_ROOT: ${{ runner.temp }}/cesium
+          VERIFY_BASE_URL: https://kokoom94-ai.github.io/jeju-oldtown-3d/
+      - name: Record exact public results without claiming a live VWorld key test
+        if: always()
+        run: |
+          python - <<'PY'
+          import json,re,os,datetime,subprocess
+          from pathlib import Path
+          root=Path('precision-qa');root.mkdir(exist_ok=True)
+          def read(n):return json.loads((root/n).read_text()) if (root/n).is_file() else None
+          text=(root/'visitor-unit.txt').read_text() if (root/'visitor-unit.txt').is_file() else ''
+          def num(n):
+            m=re.search(r'^# '+n+r' (\d+)$',text,re.M);return int(m.group(1)) if m else None
+          r={'version':'3.8.0-visitor-navigation','runId':os.environ['GITHUB_RUN_ID'],'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'unit':{'passed':num('pass'),'failed':num('fail')},'candidateBrowser':read('visitor-candidate.json'),'publicBrowser':read('visitor-public.json'),'publicProgress':read('visitor-public-progress.json'),'deployment':read('visitor-deployment.json'),'actualKeyUsed':False,'publisherKeyConfigured':False,'geometryVerified':False,'walkingProductionReady':False,'productionReady':False,'oldRepositoryWriteOperations':0}
+          Path('precision/visitor-published-result.json').write_text(json.dumps(r,ensure_ascii=False,indent=2));(root/'visitor-published-result.json').write_text(json.dumps(r,ensure_ascii=False,indent=2))
+          PY
+          git config user.name 'JEJU Oldtown build'
+          git config user.email 'oldtown-build@users.noreply.github.com'
+          git add precision/visitor-published-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record public 3.8 deployment and actual mouse tests [skip ci]'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/release/visitor-3-8; then break; fi
+              if [ "$attempt" = 3 ]; then exit 1; fi
+              sleep 4
+            done
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oldtown-3.8-public-verification
+          path: precision-qa/
+          retention-days: 7

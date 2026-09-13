@@ -1,8 +1,8 @@
 {
   "version": "3.8.0-visitor-navigation",
-  "runId": "34748269786",
-  "sourceCommit": "23efc2bfc6e0b5314d8b77b54c0e0c323921c901",
-  "checkedAt": "2026-09-13T08:42:05.818234+00:00",
+  "runId": "34748508739",
+  "sourceCommit": "11248a27d8022de39212eb40d07352b2409db01b",
+  "checkedAt": "2026-09-13T08:49:33.580315+00:00",
   "unit": {
     "passed": 162,
     "failed": 0
@@ -13,13 +13,187 @@
       {
         "name": "candidate-1280-Cesium-fixture HTTP 200",
         "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture fixture SDK initialized",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture rendered canvas",
+        "passed": false
       }
     ],
-    "passed": 1,
-    "total": 1,
-    "failure": "Page.wait_for_function: Timeout 75000ms exceeded.",
+    "passed": 3,
+    "total": 4,
+    "failure": "candidate-1280-Cesium-fixture rendered canvas",
     "errors": [],
-    "measurements": [],
+    "measurements": [
+      {
+        "test": "candidate-1280-Cesium-fixture",
+        "fixtureBootstrapState": {
+          "version": "3.8.0-visitor-navigation",
+          "source": "provider",
+          "state": "viewer-ready-unverified",
+          "sdkReady": true,
+          "modelSelections": 0,
+          "previewReady": false,
+          "placeCount": 32,
+          "scene": "gwandeok",
+          "distance": 700,
+          "pitch": -50,
+          "orbit": false,
+          "tourRunning": false,
+          "markersVisible": true,
+          "lightQuality": true,
+          "canConnect": true,
+          "connection": {
+            "failureCode": null,
+            "diagnostic": {
+              "stage": "adapter-setup",
+              "exceptionName": null,
+              "mapClass": true,
+              "coordinateClasses": true,
+              "cesium": true,
+              "viewer": true,
+              "frameDocument": "http-page",
+              "webgl": 2
+            },
+            "timeline": [
+              "frame-loading",
+              "script-loaded",
+              "waiting-for-api",
+              "map-construct",
+              "map-configure",
+              "map-start-requested",
+              "viewer-ready",
+              "adapter-setup"
+            ],
+            "actualKeyIncluded": false,
+            "geometryVerified": false,
+            "productionReady": false
+          },
+          "productionReady": false,
+          "walkingEnabled": false,
+          "experimentalWalk": {
+            "active": false,
+            "code": "STOPPED",
+            "cameraMode": "third-person",
+            "distance": 0
+          },
+          "navigation": {
+            "lon": 126.52155,
+            "lat": 33.51325,
+            "height": 700,
+            "heading": 0,
+            "pitch": -50,
+            "mode": "orbit"
+          },
+          "publisherConfigured": true,
+          "aerial": {
+            "mode": "original",
+            "lighting": "day",
+            "imageryRequested": 0,
+            "imageryDecoded": 0,
+            "imageryFailed": 0,
+            "terrainProvider": true,
+            "groundSample": 25,
+            "modelTilesObserved": 0,
+            "frames": 1,
+            "fps": 0,
+            "sourceDate": null,
+            "geometryVerified": false,
+            "productionReady": false,
+            "satelliteAvailable": false,
+            "buildingsVisible": true,
+            "lightQuality": true
+          }
+        }
+      },
+      {
+        "fixtureFailureState": {
+          "version": "3.8.0-visitor-navigation",
+          "source": "provider",
+          "state": "viewer-ready-unverified",
+          "sdkReady": true,
+          "modelSelections": 0,
+          "previewReady": false,
+          "placeCount": 32,
+          "scene": "gwandeok",
+          "distance": 700,
+          "pitch": -50,
+          "orbit": false,
+          "tourRunning": false,
+          "markersVisible": true,
+          "lightQuality": true,
+          "canConnect": true,
+          "connection": {
+            "failureCode": null,
+            "diagnostic": {
+              "stage": "adapter-setup",
+              "exceptionName": null,
+              "mapClass": true,
+              "coordinateClasses": true,
+              "cesium": true,
+              "viewer": true,
+              "frameDocument": "http-page",
+              "webgl": 2
+            },
+            "timeline": [
+              "frame-loading",
+              "script-loaded",
+              "waiting-for-api",
+              "map-construct",
+              "map-configure",
+              "map-start-requested",
+              "viewer-ready",
+              "adapter-setup"
+            ],
+            "actualKeyIncluded": false,
+            "geometryVerified": false,
+            "productionReady": false
+          },
+          "productionReady": false,
+          "walkingEnabled": false,
+          "experimentalWalk": {
+            "active": false,
+            "code": "STOPPED",
+            "cameraMode": "third-person",
+            "distance": 0
+          },
+          "navigation": {
+            "lon": 126.52155,
+            "lat": 33.51325,
+            "height": 700,
+            "heading": 0,
+            "pitch": -50,
+            "mode": "orbit"
+          },
+          "publisherConfigured": true,
+          "aerial": {
+            "mode": "original",
+            "lighting": "day",
+            "imageryRequested": 0,
+            "imageryDecoded": 0,
+            "imageryFailed": 0,
+            "terrainProvider": true,
+            "groundSample": 25,
+            "modelTilesObserved": 0,
+            "frames": 1,
+            "fps": 0,
+            "sourceDate": null,
+            "geometryVerified": false,
+            "productionReady": false,
+            "satelliteAvailable": false,
+            "buildingsVisible": true,
+            "lightQuality": true
+          }
+        }
+      }
+    ],
     "scope": "candidate HTTP and actual mouse input; Three.js retained OSM data; Cesium engine with explicit SDK/terrain/config fixtures",
     "actualKeyUsed": false,
     "actualVWorldModelsVerified": false,
@@ -30,9 +204,103 @@
       {
         "name": "candidate-1280-Cesium-fixture HTTP 200",
         "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture fixture SDK initialized",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-Cesium-fixture rendered canvas",
+        "passed": false
       }
     ],
-    "measurements": [],
+    "measurements": [
+      {
+        "test": "candidate-1280-Cesium-fixture",
+        "fixtureBootstrapState": {
+          "version": "3.8.0-visitor-navigation",
+          "source": "provider",
+          "state": "viewer-ready-unverified",
+          "sdkReady": true,
+          "modelSelections": 0,
+          "previewReady": false,
+          "placeCount": 32,
+          "scene": "gwandeok",
+          "distance": 700,
+          "pitch": -50,
+          "orbit": false,
+          "tourRunning": false,
+          "markersVisible": true,
+          "lightQuality": true,
+          "canConnect": true,
+          "connection": {
+            "failureCode": null,
+            "diagnostic": {
+              "stage": "adapter-setup",
+              "exceptionName": null,
+              "mapClass": true,
+              "coordinateClasses": true,
+              "cesium": true,
+              "viewer": true,
+              "frameDocument": "http-page",
+              "webgl": 2
+            },
+            "timeline": [
+              "frame-loading",
+              "script-loaded",
+              "waiting-for-api",
+              "map-construct",
+              "map-configure",
+              "map-start-requested",
+              "viewer-ready",
+              "adapter-setup"
+            ],
+            "actualKeyIncluded": false,
+            "geometryVerified": false,
+            "productionReady": false
+          },
+          "productionReady": false,
+          "walkingEnabled": false,
+          "experimentalWalk": {
+            "active": false,
+            "code": "STOPPED",
+            "cameraMode": "third-person",
+            "distance": 0
+          },
+          "navigation": {
+            "lon": 126.52155,
+            "lat": 33.51325,
+            "height": 700,
+            "heading": 0,
+            "pitch": -50,
+            "mode": "orbit"
+          },
+          "publisherConfigured": true,
+          "aerial": {
+            "mode": "original",
+            "lighting": "day",
+            "imageryRequested": 0,
+            "imageryDecoded": 0,
+            "imageryFailed": 0,
+            "terrainProvider": true,
+            "groundSample": 25,
+            "modelTilesObserved": 0,
+            "frames": 1,
+            "fps": 0,
+            "sourceDate": null,
+            "geometryVerified": false,
+            "productionReady": false,
+            "satelliteAvailable": false,
+            "buildingsVisible": true,
+            "lightQuality": true
+          }
+        }
+      }
+    ],
     "actualKeyUsed": false,
     "complete": false
   },

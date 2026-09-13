@@ -9,7 +9,10 @@ if 'softwareRasterScale' not in s:
  s=s.replace("report={'checks':checks", "report={'softwareRasterScale':0.4,'checks':checks")
  s=s.replace("page.screenshot(path=str(out/(tag+'-before.png')))", "page.screenshot(path=str(out/(tag+'-before.png')),scale='css')")
  s=s.replace("page.screenshot(path=str(out/(tag+'-after.png')))", "page.screenshot(path=str(out/(tag+'-after.png')),scale='css')")
- p.write_text(s)
+if 'fixtureBootstrapState' not in s:
+ s=s.replace("page.wait_for_function('window.__JEJU_EXPLORER__?.status.'+('sdkReady' if provider else 'previewReady'),timeout=75000)","page.wait_for_function(\"window.__JEJU_EXPLORER__?.status.\"+('sdkReady||window.__JEJU_EXPLORER__?.status.source===\"error\"' if provider else 'previewReady'),timeout=75000)\n    if provider:\n     snapshot=page.evaluate('window.__JEJU_EXPLORER__.status');print('Fixture bootstrap '+json.dumps(snapshot),flush=True);measurements.append({'test':tag,'fixtureBootstrapState':snapshot});check(tag+' fixture SDK initialized',snapshot['sdkReady'])")
+ s=s.replace(" except Exception as e:failure=str(e)[:600]", " except Exception as e:\n  failure=str(e)[:600]\n  try:\n   snapshot=page.evaluate('window.__JEJU_EXPLORER__?.status');measurements.append({'fixtureFailureState':snapshot});print(json.dumps(snapshot),flush=True)\n  except Exception:pass")
+p.write_text(s)
 # Active derivatives need their own cache versions, not only the parent module version.
 p=Path('precision/explore.mjs');s=p.read_text().replace("legacy/preview-flight.html?embed=flight'", "legacy/preview-flight.html?embed=flight&v=3.8.0'");p.write_text(s)
 p=Path('precision/prepare.mjs');s=p.read_text().replace('href="../preview.css"','href="../preview.css?v=3.8.0"').replace("'./realism/flight-entry.js'", "'./realism/flight-entry.js?v=3.8.0'");p.write_text(s)

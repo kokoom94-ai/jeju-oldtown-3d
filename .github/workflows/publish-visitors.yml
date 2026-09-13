@@ -1,0 +1,107 @@
+name: Publish visitor map - no key entry
+on:
+  workflow_dispatch:
+    inputs:
+      imagery:
+        description: 'Enable Satellite WMTS (key needs background-map permission)'
+        type: boolean
+        default: false
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: oldtown-public-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.repository == 'kokoom94-ai/jeju-oldtown-3d' && github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    timeout-minutes: 5
+    outputs:
+      config_sha: ${{ steps.configure.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: jeju-precision-site
+          path: _publish
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _tools
+          persist-credentials: false
+          sparse-checkout: scripts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate publisher code without the key
+        run: node --test _tools/scripts/public-config.test.mjs
+      - name: Check actual publishing source and static integrity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,pathlib,urllib.request,hashlib
+          root=pathlib.Path('_publish');meta=json.loads((root/'site.json').read_text());manifest=json.loads((root/'integrity.json').read_text())
+          assert meta['repository']=='kokoom94-ai/jeju-oldtown-3d' and meta['version']=='3.8.0-visitor-navigation'
+          assert manifest['repository']==meta['repository']
+          for entry in manifest['files']:
+            file=(root/entry['path']).resolve()
+            assert file.is_relative_to(root.resolve()) and file.is_file() and not file.is_symlink()
+            assert hashlib.sha256(file.read_bytes()).hexdigest()==entry['sha256']
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self,*a,**kw):return None
+          req=urllib.request.Request('https://api.github.com/repos/kokoom94-ai/jeju-oldtown-3d/pages',headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+          with urllib.request.build_opener(NoRedirect).open(req,timeout=20) as r:pages=json.load(r)
+          assert pages.get('html_url')=='https://kokoom94-ai.github.io/jeju-oldtown-3d/' and not pages.get('cname')
+          if pages.get('build_type')!='workflow':
+            with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:f.write('Set Settings → Pages → Source to GitHub Actions once. The existing site has not been changed.\n')
+            raise SystemExit('Pages custom workflow source is not enabled')
+          PY
+      - name: Place owner key only in the public Pages artifact
+        id: configure
+        env:
+          VWORLD_PUBLIC_KEY: ${{ secrets.VWORLD_PUBLIC_KEY }}
+          VWORLD_USE_IMAGERY: ${{ inputs.imagery }}
+          PUBLIC_KEY_VISIBILITY_ACCEPTED: 'true'
+        run: |
+          node _tools/scripts/publish-public-config.mjs _publish
+          rm -rf _publish/.git _publish/.github
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _publish
+          retention-days: 1
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+      - name: Verify exact public configuration bytes without printing the value
+        env:
+          EXPECTED_CONFIG_SHA: ${{ needs.build.outputs.config_sha }}
+        run: |
+          python - <<'PY'
+          import urllib.request,time,hashlib,os
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self,*a,**kw):return None
+          for attempt in range(12):
+            try:
+              req=urllib.request.Request('https://kokoom94-ai.github.io/jeju-oldtown-3d/public-connection.json',headers={'Cache-Control':'no-cache'})
+              with urllib.request.build_opener(NoRedirect).open(req,timeout=15) as r:
+                body=r.read(4097)
+                if r.status==200 and hashlib.sha256(body).hexdigest()==os.environ['EXPECTED_CONFIG_SHA']:
+                  print('Visitor automatic connection configured. Actual SDK/model reception remains a separate check.');break
+            except Exception:pass
+            time.sleep(5)
+          else:raise SystemExit('Exact public configuration was not confirmed. No key value logged.')
+          PY

@@ -1,0 +1,20 @@
+name: Validate visitor publisher without credentials
+on:
+  push:
+    branches: [main, deploy/public-visitors-3-8]
+    paths: ['scripts/public-config.test.mjs', 'scripts/publish-public-config.mjs', '.github/workflows/public-publisher-contract.yml', '.github/workflows/publish-visitors.yml']
+permissions:
+  contents: read
+jobs:
+  test:
+    if: github.repository == 'kokoom94-ai/jeju-oldtown-3d'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test scripts/public-config.test.mjs

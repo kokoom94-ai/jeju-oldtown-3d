@@ -1,8 +1,8 @@
 {
   "version": "3.8.0-visitor-navigation",
-  "runId": "34747042088",
-  "sourceCommit": "7fe5d88d923d7b2b8164592df8aabea838c0d9e9",
-  "checkedAt": "2026-09-13T08:20:04.855611+00:00",
+  "runId": "34747516566",
+  "sourceCommit": "e8b0b9235ef9a0c191b11370421513a03da6a241",
+  "checkedAt": "2026-09-13T08:23:15.437804+00:00",
   "unit": {
     "passed": 162,
     "failed": 0
@@ -12,31 +12,11 @@
       {
         "name": "candidate-1280-OSM-actual HTTP 200",
         "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual current JS",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual rendered canvas",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual left drag changes heading and tilt",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual actual rendered camera changes",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual mouse orbit exceeds 360 degrees",
-        "passed": false
       }
     ],
-    "passed": 5,
-    "total": 6,
-    "failure": "candidate-1280-OSM-actual mouse orbit exceeds 360 degrees",
+    "passed": 1,
+    "total": 1,
+    "failure": "Locator.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator(\"#quality\")\n    - locator resolved to <button id=\"quality\" aria-pressed=\"false\">가벼운 모드</button>\n  - attempting click action\n    - waiting for element to be visible, enabled and stable\n    - element is visible, enabled and stable\n    - scrolling into view if needed\n    - done scrolling\n",
     "errors": [],
     "measurements": [],
     "scope": "candidate HTTP and actual mouse input; Three.js retained OSM data; Cesium engine with explicit SDK/terrain/config fixtures",
@@ -44,7 +24,19 @@
     "actualVWorldModelsVerified": false,
     "productionReady": false
   },
+  "candidateProgress": {
+    "checks": [
+      {
+        "name": "candidate-1280-OSM-actual HTTP 200",
+        "passed": true
+      }
+    ],
+    "measurements": [],
+    "actualKeyUsed": false,
+    "complete": false
+  },
   "publicBrowser": null,
+  "publicProgress": null,
   "deployment": null,
   "actualKeyUsed": false,
   "publisherKeyConfigured": false,

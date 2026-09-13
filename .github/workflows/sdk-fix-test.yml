@@ -1,0 +1,96 @@
+name: Validate SDK bootstrap fix 3.7.1
+on:
+  push:
+    branches: ['fix/sdk-bootstrap-3-7-1']
+    paths: ['.github/workflows/sdk-fix-test.yml']
+permissions:
+  contents: write
+concurrency:
+  group: oldtown-sdk-fix-validation
+  cancel-in-progress: false
+jobs:
+  validate:
+    if: github.repository == 'kokoom94-ai/jeju-oldtown-3d' && github.ref_name == 'fix/sdk-bootstrap-3-7-1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply only the reviewed source patch
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,gzip,hashlib,subprocess,re,os
+          assert os.environ['GITHUB_REPOSITORY']=='kokoom94-ai/jeju-oldtown-3d'
+          parts=sorted(Path('scripts').glob('sdk-fix-transfer-*.b64'))
+          if parts:
+            assert len(parts)==4
+            patch=gzip.decompress(base64.b64decode(''.join(p.read_text().strip() for p in parts),validate=True))
+            assert hashlib.sha256(patch).hexdigest()=='faa8096bbd44be83082916e34d6c18ed7233b73a270f2daaa9dc4b810200439f'
+            names=re.findall(rb'^diff --git a/(\S+) b/(\S+)$',patch,re.M)
+            assert len(names)==20
+            for a,b in names:
+              assert a==b and b'..' not in a
+              assert a==b'package.json' or a.startswith((b'precision/',b'scripts/'))
+            subprocess.run(['git','apply','--check','-'],input=patch,check=True)
+            subprocess.run(['git','apply','-'],input=patch,check=True)
+          else:
+            assert '3.7.1-sdk-diagnostics' in Path('precision/session.mjs').read_text()
+          PY
+      - name: Unit tests and static build
+        run: |
+          set -o pipefail
+          mkdir -p precision-qa
+          npm test | tee precision-qa/sdk-unit-tests.txt
+          npm run build
+      - name: Install browser runner
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y fonts-noto-cjk
+      - name: Browser connection and failure regressions with explicit fixtures
+        run: python scripts/sdk-browser-regression.py
+      - name: Commit verified readable source only to this work branch
+        run: |
+          test "$GITHUB_REPOSITORY" = 'kokoom94-ai/jeju-oldtown-3d'
+          test "$GITHUB_REF_NAME" = 'fix/sdk-bootstrap-3-7-1'
+          test "$(git remote get-url origin)" = 'https://github.com/kokoom94-ai/jeju-oldtown-3d'
+          git config user.name 'JEJU Oldtown build'
+          git config user.email 'oldtown-build@users.noreply.github.com'
+          git add package.json precision scripts
+          git reset -- precision/*browser-result.json precision/sdk-browser-result.json || true
+          if compgen -G 'scripts/sdk-fix-transfer-*.b64' > /dev/null; then git rm scripts/sdk-fix-transfer-*.b64; fi
+          if ! git diff --cached --quiet; then
+            git commit -m 'Fix async SDK bootstrap and retain sanitized error diagnostics [skip ci]'
+            git push origin HEAD:refs/heads/fix/sdk-bootstrap-3-7-1
+          fi
+          echo "SOURCE_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Record this validation only
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,os,re,datetime,zipfile
+          root=Path('precision-qa');root.mkdir(exist_ok=True)
+          unit=(root/'sdk-unit-tests.txt').read_text() if (root/'sdk-unit-tests.txt').exists() else ''
+          def count(name):
+            m=re.search(r'^# '+name+r' (\d+)$',unit,re.M);return int(m.group(1)) if m else None
+          browser=json.loads((root/'sdk-regression.json').read_text()) if (root/'sdk-regression.json').exists() else None
+          report={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'runId':os.environ['GITHUB_RUN_ID'],'sourceCommit':os.environ.get('SOURCE_COMMIT'),'unit':{'passed':count('pass'),'failed':count('fail')},'browser':browser,'actualKeyUsed':False,'sdkLiveTested':False,'geometryVerified':False,'productionReady':False,'publicSiteChanged':False,'oldRepositoryWriteOperations':0}
+          (root/'sdk-validation-result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
+          with zipfile.ZipFile(root/'sdk-source.zip','w',zipfile.ZIP_DEFLATED) as z:
+            for p in Path('.').rglob('*'):
+              if not p.is_file() or p.parts[0] in {'.git','_precision_site','precision-qa','node_modules'}:continue
+              if p.name.startswith('.env') and p.name!='.env.example':continue
+              if 'sdk-fix-transfer-' in p.name:continue
+              z.write(p)
+          print(json.dumps({k:v for k,v in report.items() if k!='browser'},ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sdk-fix-validation
+          path: precision-qa/
+          retention-days: 7

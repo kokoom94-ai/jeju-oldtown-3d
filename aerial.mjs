@@ -1,5 +1,5 @@
 // Official WMTS imagery on the provider's terrain. No generated city geometry.
-import {validateKey} from './bridge.mjs';
+import {validateKey} from './bridge.mjs?v=3.7.1';
 export function satelliteTemplate(key){return 'https://api.vworld.kr/req/wmts/1.0.0/'+validateKey(key)+'/Satellite/{z}/{y}/{x}.jpeg';}
 export function emptyAerial(){return {mode:'original',lighting:'day',imageryRequested:0,imageryDecoded:0,imageryFailed:0,terrainProvider:false,groundSample:null,modelTilesObserved:0,frames:0,fps:0,sourceDate:null,geometryVerified:false,productionReady:false};}
 // Self-contained: serialized into the isolated SDK iframe. Only public Cesium APIs.

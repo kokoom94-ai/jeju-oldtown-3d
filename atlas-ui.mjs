@@ -1,5 +1,6 @@
-import {emptyAerial,cleanAerial} from './aerial.mjs';
-import {VERSION,PLANNED_URL} from './session.mjs';
+import {connectionReport} from './sdk-diagnostics.mjs?v=3.7.1';
+import {emptyAerial,cleanAerial} from './aerial.mjs?v=3.7.1';
+import {VERSION,PLANNED_URL} from './session.mjs?v=3.7.1';
 // UI state contains bounded diagnostics only: no provider URL, key or raw errors.
 export function installAtlasUI({getState,emit,toast,openConnect,north}){
  const $=s=>document.querySelector(s);let aerial=emptyAerial(),lighting='day',building=true;
@@ -20,7 +21,7 @@ export function installAtlasUI({getState,emit,toast,openConnect,north}){
  for(const b of document.querySelectorAll('[data-lighting]'))b.onclick=()=>{if(!getState().sdkReady)return;emit('aerial-control',{action:'lighting',value:b.dataset.lighting});};
  $('#atlas-buildings').onclick=()=>{if(!getState().sdkReady)return;emit('aerial-control',{action:'building',value:!building});};
  $('#atlas-export').onclick=()=>{
-  const app=getState(),data={version:VERSION,checkedAt:new Date().toISOString(),serviceUrl:PLANNED_URL,sdkReady:app.sdkReady===true,mode:app.source,aerial:cleanAerial(aerial),geometryVerified:false,productionReady:false,captureDate:null,note:'Runtime observations only. Images may contain baked shadows; lighting is a simulation. No key or provider request URL is included.'};
+  const app=getState(),data={version:VERSION,checkedAt:new Date().toISOString(),serviceUrl:PLANNED_URL,sdkReady:app.sdkReady===true,connection:connectionReport(app.connection),mode:app.source,aerial:cleanAerial(aerial),geometryVerified:false,productionReady:false,captureDate:null,note:'Runtime observations only. Images may contain baked shadows; lighting is a simulation. No key or provider request URL is included.'};
   const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='JEJU-BEFORE-aerial-diagnostic.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
  };
  render();return {update(v){aerial=cleanAerial(v);building=aerial.buildingsVisible;lighting=aerial.lighting;render();},reset(){aerial=emptyAerial();lighting='day';building=true;render();},render,get status(){return cleanAerial(aerial);},unavailable(feature){toast(({satellite:'항공영상 API를 사용할 수 없습니다. 배경지도 권한·네트워크를 확인하세요.',building:'이 SDK에서 건물 레이어 조작을 확인하지 못했습니다.',lighting:'이 SDK에서 조명 조작을 확인하지 못했습니다.'})[feature]||'이 SDK에서 선택한 기능을 사용할 수 없습니다.');}};

@@ -1,4 +1,5 @@
-import {checkHostedBundle} from './integrity.mjs';
+import {SDK_PHASES} from './sdk-diagnostics.mjs?v=3.7.1';
+import {checkHostedBundle} from './integrity.mjs?v=3.7.1';
 // Representative coordinates from existing draft POIs. No boundary/entrance assertions.
 export const CHECKPOINTS=Object.freeze([
  {id:'gwandeok',name:'관덕정',lon:126.52155,lat:33.51325,height:450},
@@ -7,7 +8,7 @@ export const CHECKPOINTS=Object.freeze([
  {id:'tapdong',name:'탑동광장',lon:126.5282,lat:33.51935,height:650},
  {id:'cju',name:'공항 주변',lon:126.4936,lat:33.5062,height:1500}
 ]);
-export const PHASES=Object.freeze({'sdk-requested':'SDK 요청','script-loaded':'SDK 스크립트 수신','map-start-requested':'지도 시작 요청','viewer-ready':'뷰어 초기화','model-picked':'3D 객체 선택','error':'연결 오류','disconnect':'연결 종료'});
+export const PHASES=Object.freeze({...SDK_PHASES,'sdk-requested':'SDK 요청','script-loaded':'SDK 스크립트 수신','map-start-requested':'지도 시작 요청','viewer-ready':'뷰어 초기화','model-picked':'3D 객체 선택','error':'연결 오류','disconnect':'연결 종료'});
 export function recordPhase(log,name,at=Date.now()){
  if(!Object.hasOwn(PHASES,name)||!Number.isFinite(at)||at<0||at>8640000000000000)return log;
  return [...log.slice(-19),{phase:name,at:new Date(at).toISOString()}];

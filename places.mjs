@@ -1,5 +1,5 @@
 // Independent draft POI seed. Bounding-box acceptance is not area coverage proof.
-import {cleanPlace} from './bridge.mjs';
+import {cleanPlace} from './bridge.mjs?v=3.7.1';
 export function parsePlaceSeed(text) {
   if (typeof text !== 'string' || text.length > 200000) throw Error('Place seed size invalid');
   let data;

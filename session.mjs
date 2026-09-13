@@ -1,5 +1,6 @@
+import {connectionReport} from './sdk-diagnostics.mjs?v=3.7.1';
 // Local diagnostics only. No credentials, generated buildings or accuracy shortcuts.
-export const VERSION='3.7.0-vworld-aerial';
+export const VERSION='3.7.1-sdk-diagnostics';
 export const PLANNED_URL='https://kokoom94-ai.github.io/jeju-oldtown-3d/';
 export const SETTINGS_URL='https://github.com/kokoom94-ai/jeju-oldtown-3d/settings/pages';
 export const SITE_BRANCH='jeju-precision-site';
@@ -44,7 +45,7 @@ export function addObservation(log,id,object,at=new Date().toISOString()){
 export function diagnostics(state,log,origin,placeCount){
  const observations=TARGETS.map(t=>log[t.id]).filter(Boolean).map(r=>({id:r.id,name:r.name,status:r.status,observedAt:r.observedAt,object:r.object?cleanObject(r.object):null}));
  return {version:VERSION,checkedAt:new Date().toISOString(),origin:hostPolicy(origin).origin,
- provider:'VWorld WebGL 3.0',transport:state.transport==='sdk-bootstrap-proxy'?'sdk-bootstrap-proxy':'direct-sdk',failureCode:['SDK_NETWORK_FAILED','SDK_UNAVAILABLE','SDK_INIT_FAILED','SDK_INIT_TIMEOUT','RENDER_FAILED','PREFLIGHT_FAILED'].includes(state.failureCode)?state.failureCode:null,connectionState:String(state.state||'not-configured').slice(0,60),sdkReady:state.sdkReady===true,
+ provider:'VWorld WebGL 3.0',transport:state.transport==='sdk-bootstrap-proxy'?'sdk-bootstrap-proxy':'direct-sdk',failureCode:connectionReport(state).failureCode,bootstrap:connectionReport(state),connectionState:String(state.state||'not-configured').slice(0,60),sdkReady:state.sdkReady===true,
  objectSelections:Number.isSafeInteger(state.modelSelections)?state.modelSelections:0,
  observations,places:Math.max(0,Number(placeCount)||0),
  scopeDefinition:'Six named area review targets. Camera points are not administrative boundaries or verified entrances.',

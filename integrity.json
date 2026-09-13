@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "repository": "kokoom94-ai/jeju-oldtown-3d",
-  "version": "3.7.0-vworld-aerial",
+  "version": "3.7.1-sdk-diagnostics",
   "files": [
     {
       "path": ".nojekyll",
@@ -10,28 +10,28 @@
     },
     {
       "path": "aerial.mjs",
-      "bytes": 6490,
-      "sha256": "da40d02cc48160f75e6e29b9e65aaba6d9fa6f409e19e081686e94e733a70c5d"
+      "bytes": 6498,
+      "sha256": "19594489348c78a140a662477b38ea4d218dffc81300e8232ef86590c10d0a4f"
     },
     {
       "path": "app.mjs",
-      "bytes": 12378,
-      "sha256": "cc9d43038e3ad349e3cbd538d6039502f4a77d13cf55baaca9e9ae3351058db6"
+      "bytes": 12473,
+      "sha256": "0c5ac8d1e0240ec25be79f08653649d3673fe83cc3f7d70f2e4f7e7e3eaf84ae"
     },
     {
       "path": "atlas-ui.mjs",
-      "bytes": 4070,
-      "sha256": "10d89cb047293fe0074c5e4203331c5a7dc8cb29c0aebb9bbaaceb40740830f9"
+      "bytes": 4194,
+      "sha256": "338c126efd182fbd2a8e6a2a7d89f469924a9477814d0aaefb6dda9857a62518"
     },
     {
       "path": "bridge.mjs",
-      "bytes": 9613,
-      "sha256": "02796487c4b4ddf22b9c42b3b4898a68116f585ce5c4a01b419d9ce2f1252965"
+      "bytes": 11701,
+      "sha256": "6a28faf42e3b55394fab6bd8d747a5e37e139482a401ae3414a8cb3b58239c57"
     },
     {
       "path": "connect.html",
-      "bytes": 11921,
-      "sha256": "f5ccfba1d68b893b6b987d806a05f0a8e71b2b62ff489610c3349f681e34b898"
+      "bytes": 11929,
+      "sha256": "d0c39d6fd1efd92d7d8530c01cd4117a1aee800322939a68af1f2fac444aaf0c"
     },
     {
       "path": "CONNECT.md",
@@ -50,13 +50,13 @@
     },
     {
       "path": "explore.html",
-      "bytes": 9932,
-      "sha256": "cdc9c7c4009212ec0477e89fd54e85b0ad31a339d0a1dc347fbe78bfd461ce5d"
+      "bytes": 10225,
+      "sha256": "f0e6d0a8abf4b417378dc23404dcf9966c01544405573ef605266a6e7978798d"
     },
     {
       "path": "explore.mjs",
-      "bytes": 18121,
-      "sha256": "ac61aaa1b623d4e71085b0b1d10d8e500a532e92ca37ed1d116ff20a15f75da8"
+      "bytes": 20125,
+      "sha256": "9f178904d1c108e46285286e3f63e9ea87734d0a53b46a2448abe1ad444e6d34"
     },
     {
       "path": "flight.mjs",
@@ -70,13 +70,13 @@
     },
     {
       "path": "index.html",
-      "bytes": 9932,
-      "sha256": "cdc9c7c4009212ec0477e89fd54e85b0ad31a339d0a1dc347fbe78bfd461ce5d"
+      "bytes": 10225,
+      "sha256": "f0e6d0a8abf4b417378dc23404dcf9966c01544405573ef605266a6e7978798d"
     },
     {
       "path": "inspection.mjs",
-      "bytes": 5683,
-      "sha256": "38b18e132bfc98b52b1fb29f8d2f87e7d9ce1e3f3efa0c0d214d122a845e3f9b"
+      "bytes": 5763,
+      "sha256": "ddd7c3c7e30ce8972e9abf72693184d3dce75e428cb2d4d5257c87e7763689c0"
     },
     {
       "path": "integrity.mjs",
@@ -195,8 +195,8 @@
     },
     {
       "path": "places.mjs",
-      "bytes": 926,
-      "sha256": "662d34cbb77a994cece2c29eecb0b5b32ae1de1e5d6fb83a98b430d5a58a44fd"
+      "bytes": 934,
+      "sha256": "c63ac6f440d2de6ed04b6808060bc755fa70021282c956c5bfef8a99f3c85723"
     },
     {
       "path": "preview.css",
@@ -229,14 +229,44 @@
       "sha256": "464f55b221fc37a528a1363ceb255d4de8abfdafad618eed63c92d1f2d588be1"
     },
     {
+      "path": "SDK_FIX_3_7_1.md",
+      "bytes": 2002,
+      "sha256": "d3d934bda6c86ab2d3f6e4c6e6cd38798ed51948f8e1d2f5c03669205fc2688c"
+    },
+    {
+      "path": "sdk-diagnostics.mjs",
+      "bytes": 4662,
+      "sha256": "be0e2f8521f1bdcfe0b7932da08127f92c6e2c7d74c795669219495b989aa5d0"
+    },
+    {
+      "path": "sdk-frame-host.mjs",
+      "bytes": 996,
+      "sha256": "a678c6073a266fa943c17f46b8c481c59e0bef549e0d5a348a0edc1ade0cdf19"
+    },
+    {
+      "path": "sdk-frame.html",
+      "bytes": 299,
+      "sha256": "f6f2f4db54eed6b78d7b5436cd965aa22b0fe62a7d4a36a41e78c501175b3fc8"
+    },
+    {
+      "path": "sdk-frame.mjs",
+      "bytes": 1137,
+      "sha256": "1c57ebd86e77122c9650e87b4976c1a0be5cf74421e927915a64f0877c3e6b69"
+    },
+    {
+      "path": "sdk-guard.mjs",
+      "bytes": 2477,
+      "sha256": "607b7e34d3bc29e2d646073be25ab693ccad38cadf1a38fd544ad0425a32a6c8"
+    },
+    {
       "path": "session.mjs",
-      "bytes": 4470,
-      "sha256": "869d982ea41bdd17b5c8c1ffd4fb31fbfd52e718a47d799686ff443efb3ab9a2"
+      "bytes": 4442,
+      "sha256": "500ce7c776f07563e11acde5527c4d308915c0963b393e0f7250d63b19cde86e"
     },
     {
       "path": "site.json",
-      "bytes": 819,
-      "sha256": "8ebb44e38210f19bed6c9a3c29b99082d1a17881e2240e572fc519275cd1f78d"
+      "bytes": 827,
+      "sha256": "36f43671bc1cc3c7f9af64434a5c7d4918efb5eb990d1a275b660fe36a13038f"
     },
     {
       "path": "view.mjs",

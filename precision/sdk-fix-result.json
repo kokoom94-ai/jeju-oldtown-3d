@@ -1,0 +1,353 @@
+{
+  "version": "3.7.1-sdk-diagnostics",
+  "checkedAt": "2026-09-13T00:55:58.670237+00:00",
+  "runId": "34729164381",
+  "sourceCommit": "fa4ac73b11850e9eda4f7054215ead912feb6f8f",
+  "unit": {
+    "passed": 149,
+    "failed": 0
+  },
+  "fixtureBrowser": {
+    "checks": [
+      {
+        "name": "network: no automatic SDK request",
+        "passed": true
+      },
+      {
+        "name": "network: distinct error code preserved",
+        "passed": true
+      },
+      {
+        "name": "network: visible error code",
+        "passed": true
+      },
+      {
+        "name": "network: SDK not marked ready",
+        "passed": true
+      },
+      {
+        "name": "network: stays failed, no fallback to guessed models",
+        "passed": true
+      },
+      {
+        "name": "network: diagnostic excludes raw secret text",
+        "passed": true
+      },
+      {
+        "name": "failure modal has no mobile horizontal overflow",
+        "passed": true
+      },
+      {
+        "name": "network: key input cleared",
+        "passed": true
+      },
+      {
+        "name": "network: no key persisted in browser storage",
+        "passed": true
+      },
+      {
+        "name": "network: no client runtime exceptions",
+        "passed": true
+      },
+      {
+        "name": "network: geometry not certified",
+        "passed": true
+      },
+      {
+        "name": "delayed-lexical: no automatic SDK request",
+        "passed": true
+      },
+      {
+        "name": "late global lexical SDK classes are supported",
+        "passed": true
+      },
+      {
+        "name": "SDK executes with a real HTTP URL, never about:srcdoc",
+        "passed": true
+      },
+      {
+        "name": "explicit official map id setter applied",
+        "passed": true
+      },
+      {
+        "name": "no srcdoc on parent iframe",
+        "passed": true
+      },
+      {
+        "name": "delayed-lexical: key input cleared",
+        "passed": true
+      },
+      {
+        "name": "delayed-lexical: no key persisted in browser storage",
+        "passed": true
+      },
+      {
+        "name": "delayed-lexical: no client runtime exceptions",
+        "passed": true
+      },
+      {
+        "name": "delayed-lexical: geometry not certified",
+        "passed": true
+      },
+      {
+        "name": "configure-error: no automatic SDK request",
+        "passed": true
+      },
+      {
+        "name": "configure-error: distinct error code preserved",
+        "passed": true
+      },
+      {
+        "name": "configure-error: visible error code",
+        "passed": true
+      },
+      {
+        "name": "configure-error: SDK not marked ready",
+        "passed": true
+      },
+      {
+        "name": "configure-error: stays failed, no fallback to guessed models",
+        "passed": true
+      },
+      {
+        "name": "configure-error: diagnostic excludes raw secret text",
+        "passed": true
+      },
+      {
+        "name": "precise map configuration stage retained",
+        "passed": true
+      },
+      {
+        "name": "configure-error: key input cleared",
+        "passed": true
+      },
+      {
+        "name": "configure-error: no key persisted in browser storage",
+        "passed": true
+      },
+      {
+        "name": "configure-error: no client runtime exceptions",
+        "passed": true
+      },
+      {
+        "name": "configure-error: geometry not certified",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: no automatic SDK request",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: distinct error code preserved",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: visible error code",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: SDK not marked ready",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: stays failed, no fallback to guessed models",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: diagnostic excludes raw secret text",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: key input cleared",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: no key persisted in browser storage",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: no client runtime exceptions",
+        "passed": true
+      },
+      {
+        "name": "provider-rejection: geometry not certified",
+        "passed": true
+      },
+      {
+        "name": "frame-404: no automatic SDK request",
+        "passed": true
+      },
+      {
+        "name": "frame-404: distinct error code preserved",
+        "passed": true
+      },
+      {
+        "name": "frame-404: visible error code",
+        "passed": true
+      },
+      {
+        "name": "frame-404: SDK not marked ready",
+        "passed": true
+      },
+      {
+        "name": "frame-404: stays failed, no fallback to guessed models",
+        "passed": true
+      },
+      {
+        "name": "frame-404: diagnostic excludes raw secret text",
+        "passed": true
+      },
+      {
+        "name": "frame-404: key input cleared",
+        "passed": true
+      },
+      {
+        "name": "frame-404: no key persisted in browser storage",
+        "passed": true
+      },
+      {
+        "name": "frame-404: no client runtime exceptions",
+        "passed": true
+      },
+      {
+        "name": "frame-404: geometry not certified",
+        "passed": true
+      }
+    ],
+    "passed": 51,
+    "total": 51,
+    "failures": [],
+    "actualKeyUsed": false,
+    "actualProviderRequests": 0,
+    "geometryVerified": false,
+    "scope": "Local browser with explicit SDK and preview fixtures. Not actual provider/model reception."
+  },
+  "publicBrowser": {
+    "checkedAt": "2026-09-13T00:55:58.606722+00:00",
+    "url": "https://kokoom94-ai.github.io/jeju-oldtown-3d/",
+    "checks": [
+      {
+        "name": "1280: public HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "1280: updated JS module version",
+        "passed": true
+      },
+      {
+        "name": "1280: dedicated key input enabled",
+        "passed": true
+      },
+      {
+        "name": "1280: new diagnostic control visible",
+        "passed": true
+      },
+      {
+        "name": "1280: current version visible in connection dialog",
+        "passed": true
+      },
+      {
+        "name": "1280: no horizontal overflow",
+        "passed": true
+      },
+      {
+        "name": "1280: place popup",
+        "passed": false
+      }
+    ],
+    "passed": 6,
+    "total": 7,
+    "failure": "1280: place popup",
+    "actualKeyUsed": false,
+    "providerRequests": 0,
+    "sdkLiveTested": false,
+    "geometryVerified": false,
+    "scope": "Actual dedicated HTTPS page, JS version, key form and place popup in desktop/mobile Chromium. No live provider connection."
+  },
+  "deployment": {
+    "checkedAt": "2026-09-13T00:55:13.575651+00:00",
+    "runId": "34729164381",
+    "sourceCommit": "fa4ac73b11850e9eda4f7054215ead912feb6f8f",
+    "sourceBranch": "fix/sdk-bootstrap-3-7-1",
+    "siteBefore": "51f153beb5988b0daa5da7d9fc8be1ae0a3f8de5",
+    "pagesSettingChanged": false,
+    "actualKeyUsed": false,
+    "sdkLiveTested": false,
+    "geometryVerified": false,
+    "productionReady": false,
+    "oldRepositoryWriteOperations": 0,
+    "siteCommit": "999b4955f7eb239974c3d1280140c700a2aa521a",
+    "buildRequestCode": 201,
+    "publicChecks": [
+      {
+        "path": "/",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "connect.html",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "explore.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "bridge.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-frame.html",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-frame.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-frame-host.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-guard.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "sdk-diagnostics.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "session.mjs",
+        "status": 200,
+        "matches": true
+      },
+      {
+        "path": "site.json",
+        "status": 200,
+        "matches": true
+      }
+    ],
+    "publicSiteVerified": true,
+    "oldRefsUnchanged": true,
+    "mainUnchanged": true
+  },
+  "actualKeyUsed": false,
+  "sdkLiveTested": false,
+  "jejuPrecisionModelsReceived": false,
+  "geometryVerified": false,
+  "productionReady": false,
+  "scope": "Source fixes, explicit mocked bootstrap regression and dedicated public page. No user key or real provider geometry."
+}

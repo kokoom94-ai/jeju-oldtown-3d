@@ -14,16 +14,17 @@ jobs:
   release:
     if: github.repository == 'kokoom94-ai/jeju-oldtown-3d' && github.ref_name == 'release/visitor-3-8'
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Integrate reviewed source and consistent pointer ownership
+      - name: Integrate source and version the child canvas modules
         run: |
           python scripts/upgrade-visitor-ui.py
           python scripts/refine-visitor.py
+          python scripts/browser-raster-budget.py
       - name: Build and test
         run: |
           set -o pipefail
@@ -36,8 +37,8 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/cesium" --no-audit --no-fund cesium@1.121.0
           sudo apt-get update -qq
           sudo apt-get install --no-install-recommends -y fonts-noto-cjk
-      - name: Actual mouse revolutions on Three.js and real Cesium with explicit SDK fixtures
-        timeout-minutes: 7
+      - name: Actual mouse revolutions and street controls with explicit SDK fixtures
+        timeout-minutes: 12
         run: python -u scripts/verify-visitor-browser.py
         env:
           TEST_CESIUM_ROOT: ${{ runner.temp }}/cesium
@@ -55,7 +56,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Repeat pointer tests on actual public HTTPS URL
-        timeout-minutes: 7
+        timeout-minutes: 12
         run: python -u scripts/verify-visitor-browser.py
         env:
           TEST_CESIUM_ROOT: ${{ runner.temp }}/cesium

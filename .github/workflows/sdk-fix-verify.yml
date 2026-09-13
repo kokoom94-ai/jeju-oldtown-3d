@@ -1,0 +1,80 @@
+name: Verify deployed SDK fix 3.7.1
+on:
+  push:
+    branches: ['fix/sdk-bootstrap-3-7-1']
+    paths: ['.github/workflows/sdk-fix-verify.yml']
+permissions:
+  contents: write
+jobs:
+  verify:
+    if: github.repository == 'kokoom94-ai/jeju-oldtown-3d' && github.ref_name == 'fix/sdk-bootstrap-3-7-1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Repeat unit and explicit fixture regressions
+        run: |
+          set -o pipefail
+          mkdir -p precision-qa
+          npm test | tee precision-qa/sdk-unit-tests.txt
+          npm run build
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y fonts-noto-cjk
+          python scripts/sdk-browser-regression.py
+      - name: Verify current dedicated public bytes without a write or provider key
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import urllib.request,json,hashlib,datetime
+          base='https://kokoom94-ai.github.io/jeju-oldtown-3d/'
+          rows=[]
+          for name in ['', 'index.html','connect.html','explore.mjs','bridge.mjs','sdk-frame.html','sdk-frame.mjs','sdk-frame-host.mjs','sdk-guard.mjs','sdk-diagnostics.mjs','session.mjs','site.json']:
+            p=Path('_precision_site')/(name or 'index.html')
+            req=urllib.request.Request(base+name,headers={'User-Agent':'JEJU SDK fix verification','Cache-Control':'no-cache'})
+            with urllib.request.urlopen(req,timeout=25) as r:
+              body=r.read(1000000);mime=r.headers.get('Content-Type','').split(';')[0]
+              allowed=['text/html'] if p.suffix=='.html' else ['application/json'] if p.suffix=='.json' else ['text/javascript','application/javascript']
+              rows.append({'path':name or '/','status':r.status,'matches':r.url==base+name and r.status==200 and hashlib.sha256(body).digest()==hashlib.sha256(p.read_bytes()).digest() and mime in allowed})
+          result={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'checks':rows,'allMatched':all(r['matches'] for r in rows),'actualKeyUsed':False}
+          Path('precision-qa/sdk-current-bytes.json').write_text(json.dumps(result,ensure_ascii=False,indent=2));print(json.dumps(result))
+          assert result['allMatched']
+          PY
+      - name: Verify public key form and attraction plus parking search on desktop and mobile
+        run: python scripts/verify-sdk-public.py
+      - name: Save this verification, preserving earlier failed attempt history
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,datetime,os,re,zipfile
+          root=Path('precision-qa');root.mkdir(exist_ok=True)
+          def read(n):return json.loads((root/n).read_text()) if (root/n).is_file() else None
+          text=(root/'sdk-unit-tests.txt').read_text() if (root/'sdk-unit-tests.txt').is_file() else ''
+          def number(n):
+            m=re.search(r'^# '+n+r' (\d+)$',text,re.M);return int(m.group(1)) if m else None
+          previous=json.loads(Path('precision/sdk-fix-result.json').read_text())
+          report={'version':'3.7.1-sdk-diagnostics','checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'runId':os.environ['GITHUB_RUN_ID'],'sourceCommit':os.environ['GITHUB_SHA'],'unit':{'passed':number('pass'),'failed':number('fail')},'fixtureBrowser':read('sdk-regression.json'),'publicBrowser':read('sdk-public.json'),'currentPublicBytes':read('sdk-current-bytes.json'),'deployment':previous.get('deployment'),'previousPublicTestFailure':'The earlier test incorrectly expected one unfiltered search result; the unchanged seed contains the attraction and its parking lot. This run checks both before filtering.','actualKeyUsed':False,'sdkLiveTested':False,'jejuPrecisionModelsReceived':False,'geometryVerified':False,'productionReady':False,'oldRepositoryWriteOperations':0}
+          Path('precision/sdk-fix-result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2));(root/'sdk-fix-result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
+          with zipfile.ZipFile(root/'sdk-fix-source.zip','w',zipfile.ZIP_DEFLATED) as z:
+            for p in Path('.').rglob('*'):
+              if not p.is_file() or p.parts[0] in {'.git','_precision_site','precision-qa','node_modules'}:continue
+              if p.name.startswith('.env') and p.name!='.env.example':continue
+              z.write(p)
+          PY
+          git config user.name 'JEJU Oldtown build'
+          git config user.email 'oldtown-build@users.noreply.github.com'
+          git add precision/sdk-fix-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record current dedicated SDK fix checks; real provider remains unverified [skip ci]'
+            git push origin HEAD:refs/heads/fix/sdk-bootstrap-3-7-1
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sdk-fix-final-verification
+          path: precision-qa/
+          retention-days: 7

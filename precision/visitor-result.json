@@ -1,266 +1,38 @@
 {
   "version": "3.8.0-visitor-navigation",
-  "runId": "34747726099",
-  "sourceCommit": "640bb3090f28b0d1cc8f3cc6fa416e8347b2ba57",
-  "checkedAt": "2026-09-13T08:35:03.613546+00:00",
+  "runId": "34748269786",
+  "sourceCommit": "23efc2bfc6e0b5314d8b77b54c0e0c323921c901",
+  "checkedAt": "2026-09-13T08:42:05.818234+00:00",
   "unit": {
     "passed": 162,
     "failed": 0
   },
-  "candidateBrowser": null,
+  "candidateBrowser": {
+    "softwareRasterScale": 0.4,
+    "checks": [
+      {
+        "name": "candidate-1280-Cesium-fixture HTTP 200",
+        "passed": true
+      }
+    ],
+    "passed": 1,
+    "total": 1,
+    "failure": "Page.wait_for_function: Timeout 75000ms exceeded.",
+    "errors": [],
+    "measurements": [],
+    "scope": "candidate HTTP and actual mouse input; Three.js retained OSM data; Cesium engine with explicit SDK/terrain/config fixtures",
+    "actualKeyUsed": false,
+    "actualVWorldModelsVerified": false,
+    "productionReady": false
+  },
   "candidateProgress": {
     "checks": [
       {
-        "name": "candidate-1280-OSM-actual HTTP 200",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual current JS",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual rendered canvas",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual left drag changes heading and tilt",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual actual rendered camera changes",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual mouse orbit exceeds 360 degrees",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual right drag pans",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual wheel zoom",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual zoom button keeps heading",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual north reset",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual selectable left pan",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual map-only",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual real dedicated key field",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual place popup",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual no key in storage or diagnostic",
-        "passed": true
-      },
-      {
-        "name": "candidate-1280-OSM-actual no page overflow",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual HTTP 200",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual current JS",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual rendered canvas",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual left drag changes heading and tilt",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual actual rendered camera changes",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual mouse orbit exceeds 360 degrees",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual right drag pans",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual wheel zoom",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual zoom button keeps heading",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual north reset",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual selectable left pan",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual map-only",
-        "passed": true
-      },
-      {
-        "name": "candidate-390-OSM-actual real dedicated key field",
+        "name": "candidate-1280-Cesium-fixture HTTP 200",
         "passed": true
       }
     ],
-    "measurements": [
-      {
-        "test": "candidate-1280-OSM-actual",
-        "rotationDegrees": 408.0,
-        "initial": {
-          "lon": 126.52155,
-          "lat": 33.51325,
-          "height": 700,
-          "heading": 0,
-          "pitch": -49.847328176381616,
-          "mode": "orbit"
-        },
-        "final": {
-          "lon": 126.52155,
-          "lat": 33.51325,
-          "height": 700,
-          "heading": 78.60000000000002,
-          "pitch": -44.097328176381644,
-          "mode": "orbit"
-        }
-      },
-      {
-        "test": "candidate-1280-OSM-actual",
-        "rotationDegrees": 408.0,
-        "before": {
-          "lon": 126.52155,
-          "lat": 33.51325,
-          "height": 700,
-          "heading": 0,
-          "pitch": -49.847328176381616,
-          "mode": "orbit"
-        },
-        "after": {
-          "lon": 126.52155,
-          "lat": 33.51325,
-          "height": 700,
-          "heading": 78.60000000000002,
-          "pitch": -44.097328176381644,
-          "mode": "orbit"
-        },
-        "cameraBefore": {
-          "position": [
-            -413.0280822080307,
-            535.0302559178535,
-            312.2285830681274
-          ],
-          "quaternion": [
-            -0.42141040136664804,
-            0,
-            0,
-            0.9068700422993367
-          ]
-        },
-        "cameraAfter": {
-          "position": [
-            -905.8213064323693,
-            487.1155156592045,
-            -39.78545620960567
-          ],
-          "quaternion": [
-            -0.290494941107619,
-            -0.5870587833045132,
-            -0.23776735426769868,
-            0.7172456757488638
-          ]
-        }
-      },
-      {
-        "test": "candidate-390-OSM-actual",
-        "rotationDegrees": 367.2000155639648,
-        "initial": {
-          "lon": 126.52155,
-          "lat": 33.51325,
-          "height": 700,
-          "heading": 0,
-          "pitch": -49.847328176381616,
-          "mode": "orbit"
-        },
-        "final": {
-          "lon": 126.52155,
-          "lat": 33.51325,
-          "height": 700,
-          "heading": 37.80001556396485,
-          "pitch": -44.097328176381644,
-          "mode": "orbit"
-        }
-      },
-      {
-        "test": "candidate-390-OSM-actual",
-        "rotationDegrees": 367.2000155639648,
-        "before": {
-          "lon": 126.52155,
-          "lat": 33.51325,
-          "height": 700,
-          "heading": 0,
-          "pitch": -49.847328176381616,
-          "mode": "orbit"
-        },
-        "after": {
-          "lon": 126.52155,
-          "lat": 33.51325,
-          "height": 700,
-          "heading": 37.80001556396485,
-          "pitch": -44.097328176381644,
-          "mode": "orbit"
-        },
-        "cameraBefore": {
-          "position": [
-            -413.0280822080307,
-            535.0302559178535,
-            312.2285830681274
-          ],
-          "quaternion": [
-            -0.42141040136664804,
-            0,
-            0,
-            0.9068700422993367
-          ]
-        },
-        "cameraAfter": {
-          "position": [
-            -721.1433840876219,
-            487.1155156592045,
-            258.0696308741755
-          ],
-          "quaternion": [
-            -0.35515471328665493,
-            -0.3002279498366134,
-            -0.12159669072328509,
-            0.8768936951377423
-          ]
-        }
-      }
-    ],
+    "measurements": [],
     "actualKeyUsed": false,
     "complete": false
   },

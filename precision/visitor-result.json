@@ -1,0 +1,55 @@
+{
+  "version": "3.8.0-visitor-navigation",
+  "runId": "34747042088",
+  "sourceCommit": "7fe5d88d923d7b2b8164592df8aabea838c0d9e9",
+  "checkedAt": "2026-09-13T08:20:04.855611+00:00",
+  "unit": {
+    "passed": 162,
+    "failed": 0
+  },
+  "candidateBrowser": {
+    "checks": [
+      {
+        "name": "candidate-1280-OSM-actual HTTP 200",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual current JS",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual rendered canvas",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual left drag changes heading and tilt",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual actual rendered camera changes",
+        "passed": true
+      },
+      {
+        "name": "candidate-1280-OSM-actual mouse orbit exceeds 360 degrees",
+        "passed": false
+      }
+    ],
+    "passed": 5,
+    "total": 6,
+    "failure": "candidate-1280-OSM-actual mouse orbit exceeds 360 degrees",
+    "errors": [],
+    "measurements": [],
+    "scope": "candidate HTTP and actual mouse input; Three.js retained OSM data; Cesium engine with explicit SDK/terrain/config fixtures",
+    "actualKeyUsed": false,
+    "actualVWorldModelsVerified": false,
+    "productionReady": false
+  },
+  "publicBrowser": null,
+  "deployment": null,
+  "actualKeyUsed": false,
+  "publisherKeyConfigured": false,
+  "geometryVerified": false,
+  "walkingProductionReady": false,
+  "productionReady": false,
+  "oldRepositoryWriteOperations": 0
+}

@@ -7,7 +7,7 @@ const out=path.resolve('_precision_site');
 const places=parsePlaceSeed(await fs.readFile('precision/places.json','utf8'));
 if(places.length!==32)throw Error('Place set changed; review before deployment');
 await fs.rm(out,{recursive:true,force:true});await fs.mkdir(out,{recursive:true});
-for(const name of ['index.html','app.mjs','bridge.mjs','session.mjs','connection.mjs','places.mjs','inspection.mjs','integrity.mjs','CONNECT.md','HANDOFF.md','RELEASE_3_4.md','RELEASE_3_5.md','flight.mjs','explore.html','explore.mjs','explore.css','preview.css','view.mjs','RELEASE_3_6.md','aerial.mjs','atlas-ui.mjs','RELEASE_3_7.md'])await fs.copyFile('precision/'+name,path.join(out,name));
+for(const name of ['index.html','app.mjs','bridge.mjs','session.mjs','connection.mjs','places.mjs','inspection.mjs','integrity.mjs','CONNECT.md','HANDOFF.md','RELEASE_3_4.md','RELEASE_3_5.md','flight.mjs','explore.html','explore.mjs','explore.css','preview.css','view.mjs','RELEASE_3_6.md','aerial.mjs','atlas-ui.mjs','RELEASE_3_7.md','sdk-diagnostics.mjs','sdk-guard.mjs','sdk-frame-host.mjs','sdk-frame.html','sdk-frame.mjs','SDK_FIX_3_7_1.md'])await fs.copyFile('precision/'+name,path.join(out,name));
 const html=await fs.readFile(path.join(out,'index.html'),'utf8');
 await fs.writeFile(path.join(out,'connect.html'),html.replace(/PRECISION \d+\.\d+/, 'PRECISION '+VERSION.split('-')[0].split('.').slice(0,2).join('.')).replace('<main><aside>','<main><aside><p><a href="explore.html">↗ 전체화면 조감도 탐색 열기</a></p>'));
 // The public home is the aerial app, not the developer connection console.
@@ -31,9 +31,17 @@ const entry=await fs.readFile('realism/entry.js','utf8'),hook=await fs.readFile(
 const marker='// Read-only diagnostics used by repeatable browser tests.';
 if(entry.split(marker).length!==2)throw Error('Legacy preview hook location changed; review before building');
 await fs.writeFile(path.join(out,'legacy','realism','flight-entry.js'),entry.replace(marker,hook+'\n'+marker));
-await fs.writeFile(path.join(out,'site.json'),JSON.stringify({app:'JEJU:BEFORE precision',repository:'kokoom94-ai/jeju-oldtown-3d',version:VERSION,sourceBranch:process.env.GITHUB_REF_NAME||'aerial-release-3-6',siteBranch:SITE_BRANCH,places:places.length,placeSeed:'precision/places.json',placeSeedRevision:'independent-v1',generatedBuildingFallback:false,providerConfigured:false,sdkLiveTested:false,productionReady:false,plannedDedicatedUrl:PLANNED_URL,homePath:'index.html',diagnosticPath:'connect.html',explorerPath:'explore.html',explorerDefault:'osm-estimated-comparison',explorerWalkingEnabled:false,legacyPath:'legacy/real.html',legacyGeometry:'OSM-derived and estimated; not provider precision',proxyDeploymentVerified:false},null,2));
+await fs.writeFile(path.join(out,'site.json'),JSON.stringify({app:'JEJU:BEFORE precision',repository:'kokoom94-ai/jeju-oldtown-3d',version:VERSION,sourceBranch:process.env.GITHUB_REF_NAME||'fix/sdk-bootstrap-3-7-1',siteBranch:SITE_BRANCH,places:places.length,placeSeed:'precision/places.json',placeSeedRevision:'independent-v1',generatedBuildingFallback:false,providerConfigured:false,sdkLiveTested:false,productionReady:false,plannedDedicatedUrl:PLANNED_URL,homePath:'index.html',diagnosticPath:'connect.html',explorerPath:'explore.html',explorerDefault:'osm-estimated-comparison',explorerWalkingEnabled:false,legacyPath:'legacy/real.html',legacyGeometry:'OSM-derived and estimated; not provider precision',proxyDeploymentVerified:false},null,2));
 console.log(JSON.stringify({built:true,places:places.length,version:VERSION,providerConfigured:false,productionReady:false}));
 
+// Version every active module URL so a reload cannot combine old and new adapters.
+for(const name of await fs.readdir(out)){
+ if(!/\.(mjs|html)$/.test(name))continue;
+ const f=path.join(out,name);let text=await fs.readFile(f,'utf8');
+ if(name.endsWith('.mjs'))text=text.replace(/(from\s+['"])(\.\/[^'"?]+\.mjs)(['"])/g,'$1$2?v=3.7.1$3');
+ else text=text.replace(/((?:src|href)=['"])([^'"?:]+\.(?:mjs|css))(['"])/g,'$1$2?v=3.7.1$3');
+ await fs.writeFile(f,text);
+}
 const files=[];
 async function inventory(dir=''){for(const e of (await fs.readdir(path.join(out,dir),{withFileTypes:true})).sort((a,b)=>a.name.localeCompare(b.name))){const name=path.posix.join(dir,e.name);if(e.isDirectory())await inventory(name);else if(e.isFile()){const bytes=await fs.readFile(path.join(out,name));files.push({path:name,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}else throw Error('Unsupported static entry');}}
 await inventory();

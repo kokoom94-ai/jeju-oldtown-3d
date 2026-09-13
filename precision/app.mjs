@@ -1,10 +1,12 @@
+import {mountSDKFrame} from './sdk-frame-host.mjs';
+import {SDK_PHASES,errorCode,errorText,cleanSDKDiagnostic,connectionReport} from './sdk-diagnostics.mjs';
 import {mountInspection} from './inspection.mjs';
 import {parsePlaceSeed} from './places.mjs';
 import {resolveProxy,PROXY_ORIGIN} from './connection.mjs';
 import {validateKey,initialState,transition,frameHTML} from './bridge.mjs';
 import {VERSION,TARGETS,PLANNED_URL,SETTINGS_URL,SITE_BRANCH,hostPolicy,createObservations,addObservation,cleanObject,cleanProperties,diagnostics} from './session.mjs';
 const $=s=>document.querySelector(s),frame=$('#frame'),policy=hostPolicy(location.href);
-let pending=null;
+let pending=null,cancelSDK=null;
 let state=initialState(),channel=null,timeout=null,places=[],observations=createObservations(),target=TARGETS[0].id,picked=null;
 const labels={'not-configured':'원본 지도 미연결',loading:'공식 SDK 요청 중 · 모델 확인 전','viewer-ready-unverified':'뷰어 초기화됨 · 원본 객체 확인 필요',error:'연결 오류 · 원본 미검증'};
 const inspection=mountInspection({getState:()=>state,fly:position=>emit('fly',{position}),notice:t=>notice(t)});
@@ -28,7 +30,7 @@ function refresh(){
 function emit(type,extra={}){if(channel&&state.sdkReady)frame.contentWindow.postMessage({channel,type,...extra},location.origin);}
 function hideFeature(){$('#feature').hidden=true;$('#properties').replaceChildren();$('#naver-link').hidden=true;$('#save-observation').hidden=true;}
 function terminate(event='disconnect'){
- clearTimeout(timeout);pending?.abort();pending=null;channel=null;picked=null;frame.removeAttribute('srcdoc');frame.src='about:blank';frame.hidden=true;$('#empty').hidden=false;
+ cancelSDK?.();cancelSDK=null;clearTimeout(timeout);pending?.abort();pending=null;channel=null;picked=null;frame.removeAttribute('srcdoc');frame.src='about:blank';frame.hidden=true;$('#empty').hidden=false;
  $('#api-key').value='';state=transition(state,event);inspection.phase(event==='error'?'error':'disconnect');hideFeature();refresh();
 }
 function showPlace(p){
@@ -70,21 +72,21 @@ $('#connect-form').addEventListener('submit',async e=>{
     if(channel!==attempt||controller.signal.aborted)return;
   }
   const content=frameHTML({key,sdkSource,channel,origin:location.origin,places});key='';$('#api-key').value='';
-  hideFeature();$('#empty').hidden=true;frame.hidden=false;frame.srcdoc=content;
+  hideFeature();$('#empty').hidden=true;frame.hidden=false;state.diagnostic={stage:'frame-loading'};state.timeline=['frame-loading'];cancelSDK=mountSDKFrame(frame,content,code=>{terminate('error');state.failureCode=code;notice(errorText(code,state.diagnostic));});
   notice('제공기관에 인증을 요청했습니다. 화면이 열리는 것과 실제 제주 건물의 수신·형상 검증은 별개입니다.');
-  timeout=setTimeout(()=>{if(state.state==='loading'){terminate('error');state.failureCode='SDK_INIT_TIMEOUT';notice('연결 시간 초과. 키·등록 주소·3D API 권한·네트워크를 확인하세요.');}},35000);refresh();
+  timeout=setTimeout(()=>{if(state.state==='loading'){terminate('error');state.failureCode='SDK_INIT_TIMEOUT';notice('연결 시간 초과. 키·등록 주소·3D API 권한·네트워크를 확인하세요.');}},80000);refresh();
  }catch(err){$('#api-key').value='';if(state.state==='loading')terminate('error');notice(err.message);}
 });
 $('#disconnect').addEventListener('click',()=>{terminate();notice('연결을 종료했습니다. 기록은 이번 화면에만 남으며 새로고침하면 지워집니다.');});
 addEventListener('message',e=>{
  if(!channel||e.source!==frame.contentWindow||e.origin!==location.origin||e.data?.channel!==channel)return;
  const d=e.data;
- if(d.type==='sdk-phase'&&state.state==='loading'&&['script-loaded','map-start-requested'].includes(d.phase))inspection.phase(d.phase);
+ if(d.type==='sdk-diagnostic')state.diagnostic=cleanSDKDiagnostic(d.diagnostic);
+ if(d.type==='sdk-phase'&&Object.hasOwn(SDK_PHASES,d.phase)){state.timeline=[...(state.timeline||[]),d.phase].slice(-20);state.diagnostic={...state.diagnostic,stage:d.phase};inspection.phase(d.phase);}
  if(d.type==='sdk-ready'&&state.state==='loading'){clearTimeout(timeout);state=transition(state,'sdk-ready');inspection.phase('viewer-ready');emit('fly',{position:TARGETS.find(t=>t.id===target)});notice('뷰어 초기화 확인. 각 확인 지점에서 3D 객체를 선택하고 표본 기록을 남기세요. 전체 범위·높이·지붕은 아직 미검증입니다.');}
  if(d.type==='error'){
-  const messages={SDK_NETWORK_FAILED:'공식 SDK 요청 실패. 네트워크·프록시 응답을 확인하세요.',SDK_UNAVAILABLE:'SDK에서 지도 객체를 받지 못했습니다. 키·등록 도메인·WebGL 3D 권한을 확인하세요.',SDK_INIT_TIMEOUT:'SDK 초기화 시간 초과. 제공기관 응답·기기 지원을 확인하세요.',SDK_INIT_FAILED:'공식 지도 초기화 실패. 키·도메인·브라우저 지원을 확인하세요.',RENDER_FAILED:'3D 렌더링 오류. 브라우저·기기 지원을 확인하세요.'};
-  const code=Object.hasOwn(messages,d.code)?d.code:'SDK_INIT_FAILED';const transport=state.transport;
-  terminate('error');state.failureCode=code;state.transport=transport;notice(messages[code]);return;
+  const code=errorCode(d.code),detail=cleanSDKDiagnostic(d.diagnostic||state.diagnostic),transport=state.transport;
+  terminate('error');state.failureCode=code;state.diagnostic=detail;state.transport=transport;notice(errorText(code,detail));return;
  }
  if(d.type==='model-picked'&&state.sdkReady){
   const object=cleanObject(d);if(!object)return;

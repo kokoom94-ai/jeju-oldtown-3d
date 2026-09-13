@@ -1,3 +1,5 @@
+import {mountSDKFrame} from './sdk-frame-host.mjs';
+import {SDK_PHASES,errorCode,errorText,cleanSDKDiagnostic,connectionReport} from './sdk-diagnostics.mjs';
 import {installAtlasUI} from './atlas-ui.mjs';
 import {validateKey,frameHTML,initialState,transition} from './bridge.mjs';
 import {hostPolicy,PLANNED_URL,SETTINGS_URL,cleanObject,cleanProperties,VERSION} from './session.mjs';
@@ -12,6 +14,7 @@ export const SCENES=Object.freeze([
  {id:'airport',name:'공항 주변',title:'여행이 시작되는 곳',district:'제주국제공항',tag:'ARRIVAL',lon:126.4936,lat:33.5062,height:2200,description:'공항은 조감으로만 확인합니다. 활주로·계류장·제한구역을 걷는 기능은 제공하지 않습니다.'}
 ]);
 const $=s=>document.querySelector(s),preview=$('#preview'),provider=$('#provider'),policy=hostPolicy(location.href);
+let cancelSDK=null;
 let state=initialState(),source='preview',channel=null,timeout=null,toastTimer=null,tourTimer=null,previewTimer=null,previewReady=false,orbit=false,places=[],category='all',scene=SCENES[0],distance=scene.height,pitch=-50;
 let markersVisible=true,lightQuality=matchMedia('(max-width:760px)').matches;
 const shared=readView(location.hash,SCENES.map(s=>s.id));
@@ -46,16 +49,28 @@ function renderPlaces(){
  for(const p of places.filter(p=>(category==='all'||p.category===category)&&p.name.includes(q))){const b=document.createElement('button');b.type='button';b.textContent=p.name;const s=document.createElement('small');s.textContent=p.address;b.append(s);b.onclick=()=>showPlace(p);$('#places-list').append(b);}
  if(!$('#places-list').children.length){const p=document.createElement('p');p.className='muted';p.textContent='일치하는 등록 장소가 없습니다.';$('#places-list').append(p);}
 }
-function teardown(){clearTimeout(timeout);timeout=null;channel=null;provider.removeAttribute('srcdoc');provider.src='about:blank';provider.hidden=true;state=initialState();atlas.reset();setOrbit(false);stopTour();$('#api-key').value='';}
+function teardown(keepEvidence=false){cancelSDK?.();cancelSDK=null;clearTimeout(timeout);timeout=null;channel=null;provider.removeAttribute('srcdoc');provider.src='about:blank';provider.hidden=true;state=initialState();if(!keepEvidence)atlas.reset();setOrbit(false);stopTour();$('#api-key').value='';}
 function startPreview(){
  teardown();$('#api-key').disabled=!policy.canConnect;$('#connect').disabled=!policy.canConnect;$('#connect-status').textContent='';source='preview';document.body.dataset.source='preview';previewReady=false;preview.hidden=false;preview.src='legacy/preview-flight.html?embed=flight';$('#loading').hidden=false;
  $('#loading b').textContent='제주를 펼치는 중';$('#loading>span').textContent='OSM 윤곽 비교 화면을 불러옵니다.';
  $('#source-label').textContent='OSM 비교 화면 · 높이·외관 추정';$('#footnote').textContent='비교 화면: OSM 건물 윤곽 · 높이 대부분 추정 · 평면 지형';$('#credit').hidden=false;
  clearTimeout(previewTimer);previewTimer=setTimeout(()=>{if(!previewReady){$('#loading b').textContent='비교 지도를 불러오지 못했습니다';$('#loading>span').textContent='WebGL 지원·네트워크를 확인하거나 연결 진단 화면을 이용하세요.';}},45000);
 }
-function showConnectionError(message){
- teardown();state=transition(state,'error');source='error';document.body.dataset.source='error';$('#source-label').textContent='원본 연결 실패 · 비교 화면으로 자동 전환하지 않음';$('#loading').hidden=false;$('#loading b').textContent='실제 원본을 받지 못했습니다';$('#loading>span').textContent=message;$('#connect-status').textContent=message;$('#connect').disabled=!policy.canConnect;$('#api-key').disabled=!policy.canConnect;$('#connect-dialog').showModal();
+function showConnectionError(message,code='SDK_INIT_FAILED',diagnostic=state.diagnostic){
+ const evidence=connectionReport({...state,failureCode:code,diagnostic});
+ teardown(true);state={...transition(state,'error'),...evidence};source='error';document.body.dataset.source='error';$('#source-label').textContent='원본 연결 실패 · '+state.failureCode;$('#loading').hidden=false;$('#loading b').textContent='실제 원본 수신은 확인되지 않았습니다';$('#loading>span').textContent=message;$('#connect-status').textContent=message;$('#connect').disabled=!policy.canConnect;$('#api-key').disabled=!policy.canConnect;$('#connect-dialog').showModal();showSDKStage();
 }
+function showSDKStage(){
+ const d=cleanSDKDiagnostic(state.diagnostic);
+ $('#sdk-stage').textContent='연결 모듈 '+VERSION+' · '+(d.stage?SDK_PHASES[d.stage]:'요청 전')+(state.failureCode?' · '+state.failureCode:'');
+}
+function safeConnectionReport(){return {version:VERSION,serviceUrl:policy.canConnect?new URL(location.pathname,location.origin).href:PLANNED_URL,hostMode:policy.mode,...connectionReport(state),sdkReady:state.sdkReady===true,aerial:atlas.status};}
+$('#copy-connection-error').onclick=async()=>{
+ const text=JSON.stringify(safeConnectionReport(),null,2);
+ try{await navigator.clipboard.writeText(text);toast('키를 제외한 연결 정보를 복사했습니다.');}
+ catch{$('#connection-error-copy').hidden=false;$('#connection-error-copy').value=text;$('#connection-error-copy').select();}
+};
+
 for(const s of SCENES){const b=document.createElement('button');b.type='button';b.dataset.id=s.id;b.setAttribute('aria-pressed',String(s===scene));const small=document.createElement('small');small.textContent=s.tag;const name=document.createElement('strong');name.textContent=s.name;b.append(small,name);b.onclick=()=>{$('#detail').hidden=true;go(s);};$('#scene-list').append(b);}
 $('#pages-settings').href=SETTINGS_URL;
 $('#host-message').textContent=policy.canConnect?'전용 / 로컬 접속. 등록 서비스 URL: '+PLANNED_URL:'이 주소는 키 없는 공개 비교 화면입니다. 인증키 입력은 차단됩니다. Pages 게시 후 '+PLANNED_URL+'explore.html 에서 연결하세요.';
@@ -90,9 +105,9 @@ $('#connect-form').onsubmit=e=>{
   clearTimeout(previewTimer);stopTour();setOrbit(false);preview.src='about:blank';preview.hidden=true;previewReady=false;source='provider';document.body.dataset.source='provider';
   channel=crypto.randomUUID();state=transition(initialState(),'loading');
   const html=frameHTML({key,channel,origin:location.origin,places,imagery:$('#use-imagery').checked});key='';$('#api-key').value='';$('#api-key').disabled=true;$('#connect').disabled=true;
-  provider.hidden=false;provider.srcdoc=html;$('#source-label').textContent='브이월드 SDK 요청 중 · 제주 모델 확인 전';$('#footnote').textContent='공식 원본 모드 · 건물·지붕·지형·보행 정확도 검증 전';$('#credit').hidden=true;
+  provider.hidden=false;state.diagnostic={stage:'frame-loading'};state.timeline=['frame-loading'];cancelSDK=mountSDKFrame(provider,html,code=>showConnectionError(errorText(code,state.diagnostic),code));showSDKStage();$('#source-label').textContent='브이월드 SDK 요청 중 · 제주 모델 확인 전';$('#footnote').textContent='공식 원본 모드 · 건물·지붕·지형·보행 정확도 검증 전';$('#credit').hidden=true;
   $('#loading').hidden=false;$('#loading b').textContent='공식 원본에 연결 중';$('#loading>span').textContent='브이월드가 인증키와 서비스 주소를 확인합니다.';$('#connect-dialog').close();
-  timeout=setTimeout(()=>showConnectionError('연결 시간 초과. 등록 주소·WebGL 3D 권한·네트워크를 확인하세요.'),35000);
+  timeout=setTimeout(()=>showConnectionError(errorText('SDK_INIT_TIMEOUT',state.diagnostic),'SDK_INIT_TIMEOUT'),80000);
  }catch(err){$('#api-key').value='';if(source==='provider'&&state.state==='loading')showConnectionError('원본 연결 요청을 시작하지 못했습니다.');else $('#connect-status').textContent=err.message;}
 };
 addEventListener('message',e=>{
@@ -107,7 +122,11 @@ addEventListener('message',e=>{
  }
  if(!channel||e.source!==provider.contentWindow||d?.channel!==channel)return;
  if(d.type==='sdk-ready'&&state.state==='loading'){clearTimeout(timeout);state=transition(state,'sdk-ready');$('#loading').hidden=true;$('#source-label').textContent='브이월드 뷰어 초기화 · 제주 원본 객체 확인 전';go(scene);applyExtras();}
- if(d.type==='error'){showConnectionError('공식 SDK 초기화 실패. 등록 URL·권한·WebGL 지원과 제공기관 응답을 확인하세요.');return;}
+ if(d.type==='sdk-diagnostic'){state.diagnostic=cleanSDKDiagnostic(d.diagnostic);showSDKStage();}
+ if(d.type==='sdk-phase'&&Object.hasOwn(SDK_PHASES,d.phase)){state.timeline=[...(state.timeline||[]),d.phase].slice(-20);state.diagnostic={...state.diagnostic,stage:d.phase};showSDKStage();}
+ if(d.type==='error'){const code=errorCode(d.code),detail=cleanSDKDiagnostic(d.diagnostic||state.diagnostic);showConnectionError(errorText(code,detail),code,detail);return;}
+ if(d.type==='adapter-warning'&&['flight','aerial','selection','places'].includes(d.feature)){toast('SDK 뷰어와 별개로 앱 기능 연결 실패: '+d.feature+' · 원본 정확도 미검증');}
+
  if(d.type==='aerial-status')atlas.update(d.status);
  if(d.type==='aerial-unavailable')atlas.unavailable(d.feature);
  if(d.type==='flight-state'){orbit=d.orbit===true;$('#orbit').setAttribute('aria-pressed',String(orbit));}
@@ -118,7 +137,7 @@ addEventListener('message',e=>{
 });
 addEventListener('pagehide',()=>{clearTimeout(previewTimer);clearTimeout(toastTimer);teardown();});document.addEventListener('visibilitychange',()=>{if(document.hidden){stopTour();setOrbit(false);}});
 addEventListener('keydown',e=>{if(e.key==='Escape'){stopTour();setOrbit(false);}});
-Object.defineProperty(window,'__JEJU_EXPLORER__',{value:{get status(){return {version:VERSION,source,state:state.state,sdkReady:state.sdkReady,modelSelections:state.modelSelections,previewReady,placeCount:places.length,scene:scene.id,distance,pitch,orbit,tourRunning:!!tourTimer,markersVisible,lightQuality,canConnect:policy.canConnect,productionReady:false,walkingEnabled:false,aerial:atlas.status};}}});
-const atlas=installAtlasUI({getState:()=>({source,sdkReady:state.sdkReady}),emit,toast,openConnect:()=>$('#open-connect').click(),north:()=>{stopTour();updateView();toast('선택 지점을 북쪽 기준으로 정렬했습니다.');}});
+Object.defineProperty(window,'__JEJU_EXPLORER__',{value:{get status(){return {version:VERSION,source,state:state.state,sdkReady:state.sdkReady,modelSelections:state.modelSelections,previewReady,placeCount:places.length,scene:scene.id,distance,pitch,orbit,tourRunning:!!tourTimer,markersVisible,lightQuality,canConnect:policy.canConnect,connection:connectionReport(state),productionReady:false,walkingEnabled:false,aerial:atlas.status};}}});
+const atlas=installAtlasUI({getState:()=>({source,sdkReady:state.sdkReady,connection:connectionReport(state)}),emit,toast,openConnect:()=>$('#open-connect').click(),north:()=>{stopTour();updateView();toast('선택 지점을 북쪽 기준으로 정렬했습니다.');}});
 try{const r=await fetch('places.json');if(!r.ok)throw Error('PLACES_UNAVAILABLE');places=parsePlaceSeed(await r.text());renderPlaces();}catch{toast('장소 목록을 불러오지 못했습니다. 지도와 연결 진단은 별도로 확인하세요.');}
-startPreview();go(scene);syncControls();
+startPreview();go(scene);syncControls();showSDKStage();

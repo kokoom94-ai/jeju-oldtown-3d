@@ -1,5 +1,5 @@
 """Verify the actually published dedicated site. No SDK request or user key is allowed."""
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 import pathlib,json,os
 base='https://kokoom94-ai.github.io/jeju-oldtown-3d/'
 checks=[]; blocked=[]; errors=[]; failure=None
@@ -28,7 +28,12 @@ with sync_playwright() as p:
             check(str(width)+': no horizontal overflow',page.evaluate('document.documentElement.scrollWidth<=innerWidth'))
             page.screenshot(path=f'precision-qa/sdk-public-{width}.png')
             page.locator('#close-connect').click();page.locator('#open-places').click();page.locator('#search').fill('관덕정')
-            check(str(width)+': place popup',page.locator('#places-list button').count()==1)
+            # The unchanged seed has both Gwandeokjeong and the adjacent parking lot.
+            expect(page.locator('#places-list button')).to_have_count(2)
+            check(str(width)+': search includes attraction and parking',page.locator('#places-list button').count()==2)
+            page.locator('[data-category="attraction"]').click()
+            expect(page.locator('#places-list button')).to_have_count(1)
+            check(str(width)+': attraction filter selects one result',page.locator('#places-list button').count()==1)
             page.locator('#places-list button').click();check(str(width)+': place detail name','관덕정' in page.locator('#detail-name').inner_text())
             check(str(width)+': no user key or provider called',not blocked)
             ctx.close()
